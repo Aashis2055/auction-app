@@ -1,0 +1,14 @@
+Proposal format
+
+1. Introduction
+2. Problem Statement
+3. Objectives
+4. Methodology:
+	a. Requirment Identification
+	 -study of existing system
+	 - requirment collection
+	b. Feasibility Study (Technical, Operational, Ecomomical)c5. 		c.High level design of system/ System Flow chart/ Methodology 	of proposed system/ Working mechanism of proposed system 
+5. Gantt chart
+6. Expected Outcome
+7. Reference
+

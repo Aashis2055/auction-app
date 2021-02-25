@@ -1,0 +1,77 @@
+Vehicle auction app
+
+Rough outline on proposal
+
+Introduction:
+- a mobile application that will allows the user to sell and buy used vechicles
+- will provides a platform for pople to auction and bid on vehicles
+- will use price determination algorithim to determine the price of the vehicle
+
+Problem Statement
+- no platform for mentioned service 
+- mobile app such as quick deal do not provide multiple payment method
+- people have hard time deciding on the selling price 
+
+Objectives :
+- to provide a application for selling used vehicles
+- to provide a platform to get the best money worth for the vehicles
+
+Methodology:
+4.1 Requirment Identification
+a. Functional Requirment
+	Admin/mod
+	- will be able to login 
+	- will be able to monitor transaction 
+	- remove post or ban a user
+
+	Users
+	- will be able to login and register
+	- will be able to  post vehicles for auction
+	- will be able to  bid on vehicles
+	- will be able to chat/comment on a post
+b. Non FUnctional Requirments
+	- The platform will be availabe for both android and ios users
+	- will provide security 
+	- will privide user friendly ui/inteface
+	- will have social platform integration
+	- will be provide reliable platform
+
+4.2 Feasibility Study 
+i. Technical Feasibility:
+The proposed system can be developed and deployed with the existing hardware, software, and resources. The application will be sclable and and can be optimized
+ii. Economic Feasibility:
+The system that is being developed economic and can be devloped with the available economic resources. 
+
+iii. Operational Feasibility:
+The system will be easy to operate and maintain therefore the system is operational feasible.
+
+iv. Schedule Feasibility:
+The proposed system can be completed within the given timeline and is schedule feasible.
+
+4.3 High level design 
+-> System Flowchart
+
+4.4 Methodology:
+a. Implementation plan:
+-The proposed system (Vehicle auctioning app) will be created using the water fall model since the project has pre defined requirments.
+- first will be system design based on requirment (will involve coding)
+- secound implementation will involve in unit/feature testing
+- integration and testing ( all unit devloped will be tested as a whole, other testing such as penetration testing, QA)
+- deployment of system
+
+b. Implementation Tools:
+- flutter for mobile app
+- reactjs for admin panel
+- nodejs and express for backend
+- mongodb for database
+
+c. High Level Architecture 
+- developed using three tier technology
+
+Gantt chart 
+
+Expected Outcome 
+- a user friendly and secure platform which provides the facility for user to sell and buy used vehicles
+- 
+
+Reference

@@ -1,0 +1,16 @@
+Auction app
+
+Mobile app for auctioning (Buying and selling ) bike and vehicles 
+Uses nodejs for backend, flutter for client app, react for admin panel, and mongodb for database
+
+The app allows the sellers auction vehicles such as bike, car and buyers to bid on them
+provides real time notification and price change
+uses paypal for payment 
+
+the app provides the prices range of bike, car by analyzing the factors such as (current model price, no of years used, km driven, no of people interested etc)
+
+provides chat platform for buyers and seller to talk
+
+users can report on a post and admins can ban or remove the post
+
+social platform support (gmail login, sharing on facebook)
