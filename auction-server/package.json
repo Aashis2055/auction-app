@@ -1,0 +1,23 @@
+{
+  "name": "auction-server",
+  "version": "1.0.0",
+  "description": "Server side on vehicle auction application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "express",
+    "auction",
+    "restapi"
+  ],
+  "author": "Aashis Majarjan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18"
+  }
+}
