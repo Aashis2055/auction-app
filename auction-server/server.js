@@ -6,12 +6,15 @@ const winston = require('winston');
 const fileUpload = require('express-fileupload');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { transport } = require('winston');
-
+require('dotenv').config({path: './server/config/.env'});
+// const { transport } = require('winston');
+//
+const adminRoutes = require('./server/routes/admin-routes');
+const userRoutes = require('./server/routes/user-routes');
 // 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const databaseURL = "localhost";
+const databaseURL = process.env.DB_URL;
 const limit = 50 * 1024 * 1024; // image size limit
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -24,9 +27,11 @@ app.use(fileUpload({
     limits: { fileSize: limit}
 }))
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(rateLimiter);
-app.use(helmet);
-
+app.use(helmet());
+app.use('/admin-api',adminRoutes);
+app.use('/user-api', userRoutes);
 // logger setup
 logger = winston.createLogger({
     level: 'info',

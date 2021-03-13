@@ -1,1 +1,2 @@
-1. google auth
+1. google auth user
+2. admin valiation
