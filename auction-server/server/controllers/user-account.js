@@ -16,7 +16,7 @@ const postLogin = async (req, res)=>{
             let loginerrormsg = loginValidationError.error.details.map(data=>{
                 return data.message;
             })
-            return res.status(200).json({loginerrormsg})
+            return res.status(200).json({error: loginerrormsg})
         }// eof validation
         let currentUser = await userModel.findOne({email});
         // if account does not exist
