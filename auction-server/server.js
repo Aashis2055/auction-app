@@ -11,6 +11,7 @@ require('dotenv').config({path: './server/config/.env'});
 //
 const adminRoutes = require('./server/routes/admin-routes');
 const userRoutes = require('./server/routes/user-routes');
+const vehicleRoutes = require('./server/routes/vehicle-routes');
 // 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,6 +33,7 @@ app.use(rateLimiter);
 app.use(helmet());
 app.use('/admin-api',adminRoutes);
 app.use('/user-api', userRoutes);
+app.use('/user-api', vehicleRoutes);
 // logger setup
 logger = winston.createLogger({
     level: 'info',
@@ -55,7 +57,11 @@ mongoose.connect(`mongodb://${databaseURL}/vehicle-auction`, {
     console.log("DataBase Connection Error");
     logger.error('Database connection error');
 })
-
+//
+if(true){
+    const morgan = require('morgan');
+    app.use(morgan("dev"));
+}
 // server start
 app.listen(PORT, ()=>{
     logger.log('info', 'Server started');

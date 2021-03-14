@@ -20,12 +20,27 @@ const postVehicle = async (req, res)=>{
 }
 const getVehicles = (req, res)=>{
     // TODO get filter parameters
+    
     vehicleModel.find().then((vehicles)=>{
-        console.log(vehicles);
+        if(vehicles.length === 0){
+            return res.status(204).json({ message: 'No content found'});
+        }
+        return res.status(200).json({
+            message:'ok',
+            posts: vehicles
+        })
+    }).catch((error)=>{
+        console.log(error);
+        return res.status(500).json({
+            message: 'Server Error'
+        })
     })
+    ;
 }
 const getVehicle = (req, res)=>{
-
+    res.status(200).json({ 
+        message: 'OK',
+    })
 }
 
 module.exports = {

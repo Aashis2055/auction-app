@@ -7,7 +7,7 @@ const vehicleSchema = new Schema({
     type: {type:String, required: true, default: null, enum: vehicleTypes},
     color: {type: String, required: true},
     model: {type: String, required: true},
-    no_of_years: {type: TimeRanges, required: true},
+    no_of_years: {type: Number, required: true},
     km_driven: {type: Number, required: true},
     description: {type: String, required: true, maxLength: 200},
     initial_price: {type: Number, required: true},

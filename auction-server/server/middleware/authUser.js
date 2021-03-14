@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = "the user key";
+const USER_KEY = process.env.USER_KEY;
 module.exports = (req, res, next)=>{
     // TODO validate user 
     try {
         // let token = req.headers.authorization.split(" ")[1];
-        // let doken = jwt.verify(token, SECRET_KEY);
-        // req.userData = decode;
-        req.userData.u_id = '1';
+        let token = req.headers.authorization;
+        let decode = jwt.verify(token, USER_KEY);
+        req.userData = decode;
         next();
     } catch (error) {
+        console.log(error);
         res.status(401).json({
             msg: 'Unauthorized'
         })

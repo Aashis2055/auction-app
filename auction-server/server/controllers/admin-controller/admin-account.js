@@ -8,7 +8,7 @@ const SALT_ROUND = 10;
 const postRegister = async (req, res, next)=>{
     const {email, password} = req.body;
     const validationErrors = validationResult(req);
-    const email = email.toLowerCase();
+    email = email.toLowerCase();
     if(!validationErrors.isEmpty()){
         return res.status(400).json({
             msg: 'validation error',
@@ -35,7 +35,7 @@ const postRegister = async (req, res, next)=>{
     }
 }
 
-const postLogin = (req, res) =>{
+const postLogin = async (req, res) =>{
     const {email, password} = req.body;
     email = email.toLowerCase();
     try {

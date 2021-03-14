@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 //
 const userModel = require('../models/Users');
 const {userLogin, userRegister} = require('../validator/user');
-const SALT_ROUND = 'the key';
+const SALT_ROUND = 10;
+const USER_KEY = process.env.USER_KEY;
+
 //
 const errorMsg = { message: 'Server Error'};
 const postLogin = async (req, res)=>{
@@ -32,10 +34,11 @@ const postLogin = async (req, res)=>{
         let {_id, firstName} = currentUser;
         let token = jwt.sign({
             _id, email, firstName
-        }, SALT_ROUND, {expiresIn: '2w'});
-        return res.status(200).json({ token});
+        }, USER_KEY, {expiresIn: '2w'});
+        return res.status(200).json({ msg: 'Login Sucess', token});
     }catch(error){
         // TODO log error
+        console.log(error)
         return res.status(500).json(errorMsg)
     }
 }
@@ -46,6 +49,10 @@ const postRegister = async (req, res)=>{
         const registerValidationError = await userRegister.validate(req.body);
         if(registerValidationError && registerValidationError.error){
             let registererror = registerValidationError.error.details.map(data => data.message);
+            return res.status(400).json({
+                message: 'validation error',
+                error: registererror
+            })
         }// eof validation
         email = email.toLowerCase();
         // check for duplicate
@@ -62,6 +69,7 @@ const postRegister = async (req, res)=>{
         })
     } catch (error) {
         // TODO log error
+        console.log(error);
         return res.status(500).json(errorMsg);
     }
 }
