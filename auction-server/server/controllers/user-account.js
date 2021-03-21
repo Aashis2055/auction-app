@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 //
 const userModel = require('../models/Users');
+const vehicleModel = require('../models/Vehicle');
 const {userLogin, userRegister} = require('../validator/user');
 const SALT_ROUND = 10;
 const USER_KEY = process.env.USER_KEY;
@@ -73,8 +74,23 @@ const postRegister = async (req, res)=>{
         return res.status(500).json(errorMsg);
     }
 }
-
+const getPosts = async (req, res)=>{
+    let {_id} = req.userData;
+    try {
+        let result = await vehicleModel.find({u_id: _id});
+        if(result.length === 0){
+            return res.status(204).json({msg: 'No content'});
+        }
+        return res.status(200).json({
+            result
+        })
+    } catch (error) {
+        // TODO log error
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 module.exports = {
     postLogin,
-    postRegister
+    postRegister,
+    getPosts
 }
