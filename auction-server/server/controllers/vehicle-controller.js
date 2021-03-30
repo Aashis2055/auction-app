@@ -1,9 +1,10 @@
 //
 //
 const vehicleModel = require('../models/Vehicle');
-const schemaVehicle = require('../validator/vehicle');
 const commentModel = require('../models/Comment');
-const schemaComment = require('../validator/')
+const replyModel = require('../models/Reply');
+const schemaComment = require('../validator/comment');
+const schemaVehicle = require('../validator/vehicle');
 const deleteFile = require('../helper/file');
 const postVehicle = async (req, res)=>{
     let {_id:u_id} = req.userData;
@@ -69,7 +70,7 @@ const getVehicle = async (req, res)=>{
         return res.status(500).json({ msg: 'Server Error'});
     }
 }
-const deleterVehicle = async (req, res)=>{
+const deleteVehicle = async (req, res)=>{
     const {_id:a_id} = req.adminData;
     const {id:_id} = req.params;
     try {
@@ -103,10 +104,44 @@ const postComment = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+const postReply = async(req, res)=>{
+    let{_id:u_id} = req.userData;
+    let {reply} = req.body;
+    let {id:c_id} = req.params;
+    try {
+        let newReply = new replyModel({reply, u_id, c_id })
+        let result = await newReply.save();
+        return res.status(200).json({msg: 'Reply posted', result});
+    } catch (error) {
+        // TODO logo error
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const deleteComment = async (req, res)=>{
+    let {id} = req.params;
+    try {
+        let result = await commentModel.deleteOne({_id: id});
+        return res.status(200).json({msg: 'Comment deleted', result});
+    } catch (error) {
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const deleteReply = async (req, res)=>{
+    let {id} = req.params;
+    try {
+        let result =await  replyModel.deleteOne({_id: id});
+        return res.status(200).json({msg: 'Reply deleted', result});
+    } catch (error) {
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 module.exports = {
     postVehicle,
     getVehicle,
     getVehicles,
-    deleterVehicle,
-    postComment
+    deleteVehicle,
+    postComment,
+    postReply,
+    deleteComment,
+    deleteReply
 }

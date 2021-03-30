@@ -65,8 +65,16 @@ if(true){
     const morgan = require('morgan');
     app.use(morgan("dev"));
 }
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+io.on('connection', (socket)=>{
+    console.log('A user connected');
+    socket.on('disconnect', ()=>{
+        console.log('a user disconnected')
+    })
+});
 // server start
-app.listen(PORT, ()=>{
+http.listen(PORT, ()=>{
     logger.log('info', 'Server started');
     console.log("Port started at: "+PORT);
 });

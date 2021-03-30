@@ -1,4 +1,5 @@
 1. google auth user
-2. admin valiation
+2. socket integration
+3. 
 
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDRkZTg4ZjIxMmE3NTIzOTY2NWVmYzQiLCJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImZpcnN0TmFtZSI6ImZpcnN0IiwiaWF0IjoxNjE1NzE5MDUyLCJleHAiOjE2MTY5Mjg2NTJ9.SH0e4u5KPULAWFVWLDYtYN8rmbXQgps3ueHpjVeBDiQ"

@@ -26,8 +26,10 @@
     "express-validator": "^6.10.0",
     "helmet": "^4.4.1",
     "joi": "^17.4.0",
+    "joi-oid": "^1.1.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.18",
+    "socket.io": "^4.0.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
