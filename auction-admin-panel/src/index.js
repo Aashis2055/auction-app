@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+// const ThemeContext = React.createContext('http://localhost:5000/')
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <ThemeContext> */}
+      <App />
+    {/* </ThemeContext> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

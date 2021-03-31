@@ -3,8 +3,8 @@ const {
     postLogin,
     postRegister
 } = require('../controllers/admin-controller/admin-account');
-
-router.post('/login', postLogin);
-router.post('/register', postRegister);
+const {adminLogin, adminRegister} = require('../validator/admin');
+router.post('/login',adminLogin, postLogin);
+router.post('/register',adminRegister, postRegister);
 
 module.exports = router;

@@ -5,16 +5,17 @@ const jwt = require('jsonwebtoken');
 // 
 const adminModel = require('../../models/Admins');
 const SALT_ROUND = 10;
+const ADMIN_KEY = process.env.ADMIN_KEY;
 const postRegister = async (req, res, next)=>{
-    const {email, password} = req.body;
+    let {email, password} = req.body;
     const validationErrors = validationResult(req);
-    email = email.toLowerCase();
     if(!validationErrors.isEmpty()){
         return res.status(400).json({
             msg: 'validation error',
             error: validationErrors.array()
         })
     }
+    email = email.toLowerCase();
     let oldAdmin = await adminModel.find({email});
     if(oldAdmin.length > 0){
         return res.status(422).json({message: 'Email auth'});
@@ -22,28 +23,37 @@ const postRegister = async (req, res, next)=>{
     try {
         let hash = bcrypt.hashSync(password, SALT_ROUND);
         let newAdmin = new adminModel({ email, password:hash});
-        let result = await newAdmin.save();
-        return res.status(201).json({
-            message: 'admin created'
-        })
+        let result = await newAdmin.save().then((result)=>{
+            return res.status(201).json({
+                message: 'admin created',
+                result
+            })
+        }).catch((error)=>{
+            console.log(error);
+            throw 'error';
+        });
+        
     } catch (error) {
         logger.log({
             level: 'error',
             message: 'Admin Registration error '+error.msg,
             date: Date.now()
-        })
+        });
+        console.log(error);
+        return res.status(500).json({msg: 'Error'});
     }
 }
 
 const postLogin = async (req, res) =>{
-    const {email, password} = req.body;
-    email = email.toLowerCase();
     try {
+        let {email, password} = req.body;
         const validationErrors = validationResult(req.body);
-        if(!validationResult.isEmpty()){
+        if(!validationErrors.isEmpty()){
             return res.status(200).json({ error: validationResult.array() });
         }// eof validation
+        email = email.toLowerCase();
         let currentAdmin = await adminModel.findOne({email});
+        console.log(currentAdmin);
         // if account does not exist
         if(currentAdmin === null)
             return res.status(401).json({ message: 'Auth fail'});
@@ -53,10 +63,11 @@ const postLogin = async (req, res) =>{
             return res.status(401).json({ message: 'Invalid password'});
         }// eof password check
         // generate web token
-        let {_id, email} = currentAdmin;
+        let {_id} = currentAdmin;
+        console.log(_id);
         let token = jwt.sign({
             _id, email
-        }, SALT_ROUND, {expiresIn: '1m'});
+        }, ADMIN_KEY, {expiresIn: '4w'});
        return res.status(200).json({
            message: 'login sucessful',
            token: 'brearer '+token
@@ -67,6 +78,8 @@ const postLogin = async (req, res) =>{
             message: 'Admin Login error '+error.msg,
             date: Date.now()
         })
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
     }
 }
 module.exports = {
