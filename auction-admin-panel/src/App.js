@@ -9,15 +9,18 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'
 import ErrorPage from './pages/ErrorPage';
+import {isLogedIn} from './helper/localstorage';
+import Users from './pages/Users';
 
 // components
 import NavBar from './components/NavBar';
+import Vehicle from './pages/Vehicle';
 
 export class App extends Component {
   constructor(){
     super();
     this.state = {
-      loginStatus: false
+      loginStatus: isLogedIn()
     }
   }
   render() {
@@ -25,24 +28,30 @@ export class App extends Component {
     console.log(loginStatus);
     return (
       <BrowserRouter>
-      <NavBar loginStatus={loginStatus} />
+      <NavBar loginStatus={loginStatus} logoutAdmin={this.logoutAdmin} />
       <Switch >
         <Route exact path="/">
           <Home />
         </Route>
         <Route path="/login" >
         {
-          loginStatus ? (<Redirect to="/dashboard" />) : <Login />
+          loginStatus ? (<Redirect to="/dashboard" />) : <Login loginAdmin={this.loginAdmin} />
         }
         </Route>
         <Route path="/register">
-          <Register />
+          {
+            loginStatus ? <Register /> :(<Redirect to="/login"/>)
+          }
         </Route>
         <Route path="/dashboard">
           {
             loginStatus ? <Dashboard /> : (<Redirect to="/login" />)
           }
         </Route>
+        <Route path="/vehicle/:id" >
+          {loginStatus ? <Vehicle /> : (<Redirect to="/login"/>)}
+        </Route>
+        <Route path="/users" component={Users}/>
         <Route path="*">
           <ErrorPage />
         </Route>
@@ -50,9 +59,21 @@ export class App extends Component {
       </BrowserRouter>
     )
   }
+  loginAdmin = ()=>{
+    this.setState({
+      loginStatus: true
+    })
+  }
+  logoutAdmin = ()=>{
+    localStorage.clear();
+    this.setState({
+      loginStatus: false
+    })
+  }
   
   
 }
+
 
 export default App
 

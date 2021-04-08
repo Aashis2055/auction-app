@@ -24,6 +24,11 @@ export default class Register extends Component {
                     <input type="text" name="last" id=""/>
                     <label htmlFor="password">Password:</label>
                     <input type="password" name="password" id=""/>
+                    <label htmlFor="role">Role:</label>
+                    <select name="role" id="">
+                        <option value="Moderator">Moderator</option>
+                        <option value="Admin">Admin</option>
+                    </select>
                     <button type="submit" onClick={this.submit}>Register</button>
                 </form>
             </div>
