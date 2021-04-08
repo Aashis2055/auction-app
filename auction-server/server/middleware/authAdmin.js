@@ -6,7 +6,7 @@ module.exports = (req, res, next)=>{
         let token = req.headers.authorization.split(" ")[1];
         // let token = req.headers.authorization;
         let decode = jwt.verify(token, ADMIN_KEY);
-        req.userData = decode;
+        req.adminData = decode;
         next();
     } catch (error) {
         console.log(error);

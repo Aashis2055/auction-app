@@ -17,8 +17,8 @@ adminLogin = [
 
 adminRegister = [
     check('email').isEmail().notEmpty(),
-
-    check('password').isString().notEmpty().isLength({min:5, max: 20})
+    check('password').isString().notEmpty().isLength({min:5, max: 20}),
+    check('role', 'Role is required').isString().notEmpty().isIn(["Admin","Moderator"])
 ]
 
 module.exports = {

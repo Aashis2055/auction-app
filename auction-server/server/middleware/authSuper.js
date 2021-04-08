@@ -7,7 +7,7 @@ module.exports = (req, res, next)=>{
         // let token = req.headers.authorization;
         let decode = jwt.verify(token, ADMIN_KEY);
         if(decode.email === "super@email.com"){
-            req.userData = decode;
+            req.adminData = decode;
             next();
         }else{throw 'unauthorized';}
         

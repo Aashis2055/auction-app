@@ -1,11 +1,6 @@
 const Joi = require('joi');
 
 const schemaVehicle = Joi.object({
-    img: Joi.string()
-        .min(3)
-        .max(30)
-        .required(),
-    
     type: Joi.string().alphanum().required(),
     color: Joi.string().alphanum().required(),
     model: Joi.string().required(),

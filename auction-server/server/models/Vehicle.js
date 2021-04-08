@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const id = Schema.Types.ObjectId;
 const vehicleTypes = ["Bike", "Scotter", "Car"];
+const bidSchema = require('./Bid');
 let date = new Date();
 const vehicleSchema = new Schema({
     img: {type: String, required: true},
@@ -15,7 +16,8 @@ const vehicleSchema = new Schema({
     added_date: {type: Date, required: true, default: Date.now()},
     auction_date: {type: Date, required: true, default: Date.now()},
     end_date: {type: Date, required: true, default: date.setDate(date.getDate() + 7)},
-    u_id: {type: id, required:true}
+    u_id: {type: id, required:true},
+    bid: {type:bidSchema, default: null}
 });
 
 module.exports = mongoose.model('vehicle', vehicleSchema);

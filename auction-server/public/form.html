@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form</title>
+</head>
+<body>
+    <form action="/user-api/vehicle" method="post" enctype="multipart/form-data">
+        <input type="text" id="type" name="type" placeholder="Type">
+        <input type="text" name="color" placeholder="Color">
+        <input type="text" name="model" placeholder="Model">
+        <input type="datetime" name="year" placeholder="year">
+        <input type="number" name="km_driven" placeholder="Km Driven">
+        <input type="text" name="description" placeholder="Dexcription">
+        <input type="number" name="initial_price" placeholder="Initial price">
+        <input type="datetime" name="auction_date" placeholder="Auction Date">
+        <input type="datetime" name="end_date" placeholder="End Date">
+        <input type="file" name="mainFile">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

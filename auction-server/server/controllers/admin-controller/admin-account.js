@@ -7,7 +7,7 @@ const adminModel = require('../../models/Admins');
 const SALT_ROUND = 10;
 const ADMIN_KEY = process.env.ADMIN_KEY;
 const postRegister = async (req, res, next)=>{
-    let {email, password} = req.body;
+    let {email, password, role} = req.body;
     const validationErrors = validationResult(req);
     if(!validationErrors.isEmpty()){
         return res.status(400).json({
@@ -22,8 +22,8 @@ const postRegister = async (req, res, next)=>{
     }// if email already exists
     try {
         let hash = bcrypt.hashSync(password, SALT_ROUND);
-        let newAdmin = new adminModel({ email, password:hash});
-        let result = await newAdmin.save().then((result)=>{
+        let newAdmin = new adminModel({ email, password:hash, role});
+        newAdmin.save().then((result)=>{
             return res.status(201).json({
                 message: 'admin created',
                 result
@@ -52,26 +52,28 @@ const postLogin = async (req, res) =>{
             return res.status(200).json({ error: validationResult.array() });
         }// eof validation
         email = email.toLowerCase();
-        let currentAdmin = await adminModel.findOne({email});
-        console.log(currentAdmin);
-        // if account does not exist
-        if(currentAdmin === null)
-            return res.status(401).json({ message: 'Auth fail'});
-        // compare password
-        let comparePassword = bcrypt.compareSync(password, currentAdmin.password);
-        if(!comparePassword){
-            return res.status(401).json({ message: 'Invalid password'});
-        }// eof password check
-        // generate web token
-        let {_id} = currentAdmin;
-        console.log(_id);
-        let token = jwt.sign({
-            _id, email
-        }, ADMIN_KEY, {expiresIn: '4w'});
-       return res.status(200).json({
-           message: 'login sucessful',
-           token: 'brearer '+token
-       })
+        let currentAdmin = await adminModel.findOne({email}).then((currentAdmin)=>{
+            console.log(currentAdmin);
+            // if account does not exist
+            if(currentAdmin === null)
+                return res.status(401).json({ message: 'Auth fail'});
+            // compare password
+            let comparePassword = bcrypt.compareSync(password, currentAdmin.password);
+            if(!comparePassword){
+                return res.status(401).json({ message: 'Invalid password'});
+            }// eof password check
+            // generate web token
+            let {_id, role} = currentAdmin;
+            console.log(_id);
+            let token = jwt.sign({
+                _id, email, role
+            }, ADMIN_KEY, {expiresIn: '4w'});
+            return res.status(200).json({
+                message: 'login sucessful',
+                token: 'brearer '+token
+            })
+        });
+        
     } catch (error) {
         logger.log({
             level: 'error',

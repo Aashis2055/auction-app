@@ -89,8 +89,30 @@ const getPosts = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+const getPost = async (req, res)=>{
+    let {id} = req.params;
+    try {
+        let post = await vehicleModel.findOne({_id: id});
+        const comments = await commentModel.find({v_id:id});
+        // console.log(comments);
+        // post.comments = comments;
+        console.log(post);
+        if(post){
+            return res.render('home');
+        }
+        else{
+            return res.status(404).json({
+                msg: 'Id not found'
+            });
+        }
+    } catch (error) {
+        // TODO log error
+        return res.status(500).json({ msg: 'Server Error'});
+    }
+}
 module.exports = {
     postLogin,
     postRegister,
-    getPosts
+    getPosts,
+    getPost
 }

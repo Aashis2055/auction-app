@@ -13,7 +13,7 @@ const {
 
 router.get('/vehicle', authAdmin, getVehicles);
 router.get('/vehicle/:id', authAdmin, getVehicle)
-router.delete('/vehicle:id', authAdmin, deleteVehicle );
+router.delete('/vehicle/:id', authAdmin, deleteVehicle );
 router.delete('/comment/:id', authAdmin, authId, deleteComment);
 router.delete('reply/:id', authAdmin,authId, deleteReply);
 

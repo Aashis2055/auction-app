@@ -7,7 +7,8 @@ const schemaComment = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const deleteFile = require('../helper/file');
 const postVehicle = async (req, res)=>{
-    let {_id:u_id} = req.userData;
+    let {_id:u_id, filePath} = req.userData;
+    console.log(req.body);
     try{
         let validationError = await schemaVehicle.validate(req.body, {abortEarly: false});
         if(validationError && validationError.error){
@@ -17,7 +18,7 @@ const postVehicle = async (req, res)=>{
                 errors: validationErrorMsg
             })
         };
-        let newVehicle = new vehicleModel({u_id,...req.body });
+        let newVehicle = new vehicleModel({u_id,img:filePath,...req.body });
         let result = await newVehicle.save().then(()=>{
             // TODO generate notification
             return res.status(200).json({
@@ -54,10 +55,15 @@ const getVehicles = (req, res)=>{
 const getVehicle = async (req, res)=>{
     let {id} = req.params;
     try {
-        let post = await vehicleModel.find({_id: id});
+        let post = await vehicleModel.findOne({_id: id});
+        const comments = await commentModel.find({v_id:id});
+        // console.log(comments);
+        // post.comments = comments;
+        console.log(post);
         if(post){
             return res.status(200).json({
-                post
+                post,
+                comments
             });
         }
         else{
@@ -129,8 +135,9 @@ const deleteComment = async (req, res)=>{
 const deleteReply = async (req, res)=>{
     let {id} = req.params;
     try {
-        let result =await  replyModel.deleteOne({_id: id});
-        return res.status(200).json({msg: 'Reply deleted', result});
+        return res.send("Work in progress");
+        // let result =await  replyModel.deleteOne({_id: id});
+        // return res.status(200).json({msg: 'Reply deleted', result});
     } catch (error) {
         return res.status(500).json({msg: 'Server Error'});
     }
