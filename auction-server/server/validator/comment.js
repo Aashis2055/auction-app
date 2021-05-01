@@ -1,7 +1,8 @@
-const Joi = require('joi');
+const Joi = require('joi-oid');
 
 const schemaComment = Joi.object({
-    message: Joi.string().min(2).required(),
-    id: Joi.string().required()
+    comment: Joi.string().min(2).required(),
+    v_id: Joi.objectId().required(),
+    u_id: Joi.objectId().required()
 })
 module.exports = schemaComment;

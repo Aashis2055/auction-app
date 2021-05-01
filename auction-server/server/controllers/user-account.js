@@ -35,7 +35,8 @@ const postLogin = async (req, res)=>{
         let {_id, firstName} = currentUser;
         let token = jwt.sign({
             _id, email, firstName
-        }, USER_KEY, {expiresIn: '2w'});
+        }, USER_KEY, {expiresIn: '8w'});
+        console.log(token);
         return res.status(200).json({ msg: 'Login Sucess', token});
     }catch(error){
         // TODO log error

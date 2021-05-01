@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // 
 const adminModel = require('../../models/Admins');
+const userModel = require('../../models/Users');
 const SALT_ROUND = 10;
 const ADMIN_KEY = process.env.ADMIN_KEY;
 const postRegister = async (req, res, next)=>{
@@ -84,7 +85,44 @@ const postLogin = async (req, res) =>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+
+const getUser = async (req, res)=>{
+    const {id} = req.params;
+    try {
+        let user = await userModel.findOne({_id:id}).select({"firstName": 1, "password": 0});
+        if(user){
+            return res.status(200).json({msg: 'Ok', user});
+
+        }
+        return res.status(404).json({msg: 'No user'});
+    } catch (error) {
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const getUsers = async (req, res)=>{
+    try {
+        let users = await userModel.find().select({"firstName": 1, "password": 0});
+        if(user.length === 0)
+            return res.status(404).json({msg: 'No Users'});
+        return res.status(200).json({msg: 'OK', users});
+    } catch (error) {
+        // TODO log error
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const updateUser = async (req, res)=>{
+    let {firstName, lastName} = req.body;
+    try {
+        
+    } catch (error) {
+        // TODO log error
+        return res.status(500).json({msg: 'Server error'});
+    }
+}
 module.exports = {
     postRegister,
-    postLogin
+    postLogin,
+    updateUser,
+    getUser,
+    getUsers
 }

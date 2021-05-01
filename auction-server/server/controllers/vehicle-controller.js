@@ -2,10 +2,12 @@
 //
 const vehicleModel = require('../models/Vehicle');
 const commentModel = require('../models/Comment');
-const replyModel = require('../models/Reply');
+// validation models
 const schemaComment = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
+const schemaFilter = require('../validator/filter-query');
 const deleteFile = require('../helper/file');
+const { isMongooseId} = require('../helper/id-help');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     console.log(req.body);
@@ -33,24 +35,38 @@ const postVehicle = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'})
     }
 }
-const getVehicles = (req, res)=>{
+const getVehicles = async (req, res)=>{
     // TODO get filter parameters
+    console.log(req.query);
+    const filter = req.query;
+    try{
+        let filterError = schemaFilter.validate(filter, {abortEarly: false});
+        if(filterError && filterError.error){
+            let validationErrorMsg = validationError.error.details.map(data => data.message);
+            return res.status(400).json({
+                msg: 'Validation error',
+                errors: validationErrorMsg
+            })
+        };
+        vehicleModel.find(filter).then((vehicles)=>{
+            if(vehicles.length === 0){
+                return res.status(204).json({ message: 'No content found'});
+            }
+            return res.status(200).json({
+                message:'ok',
+                posts: vehicles
+            })
+        }).catch((error)=>{
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            })
+        });
+    }catch(error){
+        // TODO log error
+        res.status(500).json({msg: 'Server Error'});
+    }
     
-    vehicleModel.find().then((vehicles)=>{
-        if(vehicles.length === 0){
-            return res.status(204).json({ message: 'No content found'});
-        }
-        return res.status(200).json({
-            message:'ok',
-            posts: vehicles
-        })
-    }).catch((error)=>{
-        console.log(error);
-        return res.status(500).json({
-            message: 'Server Error'
-        })
-    })
-    ;
 }
 const getVehicle = async (req, res)=>{
     let {id} = req.params;
@@ -92,21 +108,21 @@ const deleteVehicle = async (req, res)=>{
     }
 }
 const postComment = async (req, res)=>{
-    let {id} = req.params;
-    let {message} = req.body;
+    let {id: v_id} = req.params;
+    let {comment} = req.body;
     let {_id:u_id} = req.userData;
-
     try {
-        let validationError = await schemaComment.validate({message,id }, {abortEarly: false});
+        let validationError = await schemaComment.validate({comment,v_id, u_id}, {abortEarly: false});
         if(validationError && validationError.error){
             let validationErrorMsg = validationError.error.details.map(data => data.message);
             return res.status(400).json({msg: 'Validation error', validationErrorMsg});
         }
-        let newComment = new commentModel({message, v_id,u_id });
+        let newComment = new commentModel({comment, v_id,u_id });
         let result = await newComment.save();
         return res.status(200).json({msg: 'Comment added', result});
     } catch (error) {
         // TODO log error
+        console.log(error);
         return res.status(500).json({msg: 'Server Error'});
     }
 }
@@ -115,11 +131,20 @@ const postReply = async(req, res)=>{
     let {reply} = req.body;
     let {id:c_id} = req.params;
     try {
-        let newReply = new replyModel({reply, u_id, c_id })
-        let result = await newReply.save();
+        let flag = isMongooseId(c_id);
+        if(!flag) return res.status(401).json({msg: 'Auth Error'});
+        let newReply = {
+            reply: {
+                reply,
+                u_id
+            }
+        }
+
+        let result = await commentModel.findOneAndUpdate({_id: c_id}, newReply);
         return res.status(200).json({msg: 'Reply posted', result});
     } catch (error) {
         // TODO logo error
+        console.log(error)
         return res.status(500).json({msg: 'Server Error'});
     }
 }

@@ -16,7 +16,7 @@ const authId = require('../middleware/authId');
 router.post('/vehicle',authUser, postFile,  postVehicle );
 router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);
-router.post('/commment', authUser, postComment)
+router.post('/comment/:id', authUser, authId, postComment)
 router.post('/reply/:id', authUser, authId, postReply);
 
 

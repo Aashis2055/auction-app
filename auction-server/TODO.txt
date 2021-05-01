@@ -1,5 +1,25 @@
 1. google auth user
 2. socket integration
-3. 
+3. payment system
+4. find vehicle info api
+5. payment predction alogorithim
 
+
+admin :
+1. user data CURD
+2. delete post, comment, reply
+3. ban user 
+
+user :
+1. advance filter posts
+2. 
+3. improve get vehicle with commment and reply (using a single query)
+4. share post ( handlebars)
+
+
+// before deployment 
+1. remove test folder
+2. remove morgan
+3. remove console error
+4. log error in winston
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDRkZTg4ZjIxMmE3NTIzOTY2NWVmYzQiLCJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImZpcnN0TmFtZSI6ImZpcnN0IiwiaWF0IjoxNjE1NzE5MDUyLCJleHAiOjE2MTY5Mjg2NTJ9.SH0e4u5KPULAWFVWLDYtYN8rmbXQgps3ueHpjVeBDiQ"
