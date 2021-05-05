@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // 
 const adminModel = require('../../models/Admins');
 const userModel = require('../../models/Users');
+const vehicleModel = require('../../models/Vehicle');
 const SALT_ROUND = 10;
 const ADMIN_KEY = process.env.ADMIN_KEY;
 const postRegister = async (req, res, next)=>{
@@ -89,33 +90,43 @@ const postLogin = async (req, res) =>{
 const getUser = async (req, res)=>{
     const {id} = req.params;
     try {
-        let user = await userModel.findOne({_id:id}).select({"firstName": 1, "password": 0});
+        let user = await userModel.findOne({_id:id});
         if(user){
-            return res.status(200).json({msg: 'Ok', user});
-
+            let posts = await vehicleModel.find({u_id: id});
+            return res.status(200).json({msg: 'Ok', user, posts});
+            
         }
+        
         return res.status(404).json({msg: 'No user'});
     } catch (error) {
+        // TODO log error
+        console.log(error)
         return res.status(500).json({msg: 'Server Error'});
     }
 }
 const getUsers = async (req, res)=>{
+    const filter = req.query;
     try {
-        let users = await userModel.find().select({"firstName": 1, "password": 0});
-        if(user.length === 0)
+        let users = await userModel.find(filter);
+        if(users.length === 0)
             return res.status(404).json({msg: 'No Users'});
         return res.status(200).json({msg: 'OK', users});
     } catch (error) {
         // TODO log error
+        console.log(error);
         return res.status(500).json({msg: 'Server Error'});
     }
 }
 const updateUser = async (req, res)=>{
-    let {firstName, lastName} = req.body;
+    // let {firstName, lastName} = req.body;
+    const status = req.body.status;
+    const _id = req.params.id;
     try {
-        
+        let result = await userModel.findOneAndUpdate({_id}, {status});
+        return res.status(200).json({status: 'user modified',result})
     } catch (error) {
         // TODO log error
+        console.log(error);
         return res.status(500).json({msg: 'Server error'});
     }
 }

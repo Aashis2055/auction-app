@@ -1,7 +1,7 @@
 const postFile = (req, res, next)=>{
     console.log(req.body);
     console.log(req.files);
-    const validFiles = ["image/jpeg", "image/png", "image.jpg"];
+    const validFiles = ["image/jpeg", "image/png", "image/jpg"];
     if(!req.files || Object.keys(req.files) === 0){
         return res.status(400).json({ message: 'no file uploaded'});
     };// eof if no file uploaded
@@ -11,8 +11,6 @@ const postFile = (req, res, next)=>{
         return res.status(400).json({message: 'file size exceeds'});
     };
     // validate file type
-    console.log(mainFile.mimetype);
-    console.log(validFiles.includes(mainFile.mimetype));
     if(!validFiles.includes(mainFile.mimetype) ){
         return res.status(400).json({ message: 'file type not allowed'});
     };

@@ -70,7 +70,8 @@ logger = winston.createLogger({
 // database 
 mongoose.connect(`mongodb://${databaseURL}/vehicle-auction`, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
 }).then(()=>{
     console.log('Database Connected');
 }).catch(()=>{
@@ -89,6 +90,5 @@ io.on('connection', (socket)=>{
 
 // server start
 http.listen(PORT, ()=>{
-    logger.log('info', 'Server started');
     console.log("Port started at: "+PORT);
 });
