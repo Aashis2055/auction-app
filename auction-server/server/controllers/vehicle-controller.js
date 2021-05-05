@@ -133,13 +133,7 @@ const postReply = async(req, res)=>{
     try {
         let flag = isMongooseId(c_id);
         if(!flag) return res.status(401).json({msg: 'Auth Error'});
-        let newReply = {
-            reply: {
-                reply,
-                u_id
-            }
-        }
-
+        let newReply = {reply: {reply,u_id}};
         let result = await commentModel.findOneAndUpdate({_id: c_id}, newReply);
         return res.status(200).json({msg: 'Reply posted', result});
     } catch (error) {
@@ -160,7 +154,8 @@ const deleteComment = async (req, res)=>{
 const deleteReply = async (req, res)=>{
     let {id} = req.params;
     try {
-        return res.send("Work in progress");
+        let result = await commentModel.findOneAndUpdate({_id: id}, {reply: null});
+        return res.status(200).json({msg: 'Reply deleted'});
         // let result =await  replyModel.deleteOne({_id: id});
         // return res.status(200).json({msg: 'Reply deleted', result});
     } catch (error) {
