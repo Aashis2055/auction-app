@@ -19,8 +19,8 @@ export default class Dashboard extends Component {
         return (
             <div>
                 {
-                    posts.map((post)=>{
-                        return <Card post={post} />
+                    posts.map((post, index)=>{
+                        return <Card post={post} index={index} delete={this.removePost} />
                     })
                 }
                 <ToastContainer />
@@ -28,20 +28,35 @@ export default class Dashboard extends Component {
         )
     }
     componentDidMount = ()=>{
-        console.log(getToken());
         axios.get(`${URL}admin-api/vehicle`, {
             headers:{
                 authorization: getToken()
             }
         }).then((response)=>{
-            this.setState({
-                posts: response.data.posts
-            })
+            const {posts} = response.data;
+            this.setState({posts});
         }).catch((error)=>{
             console.log(error);
             if(error.response) toast.error(error.response.msg);
             else if(error.request) toast.error('check your internet connection');
             else toast.error('Some thing went wrong');
         });
+    }
+    removePost = (index)=>{
+        let {_id} = this.state.posts[index];
+        
+        axios.delete(URL+"vehicle/"+_id, {
+            headers: getToken()
+        }).then((response)=>{
+            if(response.status === 200){
+                this.state.posts.splice(index-1, 1);
+                this.setState({
+                    posts: this.state.posts
+                })
+            }
+        }).catch(error=>{
+            console.log(error);
+            toast.error('Something went wrong');
+        })
     }
 }

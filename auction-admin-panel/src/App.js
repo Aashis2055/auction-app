@@ -15,6 +15,7 @@ import Users from './pages/Users';
 // components
 import NavBar from './components/NavBar';
 import Vehicle from './pages/Vehicle';
+import UserDetail from './pages/UserDetail';
 
 export class App extends Component {
   constructor(){
@@ -25,7 +26,6 @@ export class App extends Component {
   }
   render() {
     let {loginStatus} = this.state;
-    console.log(loginStatus);
     return (
       <BrowserRouter>
       <NavBar loginStatus={loginStatus} logoutAdmin={this.logoutAdmin} />
@@ -51,7 +51,10 @@ export class App extends Component {
         <Route path="/vehicle/:id" >
           {loginStatus ? <Vehicle /> : (<Redirect to="/login"/>)}
         </Route>
-        <Route path="/users" component={Users}/>
+        <Route path="/users" component={loginStatus?Users:<Redirect to="/login"/>}/>
+        <Route  path="/user/:id">
+          { loginStatus ? <UserDetail /> : <Redirect to="/login" />}
+        </Route>
         <Route path="*">
           <ErrorPage />
         </Route>
@@ -70,8 +73,6 @@ export class App extends Component {
       loginStatus: false
     })
   }
-  
-  
 }
 
 

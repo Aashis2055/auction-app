@@ -11,7 +11,10 @@ export default class NavBar extends Component {
                 {
                     loginStatus ? (<span onClick={logoutAdmin}>Logout</span>) : <Link href="/login" to="/login">Login</Link>
                 }
-                <Link href="/register" to="/register">Register</Link>
+                {loginStatus ? (<Link href="/register" to="/register">Register</Link>) : null}
+                {loginStatus ? (<Link href="/dashboard" to="/dashboard">Dashboard</Link>) : null}
+                {loginStatus ? (<Link href="/users" to="/users">Users</Link>) : null}
+
                 <div>Login Status: {loginStatus? 'Yes': "No"}</div>
                 {/* <FontAwesomeIcon icon={["fal", "coffee"]} /> */}
             </nav>

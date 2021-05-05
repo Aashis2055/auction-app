@@ -20,7 +20,7 @@ export default function Vehicle(props) {
         year: 2015,
         __v: 0,
         _id: "6055e0cab7b6c01bf9f6d159"
-    });
+    }, []);
     const [count, setCount] = useState(0);
     const {id} = useParams();
     useEffect(()=>{
@@ -35,7 +35,7 @@ export default function Vehicle(props) {
         }).catch((error)=>{
             console.log(error);
         })
-    }, [])
+    })
     return (
         <div>
             The vehicle page {post.type}
