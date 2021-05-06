@@ -9,7 +9,12 @@ const userRegister = Joi.object({
     email: Joi.string().required().email().max(20).min(2),
     password: Joi.string().required().min(4).max(20),
     firstName: Joi.string().required().min(2).max(20),
-    lastName: Joi.string().required().min(2).max(20)
+    lastName: Joi.string().required().min(2).max(20),
+    address: Joi.object({
+        province: Joi.string().required(),
+        district: Joi.string().required()
+    }),
+    phone_no: Joi.array()
 })
 
 module.exports = {

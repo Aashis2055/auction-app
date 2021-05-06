@@ -9,7 +9,8 @@ const schemaVehicle = Joi.object({
     description: Joi.string().required().min(5).max(200),
     initial_price: Joi.number().required(),
     auction_date: Joi.date().required(),
-    end_date: Joi.date().required()
+    end_date: Joi.date().required(),
+    
 })
 
 module.exports = schemaVehicle;
