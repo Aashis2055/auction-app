@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:url"           content="http://localhost:5000/vehicle/{{post._id}}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Vehicle Auction App" />
+    <meta property="og:description"   content="Buy and Sell used vehicles (cars, bikes, scotters) at the best value" />
+    <meta property="og:image"         content="https://localhost:5000/vehicle-images/{{post.img}}" />
+    <style type="text/css">
+        img{
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+    <title>Vehicle Auction</title>
+</head>
+<body>
+    <h1>The vehicle page</h1>
+    {{post}}
+    <div class="container">
+        <img src="/vehicle-images/1617863857950-gallery3.jpg" alt="">
+        <div class="details-container">
+            <table>
+                <tr>
+                    <td>Type</td>
+                    <td>{{post.type}}</td>
+                </tr>
+                <tr>
+                    <td>Color</td>
+                    <td>{{post.color}}</td>
+                </tr>
+                <tr>
+                    <td>Model</td>
+                    <td>{{post.model}}</td>
+                </tr>
+                <tr>
+                    <td>Year</td>
+                    <td>{{post.year}}</td>
+                </tr>
+                <tr>
+                    <td>Km Driven</td>
+                    <td>{{post.km_driven}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{post.description}}</td>
+                </tr>
+                <tr>
+                    <td>Added Date</td>
+                    <td>{{post.added_date}}</td>
+                </tr>
+                <tr>
+                    <td>Auction Date</td>
+                    <td>{{post.auction_date}}</td>
+                </tr>
+                <tr>
+                    <td>Auction End Date</td>
+                    <td>{{post.end_date}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <div>Install App</div>
+        <div>Android</div>
+        <div>IOS</div>
+    </footer>
+</body>
+</html>

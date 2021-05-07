@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 //
 const userModel = require('../models/Users');
 const vehicleModel = require('../models/Vehicle');
+const commentModel = require('../models/Comment');
 const {userLogin, userRegister} = require('../validator/user');
 const SALT_ROUND = 10;
 const USER_KEY = process.env.USER_KEY;
@@ -91,15 +92,15 @@ const getPosts = async (req, res)=>{
     }
 }
 const getPost = async (req, res)=>{
-    let {id} = req.params;
+    // let {id} = req.params;
+    let id = "6055e37967d9de1f2b909fe6";
     try {
-        let post = await vehicleModel.findOne({_id: id});
-        const comments = await commentModel.find({v_id:id});
-        // console.log(comments);
+        let post = await vehicleModel.findOne({_id: id}).lean();
+        // const comments = await commentModel.find({v_id:id});
         // post.comments = comments;
         console.log(post);
         if(post){
-            return res.render('home');
+            return res.render('vehicle',{layout:false, post});
         }
         else{
             return res.status(404).json({
@@ -108,6 +109,8 @@ const getPost = async (req, res)=>{
         }
     } catch (error) {
         // TODO log error
+        console.log(error);
+
         return res.status(500).json({ msg: 'Server Error'});
     }
 }

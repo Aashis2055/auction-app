@@ -11,11 +11,12 @@ require('dotenv').config({path: './server/config/.env'});
 const cors = require('cors');
 const exphbs = require('express-handlebars');
 // const { transport } = require('winston');
-//
+//routes
 const adminRoutes = require('./server/routes/admin-routes');
 const userRoutes = require('./server/routes/user-routes');
 const vehicleRoutes = require('./server/routes/vehicle-routes');
 const adminVehicleRoutes = require('./server/routes/admin-vehicle');
+const {getPost} = require('./server/controllers/user-account');
 // 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,13 +48,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(rateLimiter);
 app.use(helmet());
-app.set('views', path.join(__dirname, 'view') );
-app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
-app.set('view wngine', 'handlebars');
+
 app.use('/admin-api',adminRoutes);
 app.use('/admin-api', adminVehicleRoutes);
 app.use('/user-api', userRoutes);
 app.use('/user-api', vehicleRoutes);
+// handlebars
+let hbs = exphbs.create({});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.get('/vehicle/:id', getPost);
 // logger setup
 logger = winston.createLogger({
     level: 'info',
