@@ -1,3 +1,4 @@
+import 'package:auction_app/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 //
 import '../widgets/MyAppBar.dart';
@@ -7,27 +8,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Expanded(
-        child: Image.network('https://picsum.photos/250?image=9'),
-      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Image.asset('images/logo.jpg'),
+          ),
+          Container(
+            child: TextButton(
+              child: Text('Login'),
+              onPressed: (){
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+            ),
+          )
+        ],
+      )
     );
   }
 }
 
-class Test extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Icon(Icons.ac_unit),
-          Icon(Icons.access_alarm),
-          Icon(Icons.accessibility_outlined)
-        ],
-      ),
-    );
-  }
-}
+
