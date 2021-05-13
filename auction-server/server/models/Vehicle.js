@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const id = Schema.Types.ObjectId;
-const vehicleTypes = ["Bike", "Scotter", "Car"];
+const vehicleTypes = ["Bike", "Scooter", "Car"];
 const bidSchema = require('./Bid');
 let date = new Date();
 const vehicleSchema = new Schema({
     img: {type: String, required: true},
     type: {type:String, required: true, default: null, enum: vehicleTypes},
     color: {type: String, required: true},
+    brand: {type: String, required: true},
     model: {type: String, required: true},
     year: {type: Number, required: true},
     km_driven: {type: Number, required: true},
@@ -20,4 +21,4 @@ const vehicleSchema = new Schema({
     bid: {type:bidSchema, default: null}
 });
 
-module.exports = mongoose.model('vehicle', vehicleSchema);
+module.exports = mongoose.model('Vehicle', vehicleSchema);

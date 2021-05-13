@@ -37,7 +37,6 @@ const postLogin = async (req, res)=>{
         let token = jwt.sign({
             _id, email, firstName
         }, USER_KEY, {expiresIn: '8w'});
-        console.log(token);
         return res.status(200).json({ msg: 'Login Sucess', token});
     }catch(error){
         // TODO log error
@@ -46,10 +45,10 @@ const postLogin = async (req, res)=>{
     }
 }
 const postRegister = async (req, res)=>{
-    let {email, password, firstName, lastName} = req.body;
+    let {email, password, first_name, last_name, address, phone_no} = req.body;
     try {
         // validation
-        const registerValidationError = await userRegister.validate(req.body);
+        const registerValidationError = await userRegister.validate(req.body, {abortEarly: false});
         if(registerValidationError && registerValidationError.error){
             let registererror = registerValidationError.error.details.map(data => data.message);
             return res.status(400).json({
@@ -65,7 +64,7 @@ const postRegister = async (req, res)=>{
         }// if email already exists
         // hash password
         let hash = bcrypt.hashSync(password,SALT_ROUND );
-        let newUser = new userModel({ firstName,lastName, email, password: hash});
+        let newUser = new userModel({ first_name,last_name, email, password: hash, address,phone_no });
         let result = await newUser.save();
         return res.status(201).json({
             message: 'Registered'

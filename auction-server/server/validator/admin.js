@@ -11,8 +11,8 @@ const {check} = require('express-validator');
 //     .isStrongPassword().withMessage("Password not strong")
 // ];
 adminLogin = [
-    check('email').not().isEmpty().withMessage('Email is required'),
-    check('password', 'Your password must be at least 5 characters').not().isEmpty()
+    check('email').isEmail().notEmpty().withMessage('Email is required'),
+    check('password', 'Your password must be at least 5 characters').notEmpty()
 ]
 
 adminRegister = [

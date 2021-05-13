@@ -4,6 +4,7 @@ const schemaVehicle = Joi.object({
     type: Joi.string().alphanum().required(),
     color: Joi.string().alphanum().required(),
     model: Joi.string().required(),
+    brand: Joi.string().required(),
     year: Joi.date().required(),
     km_driven: Joi.number().required().min(0),
     description: Joi.string().required().min(5).max(200),

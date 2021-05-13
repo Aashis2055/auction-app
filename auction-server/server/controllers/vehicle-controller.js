@@ -41,7 +41,7 @@ const getVehicles = async (req, res)=>{
     const filter = req.query;
     const filt = {
         minPrice: 0,
-        maxPrice: 50000
+        maxPrice: 5000000
     }
     try{
         let filterError = schemaFilter.validate(filter, {abortEarly: false});
@@ -57,7 +57,6 @@ const getVehicles = async (req, res)=>{
                 return res.status(204).json({ message: 'No content found'});
             }
             const data = vehicles.map((vehicle)=>{
-                console.log(vehicle.initial_price);
                 if(vehicle.initial_price > filt.minPrice && vehicle.initial_price < filt.maxPrice){
                     return vehicle;
                 }

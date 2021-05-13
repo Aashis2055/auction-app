@@ -41,6 +41,17 @@ const province7 = [
     "Dadeldhura", "Darchula", "Doti", "Kailali",
     "Kanchanpur"
 ];
+const districts = [
+    province1,
+    province2,
+    province3,
+    province4,
+    province5,
+    province6,
+    province7
+
+]
 module.exports = {
-    provinces
+    provinces,
+    districts
 }

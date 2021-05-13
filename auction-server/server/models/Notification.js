@@ -8,4 +8,4 @@ const notificationSchema = new Schema({
     message: {type: String, required: true}
 });
 
-module.exports = notificationSchema;
+module.exports = mongoose.model('Notification', notificationSchema);

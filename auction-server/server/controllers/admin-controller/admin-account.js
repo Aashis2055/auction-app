@@ -48,11 +48,11 @@ const postRegister = async (req, res, next)=>{
 
 const postLogin = async (req, res) =>{
     try {
-        let {email, password} = req.body;
-        const validationErrors = validationResult(req.body);
+        const validationErrors = validationResult(req);
         if(!validationErrors.isEmpty()){
-            return res.status(200).json({ error: validationResult.array() });
+            return res.status(200).json({ error: validationErrors.array() });
         }// eof validation
+        let {email, password} = req.body;
         email = email.toLowerCase();
         let currentAdmin = await adminModel.findOne({email}).then((currentAdmin)=>{
             console.log(currentAdmin);
@@ -69,7 +69,7 @@ const postLogin = async (req, res) =>{
             console.log(_id);
             let token = jwt.sign({
                 _id, email, role
-            }, ADMIN_KEY, {expiresIn: '4w'});
+            }, ADMIN_KEY, {expiresIn: '10w'});
             return res.status(200).json({
                 message: 'login sucessful',
                 token: 'brearer '+token
@@ -86,7 +86,27 @@ const postLogin = async (req, res) =>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
-
+const postSuperLogin  = async (req, res)=>{
+    try {
+        const {email, password } = req.body;
+        if(email === "super@email.com" && password === "super password"){
+            const _id = 0;
+            const role = "super";
+            let token = jwt.sign({
+                _id, email, role
+            }, ADMIN_KEY, {expiresIn: '10w'});
+            return res.status(200).json({
+                message: 'login sucessful',
+                token: 'brearer '+token
+            });
+        }else{
+            return res.status(400).json({msg: 'Auth Error'})
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 const getUser = async (req, res)=>{
     const {id} = req.params;
     try {
@@ -135,5 +155,6 @@ module.exports = {
     postLogin,
     updateUser,
     getUser,
-    getUsers
+    getUsers,
+    postSuperLogin
 }

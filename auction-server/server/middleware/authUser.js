@@ -4,8 +4,9 @@ module.exports = (req, res, next)=>{
     // TODO validate user 
     try {
         // let token = req.headers.authorization.split(" ")[1];
-        let token = req.headers.authorization;
-        // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDRkZTg4ZjIxMmE3NTIzOTY2NWVmYzQiLCJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImZpcnN0TmFtZSI6ImZpcnN0IiwiaWF0IjoxNjE3ODU4NjgyLCJleHAiOjE2MTkwNjgyODJ9.prttBvI2Wp6DV-iI2Qie2Mbb3OqqI82gxcNfxKB0dWY";
+        // let token = req.headers.authorization;
+        // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDljZDkwNGI2NWM1NjU0ZDFlYzRiYTciLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNjIwODkyNjQzLCJleHAiOjE2MjU3MzEwNDN9.4ugFH0LTbvwGUNQ5PeKEJwt1JpgCfuM-3uax2tdQQaI";
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDljZDk2MWI2NWM1NjU0ZDFlYzRiYTkiLCJlbWFpbCI6InVzZXIzQGVtYWlsLmNvbSIsImlhdCI6MTYyMDg5NjM0MiwiZXhwIjoxNjI1NzM0NzQyfQ.pzlZpzLl524e9nCeFKNVSD5TbrDn9_RTu2htAziuJgw";
         let decode = jwt.verify(token, USER_KEY);
         req.userData = decode;
         next();

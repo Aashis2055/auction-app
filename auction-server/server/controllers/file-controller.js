@@ -22,7 +22,7 @@ const postFile = (req, res, next)=>{
             console.log(err);
             return res.status(500).json({ message: 'file upload fail'});
         }
-        req.userData.filePath = filePath;
+        req.userData.filePath = mainFile.name;
         next();
     })
 }

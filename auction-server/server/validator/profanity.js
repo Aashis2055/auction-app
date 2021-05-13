@@ -6,8 +6,7 @@ const filterProfanity = (req, res, next)=>{
     let flag = true;
     // end if the body is empty
     if(Object.keys(req.body).length === 0){
-        console.log("empty");
-        return res.send("empty");
+        return res.status(400).json({msg: "Validatoin error"});
     }
     for(const property in req.body){
         if(filter.isProfane(req.body[property].toString())) flag = false;
