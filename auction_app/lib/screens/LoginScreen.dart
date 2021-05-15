@@ -17,8 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = "";
-  String password = "";
+  String email = "email2@email.com";
+  String password = "the password";
 
   changeEmail(value) {
     setState(() {
@@ -44,13 +44,18 @@ class _LoginScreenState extends State<LoginScreen> {
               RowButton(
                   label: 'Login',
                   callback: () async {
-                    Uri uri = kuri.replace(path: '/user-api/login');
-                    // http.Response response = await http.post(Uri(port: 5000, host: '192.168.10.69', path: 'user-api/login', scheme: 'http'), body: {
-                    //   'email': email,
-                    //   'password': password
-                    // });
-                    // print(response.body);
-                    Navigator.pushNamed(context, DashBoard.id);
+                    Uri uri = Uri(host: '192.168.10.69', port: 5000, scheme: 'http', path: '/user-api/login');
+                    http.Response response = await http.post(uri, body: {
+                      'email': email,
+                      'password': password
+                    });
+                    print(response.body);
+                    if(response.statusCode == 200){
+                      // TODO save token
+                      Navigator.pushNamed(context, DashBoard.id);
+                    }else{
+                      // TODO show login error
+                    }
                   })
             ],
           ),

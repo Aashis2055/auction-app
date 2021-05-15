@@ -16,9 +16,11 @@ dependencies:
   http: ^0.13.1
   file_picker: ^3.0.1
   localstorage: ^4.0.0+1
-#  file_picker: ^3.0.1
+  fluttertoast: ^8.0.6
 #  dio: ^4.0.0
 #  path: ^1.8.0
+# socket_io_client: ^1.0.1
+# connectivity: ^3.0.3
 
 dev_dependencies:
   flutter_test:
