@@ -1,5 +1,5 @@
-const kURL = "http://192.168.122.1";
-Uri kuri = Uri(host: '192.168.10.69', port: 5000, scheme: 'http');
+const String kIP = "192.168.122.1";
+Uri kURI = Uri(host: kIP, port: 5000, scheme: 'http');
 const kProvince = <String>[
   "Province No 1",
   "Province No 2",

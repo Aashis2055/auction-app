@@ -1,90 +1,39 @@
-// import 'package:dio/dio.dart';
-// void getHttp() async {
-//   try {
-//     var response = await Dio().get('http://www.google.com');
-//     print(response);
-//   } catch (e) {
-//     print(e);
-//   }
-// }
+import 'package:auction_app/constants.dart';
+import 'package:auction_app/services/storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:auction_app/models/user.dart';
+import 'package:auction_app/models/vehicle_model.dart';
 
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
+class NetworkHelper {
+  StorageHelper storage;
+  Map<String, String> header;
+  NetworkHelper(){
+    storage = StorageHelper();
+    initState();
+  }
+  void initState() async{
+    String token = await storage.getToken();
+    header = {
+      'authorization': token
+    };
+  }
+  Future<User> getProfile() async {
+    Uri uri = kURI.replace(path: '/user-api/');
+    
+    http.Response response = await http.get(uri, headers: header);
+    if (response.statusCode == 200) {
+      var responsedata = jsonDecode(response.body);
+      User user = User.fromJson(responsedata);
+    }else{
+      return null;
+    }
+  }
+  Future<Vehicle> getPost(String id) async{
 
-// main() {
-//   // Dart client
-//   IO.Socket socket = IO.io('http://localhost:3000');
-//   socket.onConnect((_) {
-//     print('connect');
-//     socket.emit('msg', 'test');
-//   });
-//   socket.on('event', (data) => print(data));
-//   socket.onDisconnect((_) => print('disconnect'));
-//   socket.on('fromServer', (_) => print(_));
-// }
-// IO.Socket socket = IO.io('http://localhost:3000',
-//   OptionBuilder()
-//       .setTransports(['websocket']) // for Flutter or Dart VM
-//       .setExtraHeaders({'foo': 'bar'}) // optional
-//       .build());
-// import 'dart:async';
-
-// // STEP1:  Stream setup
-// class StreamSocket{
-//   final _socketResponse= StreamController<String>();
-
-//   void Function(String) get addResponse => _socketResponse.sink.add;
-
-//   Stream<String> get getResponse => _socketResponse.stream;
-
-//   void dispose(){
-//     _socketResponse.close();
-//   }
-// }
-
-// StreamSocket streamSocket =StreamSocket();
-
-// //STEP2: Add this function in main function in main.dart file and add incoming data to the stream
-// void connectAndListen(){
-//   IO.Socket socket = IO.io('http://localhost:3000',
-//       OptionBuilder()
-//        .setTransports(['websocket']).build());
-
-//     socket.onConnect((_) {
-//      print('connect');
-//      socket.emit('msg', 'test');
-//     });
-
-//     //When an event recieved from server, data is added to the stream
-//     socket.on('event', (data) => streamSocket.addResponse);
-//     socket.onDisconnect((_) => print('disconnect'));
-
-// }
-
-// //Step3: Build widgets with streambuilder
-
-// class BuildWithSocketStream extends StatelessWidget {
-//   const BuildWithSocketStream({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: StreamBuilder(
-//         stream: streamSocket.getResponse ,
-//         builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-//           return Container(
-//             child: snapshot.data,
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-// subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-//     // Got a new connectivity status!
-//   })
-// @override
-// dispose() {
-//   super.dispose();
-
-//   subscription.cancel();
-// }
+  }
+  Future<List<Vehicle>> getPosts() async{
+    Uri uri = kURI.replace(path: '/user-api/vehicle');
+    http.Response response = await http.get(uri, headers: header)
+  }
+}
