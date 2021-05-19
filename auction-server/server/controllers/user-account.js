@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 //
 const userModel = require('../models/Users');
 const vehicleModel = require('../models/Vehicle');
-const commentModel = require('../models/Comment');
 const {userLogin, userRegister} = require('../validator/user');
 const SALT_ROUND = 10;
 const USER_KEY = process.env.USER_KEY;
@@ -75,6 +74,21 @@ const postRegister = async (req, res)=>{
         return res.status(500).json(errorMsg);
     }
 }
+const getProfile = async (req, res)=>{
+    const {_id} = req.userData;
+    try {
+        let user = await userModel.findOne({_id});
+        if(user){
+            let posts = await vehicleModel.find({u_id: _id});
+            return res.status(200).json({msg: 'Ok', user, posts});
+        }
+        return res.status(404).json({msg: 'No user'});
+    } catch (error) {
+        // TODO log error
+        console.log(error)
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 const getPosts = async (req, res)=>{
     let {_id} = req.userData;
     try {
@@ -117,5 +131,6 @@ module.exports = {
     postLogin,
     postRegister,
     getPosts,
-    getPost
+    getPost,
+    getProfile
 }

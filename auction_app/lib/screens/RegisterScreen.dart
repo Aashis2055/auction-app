@@ -73,7 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         RowButton(
             label: 'Register',
             callback: () async {
-              Uri uri = kuri.replace(path: '/user-api/register');
+              Uri uri = kURI.replace(path: '/user-api/register');
               http.Response response = await http
                   .post(uri, body: {'email': email, 'firstname': firstname});
               if (response.statusCode == 200) {

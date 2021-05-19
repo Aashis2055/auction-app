@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 // screens
 //widgets
 import 'package:auction_app/models/user.dart';
-import 'package:auction_app/constants.dart';
+import 'package:auction_app/services/network.dart';
 
 class ProfileFrag extends StatefulWidget {
   @override
@@ -13,30 +11,31 @@ class ProfileFrag extends StatefulWidget {
 
 class _ProfileFragState extends State<ProfileFrag> {
   User user;
+  NetworkHelper networkHelper;
   @override
   void initState() {
     super.initState();
-    getProfile();
+    networkHelper = NetworkHelper(context);
+    setUp();
   }
-  void getProfile() async{
-    Uri uri = kuri.replace(path: '/user-api/');
-    http.Response response = await http.get(uri);
-    if(response.statusCode == 200){
-      print(response.body);
-    }else{
-      print(response.body);
+
+  setUp() async {
+    await networkHelper.initState();
+    User myUser = await networkHelper.getProfile();
+    if (myUser == null) {
+      return;
     }
+    setState(() {
+      user = myUser;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: [
-          Image.asset('images/logo.jpg'),
-          Text('name')
-        ],
+        children: [Image.asset('images/logo.jpg'), Text('name')],
       ),
     );
   }
-
 }

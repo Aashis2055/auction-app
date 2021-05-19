@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:auction_app/services/network.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // screens
@@ -19,7 +21,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String email = "email2@email.com";
   String password = "the password";
-
   changeEmail(value) {
     setState(() {
       email = value;
@@ -28,6 +29,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void changePassword(value) {
     password = value;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    NetworkHelper networkHelper = NetworkHelper(context);
+  }
+
+  @override
+  dispose() {
+    super.dispose();
   }
 
   @override
@@ -44,16 +56,18 @@ class _LoginScreenState extends State<LoginScreen> {
               RowButton(
                   label: 'Login',
                   callback: () async {
-                    Uri uri = Uri(host: '192.168.10.69', port: 5000, scheme: 'http', path: '/user-api/login');
-                    http.Response response = await http.post(uri, body: {
-                      'email': email,
-                      'password': password
-                    });
+                    Uri uri = Uri(
+                        host: '192.168.10.69',
+                        port: 5000,
+                        scheme: 'http',
+                        path: '/user-api/login');
+                    http.Response response = await http.post(uri,
+                        body: {'email': email, 'password': password});
                     print(response.body);
-                    if(response.statusCode == 200){
+                    if (response.statusCode == 200) {
                       // TODO save token
                       Navigator.pushNamed(context, DashBoard.id);
-                    }else{
+                    } else {
                       // TODO show login error
                     }
                   })

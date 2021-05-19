@@ -87,9 +87,12 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 io.on('connection', (socket)=>{
     console.log('A user connected');
+    socket.on('bid', ()=>{
+        console.log('a user bid');
+    });
     socket.on('disconnect', ()=>{
         console.log('a user disconnected')
-    })
+    });
 });
 
 // server start

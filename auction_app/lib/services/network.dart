@@ -1,39 +1,67 @@
-import 'package:auction_app/constants.dart';
-import 'package:auction_app/services/storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
+import 'dart:async';
+// widgets
+import 'package:auction_app/widgets/alert_dialog.dart';
+// models
 import 'package:auction_app/models/user.dart';
 import 'package:auction_app/models/vehicle_model.dart';
+import 'package:auction_app/constants.dart';
+import 'package:auction_app/services/storage.dart';
 
 class NetworkHelper {
   StorageHelper storage;
   Map<String, String> header;
-  NetworkHelper(){
+  StreamSubscription<ConnectivityResult> subscription;
+  var context;
+  final Connectivity _connectivity = Connectivity();
+  NetworkHelper(this.context) {
     storage = StorageHelper();
     initState();
   }
-  void initState() async{
+  Future<void> initState() async {
     String token = await storage.getToken();
-    header = {
-      'authorization': token
-    };
+    header = {'authorization': token};
+    subscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
+
   Future<User> getProfile() async {
     Uri uri = kURI.replace(path: '/user-api/');
-    
+
     http.Response response = await http.get(uri, headers: header);
     if (response.statusCode == 200) {
       var responsedata = jsonDecode(response.body);
       User user = User.fromJson(responsedata);
-    }else{
+      return user;
+    } else {
       return null;
     }
   }
-  Future<Vehicle> getPost(String id) async{
 
-  }
-  Future<List<Vehicle>> getPosts() async{
+  Future<Vehicle> getPost(String id) async {}
+  Future<List<Vehicle>> getPosts() async {
     Uri uri = kURI.replace(path: '/user-api/vehicle');
-    http.Response response = await http.get(uri, headers: header)
+    http.Response response = await http.get(uri, headers: header);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    if (result == ConnectivityResult.none) {
+      showMyAlertDialog();
+    }
+  }
+
+  void showMyAlertDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return MyAlertDialog();
+        });
+  }
+
+  void dispose() {
+    subscription.cancel();
   }
 }

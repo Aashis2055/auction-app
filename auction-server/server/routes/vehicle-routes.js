@@ -5,7 +5,8 @@ const {
     getVehicles,
     postVehicle,
     postComment,
-    postReply
+    postReply,
+    getUpcomingVehicles
 } = require('../controllers/vehicle-controller');
 const  {
     postFile
@@ -13,6 +14,7 @@ const  {
 const authUser = require('../middleware/authUser');
 const authId = require('../middleware/authId');
 
+router.get('/upcoming', authUser, getUpcomingVehicles);
 router.post('/vehicle',authUser, postFile,  postVehicle );
 router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);

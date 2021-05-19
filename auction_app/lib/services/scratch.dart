@@ -79,12 +79,3 @@
 //     );
 //   }
 // }
-// subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-//     // Got a new connectivity status!
-//   })
-// @override
-// dispose() {
-//   super.dispose();
-
-//   subscription.cancel();
-// }

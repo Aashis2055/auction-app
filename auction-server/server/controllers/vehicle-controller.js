@@ -35,6 +35,21 @@ const postVehicle = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'})
     }
 }
+const getUpcomingVehicles = async(req, res)=>{
+    try{
+        const date = new Date();
+        console.log(date.toISOString());
+        const posts = await vehicleModel.find({auction_date: {"$gte": date.toISOString()}});
+        if(posts.length === 0){
+            return res.status(204).json({ message: 'No content found'});
+        }
+        return res.status(200).json({posts})
+    }catch(error){
+        // TODO log error
+        console.log(error);
+        return res.status(500).json({msg:"Server error"});
+    }
+}
 const getVehicles = async (req, res)=>{
     // TODO get filter parameters
     console.log(req.query);
@@ -190,7 +205,8 @@ module.exports = {
     postComment,
     postReply,
     deleteComment,
-    deleteReply
+    deleteReply,
+    getUpcomingVehicles
 }
 
 // select * from Vehicle join Comment on vehicle_id = Comment.v_id where vehicle._id = id;

@@ -8,24 +8,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Image.asset('images/logo.jpg'),
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: Image.asset('images/logo.jpg'),
+        ),
+        Container(
+          child: TextButton(
+            child: Text('Login'),
+            onPressed: () {
+              Navigator.pushNamed(context, LoginScreen.id);
+            },
           ),
-          Container(
-            child: TextButton(
-              child: Text('Login'),
-              onPressed: (){
-                Navigator.pushNamed(context, LoginScreen.id);
-              },
-            ),
-          )
-        ],
-      )
-    );
+        )
+      ],
+    ));
   }
 }
-
-
