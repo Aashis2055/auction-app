@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const URL = "http://localhost:5000/";
-
+const URL = 'http://localhost:5000/vehicle-images';
 export default function Card(props) {
     let {_id, type, year, img} = props.post;
     const myStyle = {
@@ -10,8 +9,8 @@ export default function Card(props) {
     }
     return (
         <div>
-            <Link key={props.index} to={`vehicle/${_id}`}>
-            <img style={myStyle} src={`${URL}/vehicle-images/1617863857950-gallery3.jpg`} alt=""/>
+            <Link  to={`vehicle/${_id}`}>
+            <img style={myStyle} src={`${URL}/${img}`} alt=""/>
             <div>{`Type: ${type}, Year:${year}`}</div>
             </Link>
             <div onClick={deletePost}>Delete</div>

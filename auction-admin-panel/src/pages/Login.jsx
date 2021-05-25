@@ -2,10 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {setToken} from '../helper/localstorage';
-// import '../css/login.css';
-// eslint-disable-next-line
-import logo from '../logo.jpg';
+import {setToken, getToken} from '../helper/localstorage';
 
 export default class Login extends Component {
     
@@ -13,7 +10,7 @@ export default class Login extends Component {
         super();
         this.state = {
             email: 'admin@email.com',
-            password: 'the password'
+            password: 'admin password'
         }
     }
     render() {
@@ -45,7 +42,6 @@ export default class Login extends Component {
             console.log(response);
             if(response.status === 200){
                 const {token} = response.data;
-                console.log(token);
                 setToken(token);
                 this.props.loginAdmin();
             }
