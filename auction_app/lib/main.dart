@@ -1,3 +1,4 @@
+import 'package:auction_app/screens/DetailScreen.dart';
 import 'package:auction_app/screens/UploadModal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';

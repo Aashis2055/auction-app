@@ -1,3 +1,4 @@
+import 'package:auction_app/screens/DetailScreen.dart';
 import 'package:flutter/material.dart';
 // screens
 // widgets
@@ -58,16 +59,7 @@ class _VehiclesFragState extends State<VehiclesFrag> {
     return Container(
       child: ListView.builder(
           itemCount: posts.length,
-          itemBuilder: (context, index) => MyCard(
-                img: posts[index].img,
-                model: 'H',
-                color: posts[index].color,
-                price: posts[index].initial_Price,
-                type: posts[index].type,
-                callback: () {
-                  // Navigator.push(context, );
-                },
-              )),
+          itemBuilder: (context, index) => MyCard(posts[index])),
     );
   }
 }

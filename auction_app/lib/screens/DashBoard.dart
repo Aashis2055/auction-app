@@ -1,3 +1,4 @@
+import 'package:auction_app/widgets/FilterBox.dart';
 import 'package:flutter/material.dart';
 // screens
 import 'package:auction_app/screens/ProfileFrag.dart';
@@ -89,7 +90,11 @@ class _DashBoardState extends State<DashBoard>
           actions: [
             IconButton(
                 icon: Icon(Icons.power_settings_new_outlined),
-                onPressed: () {}),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context, builder: (context) => FilterBox());
+                }),
+            IconButton(icon: Icon(Icons.apps_sharp), onPressed: () {}),
             PopupMenuButton(
               onSelected: (choice) {
                 Fluttertoast.showToast(msg: 'pop up');
