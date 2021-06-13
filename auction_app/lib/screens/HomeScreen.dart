@@ -15,14 +15,57 @@ class HomeScreen extends StatelessWidget {
           child: Image.asset('images/logo.jpg'),
         ),
         Container(
-          child: TextButton(
-            child: Text('Login'),
-            onPressed: () {
-              Navigator.pushNamed(context, LoginScreen.id);
-            },
-          ),
-        )
+          child: MyCircularProgress()
+        ),
+        TextButton(onPressed: (){
+          Navigator.pushNamed(context, LoginScreen.id);
+    }, child: Text('lo'))
       ],
     ));
+  }
+}
+
+class MyCircularProgress extends StatefulWidget {
+  @override
+  _MyCircularProgressState createState() => _MyCircularProgressState();
+}
+
+class _MyCircularProgressState extends State<MyCircularProgress>
+    with TickerProviderStateMixin {
+  AnimationController controller;
+  bool isLoggedIn = false;
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 5),
+    )..addListener(() {
+      setState(() {});
+    });
+    controller.addStatusListener((status) {
+      print(status.index);
+    });
+    controller.animateTo(10);
+    super.initState();
+    print('hi');
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CircularProgressIndicator(
+          value: controller.value,
+          semanticsLabel: 'Loading',
+        ),
+        Text('Loading'),
+      ],
+    );
   }
 }

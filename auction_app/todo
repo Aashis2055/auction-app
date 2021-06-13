@@ -1,9 +1,25 @@
-may 9 
-- login and register
-- get profile profile 
-- get post
-UI
-edite text field for login and register
-edit spalsh screen
-app icon
-http
+- splash screen
+- upload post with image
+- chat ui
+- filter posts
+- socket integration 
+- sheck token
+- refresh token
+
+problem:
+- error label of TextEdit
+- fix dorop down menu
+- common text edit for forms
+widgets:
+- spinner with status
+- bottom sheet model
+- date picker
+- step form 
+- range slider
+
+June 14 
+- get user profile
+- get posts
+- get post with socket connection
+- upload post 
+- register user

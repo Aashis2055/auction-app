@@ -1,3 +1,4 @@
+import 'package:auction_app/models/vehicle_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -5,7 +6,8 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class DetailScreen extends StatefulWidget {
   static final String id = "detail_screen";
-  final String v_id;
+  final int v_id;
+
   DetailScreen(this.v_id);
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -13,7 +15,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   Socket socket;
-
+  Vehicle vehicle;
   @override
   void initState() {
     super.initState();
@@ -30,7 +32,9 @@ class _DetailScreenState extends State<DetailScreen> {
       socket.onConnect((data) {
         Fluttertoast.showToast(msg: 'socket connected');
       });
-      socket.on('bid', bid);
+      socket.on('bidPrice', (json){
+        print(json);
+      });
     } catch (e) {
       Fluttertoast.showToast(msg: "error on socket");
     }

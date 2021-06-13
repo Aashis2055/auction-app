@@ -2,7 +2,7 @@ import 'package:auction_app/widgets/FilterBox.dart';
 import 'package:flutter/material.dart';
 // screens
 import 'package:auction_app/screens/ProfileFrag.dart';
-import 'package:auction_app/screens/UploadModal.dart';
+import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:auction_app/screens/VehicleFrag.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'ChatFrag.dart';
@@ -118,7 +118,7 @@ class _DashBoardState extends State<DashBoard>
             ? FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: () {
-                  Navigator.pushNamed(context, UploadModal.id);
+                  Navigator.pushNamed(context, UploadScreen.id);
                 },
               )
             : Container(),
