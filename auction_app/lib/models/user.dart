@@ -6,7 +6,7 @@ class User{
   final int phoneNo;
   final bool status;
   User(this.firstName, this.lastName, this.img, this.email, this.phoneNo, this.status );
-  User.fromJson(Map<String, dynamic> json): firstName = json['firstname'], lastName = json['lastname'],
+  User.fromJson(Map<String, dynamic> json): firstName = json['first_name'], lastName = json['last_name'],
         email = json['email'], img = json['img'],
         phoneNo = json['phone_no'], status = json['status'];
   Map<String, dynamic> toJson()=>{

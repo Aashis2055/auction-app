@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:auction_app/services/network.dart';
+import 'package:auction_app/services/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 // screens
 import 'package:auction_app/screens/RegisterScreen.dart';
@@ -19,17 +22,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = "email2@email.com";
+  String email = "user2@email.com";
   String password = "the password";
-  changeEmail(value) {
-    setState(() {
-      email = value;
-    });
-  }
 
-  void changePassword(value) {
-    password = value;
-  }
 
   @override
   void initState() {
@@ -48,8 +43,22 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
       child: Column(
         children: [
-          EmailTextField(changeEmail),
-          PasswordTextField(changePassword),
+          TextField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              icon: Icon(Icons.email),
+              labelText: "Enter Email",
+            ),
+            onChanged: (value){email = value;},
+          ),
+          TextField(
+            keyboardType: TextInputType.visiblePassword,
+            decoration: InputDecoration(
+                icon: Icon(Icons.email),
+                labelText: "Enter Password"
+            ),
+            onChanged: (value){password = value;},
+          ),
           ButtonBar(
             alignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -63,12 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         path: '/user-api/login');
                     http.Response response = await http.post(uri,
                         body: {'email': email, 'password': password});
-                    print(response.body);
                     if (response.statusCode == 200) {
-                      // TODO save token
+                      StorageHelper storageHelper = StorageHelper();
+                      Map data = jsonDecode(response.body);
+                      await storageHelper.setToken(data['token']);
                       Navigator.pushNamed(context, DashBoard.id);
                     } else {
                       // TODO show login error
+                      Fluttertoast.showToast(msg: 'Error on login');
                     }
                   })
             ],

@@ -20,4 +20,8 @@ class StorageHelper {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
   }
+  Future<bool> removeToken()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.remove('token');
+  }
 }

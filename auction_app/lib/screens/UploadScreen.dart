@@ -44,7 +44,8 @@ class _UploadScreenState extends State<UploadScreen> {
         appBar: AppBar(
           title: Text('upload'),
         ),
-        body: Column(
+        body: SingleChildScrollView(
+        child: Column(
           children: [
             DropdownButton(
               value: type,
@@ -153,6 +154,8 @@ class _UploadScreenState extends State<UploadScreen> {
                       await MultipartFile.fromFile(filePath, filename: fileName)
                 });
                 var dio = Dio();
+                // dio.options.headers['content-Type'] =
+                dio.options.headers['authorization'] = "token";
                 var response =
                     await dio.post("http://localhost:5000/user-api/vehicle");
                 if (response.statusCode == 200) {
@@ -164,7 +167,7 @@ class _UploadScreenState extends State<UploadScreen> {
             )
           ],
         ),
-      ),
+      )),
     );
   }
 }

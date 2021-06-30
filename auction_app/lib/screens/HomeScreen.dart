@@ -1,7 +1,9 @@
-import 'package:auction_app/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
+// screens
+import 'package:auction_app/screens/LoginScreen.dart';
+import 'DashBoard.dart';
 //
-import '../widgets/MyAppBar.dart';
+import 'package:auction_app/services/storage.dart';
 
 class HomeScreen extends StatelessWidget {
   static String id = 'home_screen';
@@ -14,12 +16,7 @@ class HomeScreen extends StatelessWidget {
         Center(
           child: Image.asset('images/logo.jpg'),
         ),
-        Container(
-          child: MyCircularProgress()
-        ),
-        TextButton(onPressed: (){
-          Navigator.pushNamed(context, LoginScreen.id);
-    }, child: Text('lo'))
+        Container(child: MyCircularProgress()),
       ],
     ));
   }
@@ -30,42 +27,33 @@ class MyCircularProgress extends StatefulWidget {
   _MyCircularProgressState createState() => _MyCircularProgressState();
 }
 
-class _MyCircularProgressState extends State<MyCircularProgress>
-    with TickerProviderStateMixin {
-  AnimationController controller;
-  bool isLoggedIn = false;
+class _MyCircularProgressState extends State<MyCircularProgress> {
+  bool status = false;
   @override
   void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 5),
-    )..addListener(() {
-      setState(() {});
-    });
-    controller.addStatusListener((status) {
-      print(status.index);
-    });
-    controller.animateTo(10);
     super.initState();
-    print('hi');
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+    StorageHelper storageHelper = StorageHelper();
+    Future.delayed(Duration(seconds: 3), () {
+      storageHelper.getToken().then((value) {
+        // TODO check if the token has expired
+        if (value == null) {
+          // if there is no token go to login screen
+          Navigator.pushNamed(context, LoginScreen.id);
+        } else {
+          //  if there is token go to the dashboard
+          Navigator.pushNamed(context, DashBoard.id);
+        }
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircularProgressIndicator(
-          value: controller.value,
-          semanticsLabel: 'Loading',
-        ),
-        Text('Loading'),
-      ],
+    return Container(
+      child: CircularProgressIndicator(
+        backgroundColor: Colors.green,
+        strokeWidth: 8,
+      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-const String kIP = "192.168.122.1";
+const String kIP = "192.168.10.69";
 Uri kURI = Uri(host: kIP, port: 5000, scheme: 'http');
 const kProvince = <String>[
   "Province No 1",

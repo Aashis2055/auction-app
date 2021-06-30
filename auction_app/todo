@@ -1,25 +1,39 @@
 - splash screen
-- upload post with image
+- pick and upload image
 - chat ui
 - filter posts
 - socket integration 
-- sheck token
+- check token
 - refresh token
+- refresh page
+- check internet status with alert
 
 problem:
 - error label of TextEdit
 - fix dorop down menu
 - common text edit for forms
+- image picker
+- qr scanner
+
 widgets:
 - spinner with status
 - bottom sheet model
-- date picker
 - step form 
 - range slider
+- table
+- listview
+- alert dialog
 
-June 14 
-- get user profile
-- get posts
-- get post with socket connection
-- upload post 
-- register user
+dart:
+- date formatting
+
+july 1:
+- show post 
+- show profile
+- upload post
+- show single post
+- bid on post
+
+?
+-refresh token
+- caching 

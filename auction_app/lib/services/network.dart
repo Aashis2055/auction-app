@@ -28,23 +28,59 @@ class NetworkHelper {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  Future<User> getProfile() async {
+  Future<Map<String, dynamic>> getProfile() async {
     Uri uri = kURI.replace(path: '/user-api/');
-
     http.Response response = await http.get(uri, headers: header);
     if (response.statusCode == 200) {
-      var responsedata = jsonDecode(response.body);
-      User user = User.fromJson(responsedata);
-      return user;
+      var responseData = jsonDecode(response.body);
+      print(responseData);
+      User user = User.fromJson(responseData['user']);
+      List<Vehicle> posts = [
+        Vehicle(
+          type: 'Scooter',
+          initial_Price: 50000,
+          color: 'Red',
+        ),
+        Vehicle(
+          type: 'Scooter',
+          initial_Price: 50000,
+          color: 'Red',
+        ),
+        Vehicle(
+          type: 'Scooter',
+          initial_Price: 50000,
+          color: 'Red',
+        ),
+        Vehicle(
+          type: 'Scooter',
+          initial_Price: 50000,
+          color: 'Red',
+        ),
+      ];
+      return {'user': user, 'posts': posts};
     } else {
+      print('error');
       return null;
     }
   }
 
-  Future<Vehicle> getPost(String id) async {}
+  Future<Vehicle> getPost(String id) async {
+    Uri uri = kURI.replace(path: '/user-api/vehicle/$id');
+    http.Response response = await http.get(uri, headers: header);
+    Map<String, dynamic> resposeData = jsonDecode(response.body);
+    print(resposeData);
+    Vehicle post = Vehicle.fromJson(resposeData['post']);
+    return post;
+  }
+
   Future<List<Vehicle>> getPosts() async {
     Uri uri = kURI.replace(path: '/user-api/vehicle');
     http.Response response = await http.get(uri, headers: header);
+    var responseData = jsonDecode(response.body);
+    print(responseData);
+    List<Vehicle> posts = List<Vehicle>.from(
+        responseData['posts'].map((x) => Vehicle.fromJson(x)));
+    return posts;
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {

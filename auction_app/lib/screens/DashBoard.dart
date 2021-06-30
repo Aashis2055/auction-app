@@ -1,3 +1,5 @@
+import 'package:auction_app/screens/LoginScreen.dart';
+import 'package:auction_app/services/storage.dart';
 import 'package:auction_app/widgets/FilterBox.dart';
 import 'package:flutter/material.dart';
 // screens
@@ -38,26 +40,6 @@ class _DashBoardState extends State<DashBoard>
       icon: Icon(Icons.chat),
       text: 'Chat',
     )
-  ];
-  List<Choice> choices = <Choice>[
-    Choice(
-        title: 'Logout',
-        icon: Icons.logout,
-        callback: () {
-          Fluttertoast.showToast(msg: 'TODO Logout');
-        }),
-    Choice(
-        title: 'Settings',
-        icon: Icons.settings,
-        callback: () {
-          Fluttertoast.showToast(msg: 'TODO Settings');
-        }),
-    Choice(
-        title: 'About Us',
-        icon: Icons.info,
-        callback: () {
-          Fluttertoast.showToast(msg: 'TODO about us');
-        })
   ];
 
   @override
@@ -100,7 +82,33 @@ class _DashBoardState extends State<DashBoard>
                 Fluttertoast.showToast(msg: 'pop up');
               },
               itemBuilder: (BuildContext context) {
-                return choices.map((choice) {
+                return <Choice>[
+                  Choice(
+                      title: 'Logout',
+                      icon: Icons.logout,
+                      callback: () async {
+                        // Fluttertoast.showToast(msg: 'TODO Logout');
+                        StorageHelper storageHelper = StorageHelper();
+                        bool isLoggedout = await storageHelper.removeToken();
+                        if (isLoggedout) {
+                          Navigator.pushNamed(context, LoginScreen.id);
+                        } else {
+                          Fluttertoast.showToast(msg: 'Logout Error');
+                        }
+                      }),
+                  Choice(
+                      title: 'Settings',
+                      icon: Icons.settings,
+                      callback: () {
+                        Fluttertoast.showToast(msg: 'TODO Settings');
+                      }),
+                  Choice(
+                      title: 'About Us',
+                      icon: Icons.info,
+                      callback: () {
+                        Fluttertoast.showToast(msg: 'TODO about us');
+                      })
+                ].map((choice) {
                   return PopupMenuItem(
                     value: choice,
                     child: Text(choice.title),

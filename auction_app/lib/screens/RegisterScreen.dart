@@ -26,6 +26,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String lastname = "";
   int phoneNo = 0;
   int index = 0;
+  Map<String, String> errors = {
+    'email': '',
+    'password': '',
+    'first_name': '',
+    'last_name': '',
+    'phone_no': ''
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +44,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
               icon: Icon(Icons.email),
-              labelText: 'Enter Email',
-              errorText: 'Invalid Email'),
+              labelText: 'Your Email',
+              hintText: 'Enter Email',
+              errorText: errors['email']),
           onChanged: (value) {
             email = value;
           },
@@ -47,8 +55,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
               icon: Icon(Icons.security),
-              labelText: 'Enter Password',
-              errorText: 'Invalid Password'),
+              labelText: 'Password',
+              hintText: 'Enter Password',
+              errorText: errors['password']),
           onChanged: (value) {
             password = value;
           },
@@ -57,8 +66,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.name,
           decoration: InputDecoration(
               icon: Icon(Icons.verified_user),
-              labelText: 'Enter First Name',
-              errorText: 'Invalid Name'),
+              labelText: 'First Name',
+              hintText: 'Enter First Name',
+              errorText: errors['first_name']),
           onChanged: (value) {
             firstname = value;
           },
@@ -67,49 +77,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.name,
           decoration: InputDecoration(
               icon: Icon(Icons.verified_user),
-              labelText: 'Enter Last Name',
-              errorText: 'Invalid Name'),
+              labelText: 'Last Name',
+              hintText: 'Enter Last Name',
+              errorText: errors['last_name']),
           onChanged: (value) {
             lastname = value;
           },
         ),
 
-        DropdownButton(value: province, items: toDropdownMenu(kProvince)),
-        // DropdownButton<String>(
-        //   value: _province,
-        //   style: TextStyle(color: Colors.black),
-        //   items: toDropdownMenu(kProvince),
-        //   onChanged: (value){
-        //     print(value);
-        //   },
-        // ),
-        // DropdownButton<String>(
-        //   value: _district,
-        //   style: TextStyle(color: Colors.black),
-        //   items: kDistrict[index]
-        //       .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-        //             value: value,
-        //             child: Text(value),
-        //           )).toList(),
-        // ),
+        DropdownButton(value: province, items: toDropdownMenu(kProvince), onChanged: (value){
+
+          setState(() {
+            province = value;
+            index = kProvince.indexOf(value);
+            district = kDistrict[index][0];
+          });
+
+        },),
+
+        DropdownButton<String>(
+          value: district,
+          style: TextStyle(color: Colors.black),
+          items: toDropdownMenu(kDistrict[index]),
+          onChanged: (value){
+            district = value;
+          },
+        ),
         TextField(
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
               icon: Icon(Icons.phone),
-              labelText: 'Enter Phone No',
-              errorText: 'Invalid Phone no'),
+              labelText: 'Phone No',
+              hintText: 'Enter Phone No',
+              errorText: errors['phone_no']),
         ),
         RowButton(
             label: 'Register',
             callback: () async {
+              // TODO validate data
+              print('validating');
+              bool isValid = true;
+              // email validation
+              if (email == '') {
+                errors['email'] = 'Enter Valid Email';
+                isValid = false;
+              }
+              // password validation
+              if (password == '') {
+                errors['password'] = 'Please Enter Password';
+                isValid = false;
+              } else if (password.length <= 8) {
+                errors['password'] =
+                    'Password must be greater than 8 Characters';
+                isValid = false;
+              }
+              // check if the values are valid
+              // if not valid end
+              if (!isValid) return;
+              print('validation sucess');
               Uri uri = kURI.replace(path: '/user-api/register');
               http.Response response = await http.post(uri, body: {
                 'email': email,
                 'first_name': firstname,
                 'last_name': lastname,
                 'password': password,
-                'address': {'province': province, 'district': district},
-                'phone_no': phoneNo
+                // 'address': {'province': province, 'district': district},
+                'phone_no': phoneNo.toString()
               });
               if (response.statusCode == 200) {
                 Navigator.pushNamed(context, LoginScreen.id);
@@ -124,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 16.0);
               } else {
                 Fluttertoast.showToast(
-                    msg: "Server Error",
+                    msg: "Non Server Error",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,

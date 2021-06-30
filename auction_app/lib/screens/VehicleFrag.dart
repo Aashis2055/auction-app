@@ -49,17 +49,17 @@ class _VehiclesFragState extends State<VehiclesFrag> {
     if (myPosts == null) {
       return;
     }
-    setState(() {
-      posts = myPosts;
-    });
+    // setState(() {
+    //   posts = myPosts;
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-          itemCount: posts.length,
-          itemBuilder: (context, index) => MyCard(posts[index])),
+      // child: ListView.builder(
+      //     itemCount: posts.length,
+      //     itemBuilder: (context, index) => MyCard(posts[index])),
     );
   }
 }
