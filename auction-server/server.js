@@ -2,13 +2,13 @@
 const path = require('path');
 const express = require('express');
 const bodyParser =  require('body-parser');
-const mongoose = require('mongoose');
 const winston = require('winston');
 const fileUpload = require('express-fileupload');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config({path: './server/config/.env'});
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const exphbs = require('express-handlebars');
 // const { transport } = require('winston');
 //routes
@@ -16,11 +16,13 @@ const adminRoutes = require('./server/routes/admin-routes');
 const userRoutes = require('./server/routes/user-routes');
 const vehicleRoutes = require('./server/routes/vehicle-routes');
 const adminVehicleRoutes = require('./server/routes/admin-vehicle');
-const {getPost} = require('./server/controllers/user-account');
-// 
+// controlls
+const {getPost, getPosts} = require('./server/controllers/user-account');
+const {bidPrice} = require('./server/controllers/bid-controller');
+const setupDB = require('./config/database');
+// variables setup
 const app = express();
 const PORT = process.env.PORT || 5000;
-const databaseURL = process.env.DB_URL;
 const limit = 50 * 1024 * 1024; // image size limit
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -35,9 +37,8 @@ global.appRoot = __dirname;
     const morgan = require('morgan');
     app.use(morgan("dev"));
 
-app.use(fileUpload({
-    
-}))
+app.use(fileUpload({}))
+setupDB(); 
 app.use(express.static('public'));
 app.use(cors());
 // app.use(fileUpload({
@@ -58,8 +59,9 @@ let hbs = exphbs.create({});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.get('/vehicle/:id', getPost);
+app.get('/vehicles', getPosts);
 // logger setup
-logger = winston.createLogger({
+global.logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
     defaultMeta: {},
@@ -71,24 +73,27 @@ logger = winston.createLogger({
     ]
 });
 
-// database 
-mongoose.connect(`mongodb://${databaseURL}/vehicle-auction`, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false
-}).then(()=>{
-    console.log('Database Connected');
-}).catch(()=>{
-    console.log("DataBase Connection Error");
-    logger.error('Database connection error');
-})
+
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 io.on('connection', (socket)=>{
     console.log('A user connected');
-    socket.on('bid', ()=>{
-        console.log('a user bid');
+    socket.on('bidPrice', ({token,price, v_id})=>{
+        try {
+            const USER_KEY = process.env.USER_KEY;
+            let decode = jwt.verify(token, USER_KEY);
+            const status = bidPrice(decode, price, v_id);
+            if(status){
+                socket.emit('changePrice', {price, id:5});
+            }
+            
+        } catch (error) {
+            console.log(error);
+            res.status(401).json({
+                msg: 'Unauthorized'
+            })
+        }
     });
     socket.on('disconnect', ()=>{
         console.log('a user disconnected')

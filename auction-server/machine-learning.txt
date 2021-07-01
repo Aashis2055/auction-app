@@ -1,0 +1,53 @@
+1. Linear Regression
+2. Logistic Regression
+3. Decision Tree
+4. Random Forest
+5. Clustering
+6. SVM
+7. XGBoost
+8. Naïve Bayes Classifier
+9. Nearest Neighbor
+10. Neural Networks
+- Top 10 Python Libraries
+1. Pandas
+2. Numpy
+3. Scikit-Learn
+4. Keras
+5. PyTorch
+6. LightGBM
+7. Matplotlib
+8. SciPy
+9. Seaborn
+10. TensorFlow
+- Top 10 Data Science Books
+1. Introduction to Statistical Learning
+2. Data science at the command line
+3. Think stats
+4. Python data science handbook
+5. R for data science
+6. Machine learning yearning
+7. Ethics and data science
+8. Deep learning
+9. Rules for machine learning
+10. Probabilistic Programming
+- Top 10 Data Science Websites
+1. Coursera: Stanford
+3. EdX: Harvard/MIT
+4. Udacity
+5. Kaggle
+6. Analytics Vidhya
+7. KDNuggets
+8. Datacamp
+9. Udemy
+10. Dataquest
+- Top 10 Data Science Roles
+1. Data Scientist
+2. Decision Maker
+3. Analyst
+4. ETL Engineer
+5. ML Engineer
+6. Data Engineer
+7. Analytics Manager
+8. Developer
+9. Researcher
+10. BI Analyst

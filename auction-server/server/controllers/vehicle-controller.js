@@ -3,11 +3,10 @@
 const vehicleModel = require('../models/Vehicle');
 const commentModel = require('../models/Comment');
 // validation models
-const schemaComment = require('../validator/comment');
+const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
 const deleteFile = require('../helper/file');
-const { isMongooseId} = require('../helper/id-help');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     console.log(req.body);
@@ -67,7 +66,12 @@ const getVehicles = async (req, res)=>{
                 errors: validationErrorMsg
             })
         };
-        vehicleModel.find(filter).then((vehicles)=>{
+        let date = new Date();
+        vehicleModel.find({$and: [
+            {auction_date: {"$lte": date.toISOString()}},
+            {end_date: {"$gte": date.toISOString()}},
+            filter
+        ]}).then((vehicles)=>{
             if(vehicles.length === 0){
                 return res.status(204).json({ message: 'No content found'});
             }
@@ -109,7 +113,7 @@ const getVehicle = async (req, res)=>{
         //     if(err) return res.status(500).json({err});
         //     return res.json({item});
         // });
-        const post = await vehicleModel.find({_id:id});
+        const post = await vehicleModel.findOne({_id:id});
         const comments = await commentModel.find({v_id:id});
         console.log(post);
         if(post){
@@ -166,8 +170,11 @@ const postReply = async(req, res)=>{
     let {reply} = req.body;
     let {id:c_id} = req.params;
     try {
-        let flag = isMongooseId(c_id);
-        if(!flag) return res.status(401).json({msg: 'Auth Error'});
+        let validationError = await schemaReply.validate({reply,c_id, u_id}, {abortEarly: false});
+        if(validationError && validationError.error){
+            let validationErrorMsg = validationError.error.details.map(data => data.message);
+            return res.status(400).json({msg: 'Validation error', validationErrorMsg});
+        }
         let newReply = {reply: {reply,u_id}};
         let result = await commentModel.findOneAndUpdate({_id: c_id}, newReply);
         return res.status(200).json({msg: 'Reply posted', result});

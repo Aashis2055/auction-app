@@ -35,15 +35,15 @@ class NetworkHelper{
     getUsers = async()=>{
         try {
             const response = await axios.get(`${this.URL}/users`, this.header)
-            return response.data;
+            return response.data.users;
         } catch (error) {
             this.showError(error);
         }        
     }
-    getUser = async()=>{
+    getUser = async(id)=>{
         try {
-            const response = await axios.get(`${this.URL}/user`, this.header)
-            return response.data;
+            const response = await axios.get(`${this.URL}/user/${id}`, this.header)
+            return response.data.user;
         } catch (error) {
             this.showError(error)   ;
         }
@@ -106,8 +106,8 @@ class NetworkHelper2{
         })
         .catch(this.showError)
     }
-    getUser = ()=>{
-        axios.get(`${this.URL}/user`, this.header)
+    getUser = (id)=>{
+        axios.get(`${this.URL}/user/${id}`, this.header)
         .then((response)=>{
             return response;
         }).catch(error=> this.showError(error));

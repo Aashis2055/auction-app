@@ -13,14 +13,14 @@ const errorMsg = { message: 'Server Error'};
 const postLogin = async (req, res)=>{
     let {email, password} = req.body;
     try{
-        email = email.toLowerCase();
         const loginValidationError = await userLogin.validate(req.body, {abortEarly: false});
         if(loginValidationError && loginValidationError.error){
             let loginerrormsg = loginValidationError.error.details.map(data=>{
                 return data.message;
             })
-            return res.status(200).json({error: loginerrormsg})
+            return res.status(400).json({error: loginerrormsg})
         }// eof validation
+        email = email.toLowerCase();
         let currentUser = await userModel.findOne({email});
         // if account does not exist
         if(currentUser === null)       
@@ -89,24 +89,38 @@ const getProfile = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+// const getPosts = async (req, res)=>{
+//     let {_id} = req.userData;
+//     try {
+//         let result = await vehicleModel.find({u_id: _id});
+//         if(result.length === 0){
+//             return res.status(204).json({msg: 'No content'});
+//         }
+//         return res.status(200).json({
+//             result
+//         })
+//     } catch (error) {
+//         // TODO log error
+//         return res.status(500).json({msg: 'Server Error'});
+//     }
+// }
+// handlebars
 const getPosts = async (req, res)=>{
-    let {_id} = req.userData;
     try {
-        let result = await vehicleModel.find({u_id: _id});
+        let result = await vehicleModel.find().lean();
         if(result.length === 0){
-            return res.status(204).json({msg: 'No content'});
+            // return res.status(204).json({msg: 'No content'});
+            return res.render('vehicles', {layout: false, result});
         }
-        return res.status(200).json({
-            result
-        })
+        console.log(result);
+        return res.render('vehicles', {layout: false, result})
     } catch (error) {
         // TODO log error
         return res.status(500).json({msg: 'Server Error'});
     }
 }
 const getPost = async (req, res)=>{
-    // let {id} = req.params;
-    let id = "6055e37967d9de1f2b909fe6";
+    let {id} = req.params;
     try {
         let post = await vehicleModel.findOne({_id: id}).lean();
         // const comments = await commentModel.find({v_id:id});
@@ -130,7 +144,8 @@ const getPost = async (req, res)=>{
 module.exports = {
     postLogin,
     postRegister,
+    getProfile,
+    // handlebars
     getPosts,
-    getPost,
-    getProfile
+    getPost
 }

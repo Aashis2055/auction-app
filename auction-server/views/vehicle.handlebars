@@ -20,9 +20,8 @@
 </head>
 <body>
     <h1>The vehicle page</h1>
-    {{post}}
     <div class="container">
-        <img src="/vehicle-images/1617863857950-gallery3.jpg" alt="">
+        <img src="/vehicle-images/{{post.img}}" alt="">
         <div class="details-container">
             <table>
                 <tr>
@@ -64,10 +63,28 @@
             </table>
         </div>
     </div>
+    <div>
+        <input type="number" name="price" id="price">
+        <button id="bid-btn">Bid</button>
+    </div>
     <footer>
         <div>Install App</div>
         <div>Android</div>
         <div>IOS</div>
     </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/x-handlebars">
+        const socket = io();
+        const btn= document.getElementById('bid-btn');
+        const price = document.getElementById('price');
+        btn.addEventListener('click', e=>{
+            const bidPrice = price.value;
+            console.log(bidPrice);
+        })
+        socket.emit('bidPrice', {token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDljZDkwNGI2NWM1NjU0ZDFlYzRiYTciLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNjIwODkyNjQzLCJleHAiOjE2MjU3MzEwNDN9.4ugFH0LTbvwGUNQ5PeKEJwt1JpgCfuM-3uax2tdQQaI", price: bidPrice})
+        socket.on('changePrice', ({newPrice, id})=>{
+            // TODO set new price
+        })
+    </script>
 </body>
 </html>

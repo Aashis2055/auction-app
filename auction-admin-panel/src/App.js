@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 // import './App.css';
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core';
 import Dashboard from './pages/Dashboard';
@@ -11,6 +11,7 @@ import Register from './pages/Register'
 import ErrorPage from './pages/ErrorPage';
 import {isLogedIn} from './helper/localstorage';
 import Users from './pages/Users';
+import Test from './pages/test';
 
 // components
 import NavBar from './components/NavBar';
@@ -52,8 +53,11 @@ export class App extends Component {
           {loginStatus ? <Vehicle /> : (<Redirect to="/login"/>)}
         </Route>
         <Route path="/users" component={loginStatus?Users:<Redirect to="/login"/>}/>
-        <Route  path="/user/:id">
+        <Route exact  path="/user/:id">
           { loginStatus ? <UserDetail /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/test/:theid">
+          <Test />
         </Route>
         <Route path="*">
           <ErrorPage />
@@ -77,7 +81,6 @@ export class App extends Component {
 
 
 export default App
-
 
 
 // function App() {

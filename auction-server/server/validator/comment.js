@@ -5,4 +5,12 @@ const schemaComment = Joi.object({
     v_id: Joi.objectId().required(),
     u_id: Joi.objectId().required()
 })
-module.exports = schemaComment;
+const schemaReply = Joi.object({
+    reply: Joi.string().required(),
+    c_id: Joi.objectId().required(),
+    u_id: Joi.objectId().required()
+})
+module.exports = {
+    schemaComment,
+    schemaReply
+};

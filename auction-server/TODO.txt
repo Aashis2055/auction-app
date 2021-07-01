@@ -2,17 +2,24 @@
 2. socket integration
 3. payment system
 4. find vehicle info api
-5. payment predction alogorithim
+5. predction alogorithim
+6. chat system
+7. notifiction 
+8. kyc
 
-
+1. problem: notify if token is expire
+2. problem: ban user
+3. reply can only be posted by post owner
+4. problem delivery location
+5. problem: initial pricing of product
 admin :
 1. user data CURD
 2. delete post, comment, reply
 3. ban user 
 
 user :
-1. advance filter posts
-2. 
+1. advance filter posts based on location, date 
+2. keep me notify system(push notification)
 3. improve get vehicle with commment and reply (using a single query)
 4. share post ( handlebars)
 

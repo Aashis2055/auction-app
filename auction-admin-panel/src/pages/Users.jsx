@@ -13,14 +13,17 @@ export default class Users extends Component {
         return (
             <div>
                 {
-                    users.map((user, index)=> <Link key={index} to={"/user/"+user._id}><UserCard user={user} index={index} /></Link> )
+                    users.map((user, index)=> <UserCard key={index} user={user} index={index} />)
                 }
                 <ToastContainer />
             </div>
         )
     }
-    componentDidMount = ()=>{
-        this.networkHelper.print();
+    componentDidMount = async ()=>{
+        const users = await this.networkHelper.getUsers();
+        this.setState({
+            users
+        })
     }
 }
 
