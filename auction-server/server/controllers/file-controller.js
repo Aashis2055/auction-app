@@ -1,6 +1,4 @@
 const postFile = (req, res, next)=>{
-    console.log(req.body);
-    console.log(req.files);
     const validFiles = ["image/jpeg", "image/png", "image/jpg"];
     if(!req.files || Object.keys(req.files) === 0){
         return res.status(400).json({ message: 'no file uploaded'});

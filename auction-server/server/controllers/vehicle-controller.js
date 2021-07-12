@@ -9,7 +9,6 @@ const schemaFilter = require('../validator/filter-query');
 const deleteFile = require('../helper/file');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
-    console.log(req.body);
     try{
         let validationError = await schemaVehicle.validate(req.body, {abortEarly: false});
         if(validationError && validationError.error){
@@ -131,21 +130,7 @@ const getVehicle = async (req, res)=>{
         return res.status(500).json({ msg: 'Server Error'});
     }
 }
-const deleteVehicle = async (req, res)=>{
-    const {_id:a_id} = req.adminData;
-    const {id:_id} = req.params;
-    try {
-        let vehicle = await vehicleModel.findOne({_id});
-        deleteFile(vehicle.img);
-        vehicle = await vehicleModel.deleteOne({_id});
-        return res.status(200).json({msg: 'OK', vehicle})
-    } catch (error) {
-        // TODO log error
-        return res.status(500).json({
-            msg: 'Server Error'
-        })
-    }
-}
+
 const postComment = async (req, res)=>{
     let {id: v_id} = req.params;
     let {comment} = req.body;
@@ -165,6 +150,10 @@ const postComment = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+/**
+ * @desc callback for posting reply for user
+ * 
+ */
 const postReply = async(req, res)=>{
     let{_id:u_id} = req.userData;
     let {reply} = req.body;
@@ -176,10 +165,11 @@ const postReply = async(req, res)=>{
             return res.status(400).json({msg: 'Validation error', validationErrorMsg});
         }
         let newReply = {reply: {reply,u_id}};
+        // TODO make so that only the user who pasted can reply
         let result = await commentModel.findOneAndUpdate({_id: c_id}, newReply);
         return res.status(200).json({msg: 'Reply posted', result});
     } catch (error) {
-        // TODO logo error
+        // TODO log error
         console.log(error)
         return res.status(500).json({msg: 'Server Error'});
     }
@@ -208,7 +198,6 @@ module.exports = {
     postVehicle,
     getVehicle,
     getVehicles,
-    deleteVehicle,
     postComment,
     postReply,
     deleteComment,

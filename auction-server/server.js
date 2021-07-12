@@ -6,7 +6,7 @@ const winston = require('winston');
 const fileUpload = require('express-fileupload');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config({path: './server/config/.env'});
+require('dotenv').config({path: './config/.env'});
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const exphbs = require('express-handlebars');

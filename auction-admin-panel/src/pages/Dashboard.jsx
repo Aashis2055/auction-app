@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Card from '../components/Card';
 import {ToastContainer} from 'react-toastify';
 import NetworkHelper from '../services/networkhelper';
+import css from '../css/dashboard.module.css';
 export default class Dashboard extends Component {
     constructor(){
         super();
@@ -14,12 +15,13 @@ export default class Dashboard extends Component {
     render() {
         let {posts} = this.state;
         return (
-            <div>
+            <div className={css.cardGrid}>
                 {
                     posts.map((post, index)=>{
                         return <Card key={index} post={post} index={index} delete={this.removePost} />
                     })
                 }
+                <button className="btnFloating">F</button>
                 <ToastContainer />
             </div>
         )

@@ -1,0 +1,78 @@
+/* api of user */
+
+/user-api
+
+
+/register
+// body
+{
+    "email": "user@email.com",
+    "password": "the password",
+    "first_name": "user",
+    "last_name": "first",
+    "address": {
+        "province":"Bagmait Province",
+        "district":"Kathmandu"
+    },
+    "phone_no": "9800000001"
+}
+// sucess (201)
+{
+    "message": "Registered"
+}
+
+//login
+// body
+{
+    "email": "user@email.com",
+    "password": "the password"
+}
+//sucess
+{
+    "msg": "Login Sucess",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDkwYTg2OTRlNTcyMGM5YWQ3MjAiLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNjI1OTAxODY3LCJleHAiOjE2MzA3NDAyNjd9.Qq8vY1vlu2Qoc_G0dG-X-eBKrAajag3k6J-WQtYMU80"
+}
+
+
+//getProfile p
+//sucess 
+{
+    "msg": "Ok",
+    "user": {
+        "status": false,
+        "created_at": "2021-07-10T07:14:06.384Z",
+        "img": "default-profile.png",
+        "_id": "60e9490a8694e5720c9ad720",
+        "first_name": "user",
+        "last_name": "first",
+        "email": "user@email.com",
+        "password": "$2b$10$OGJHhHCU9fFs32AIGh6Fe.x19SpC7YUHn6TAmiqotV2YO8oSnFgYa",
+        "address": {
+            "province": "Bagmait Province",
+            "district": "Kathmandu"
+        },
+        "phone_no": 9800000001,
+        "__v": 0
+    },
+    "posts": [
+        {
+            "type": "Bike",
+            "added_date": "2021-07-10T07:30:47.846Z",
+            "auction_date": "2021-09-01T00:00:00.000Z",
+            "end_date": "2021-09-10T00:00:00.000Z",
+            "delivery_type": "Will Deliver",
+            "bid": null,
+            "_id": "60e94d2f66347673443b7acf",
+            "u_id": "60e9490a8694e5720c9ad720",
+            "img": "1625902383264-yamaha-yzf-r15-.jpg",
+            "color": "red",
+            "model": "yahama",
+            "brand": "yahama xyz",
+            "year": 2019,
+            "km_driven": 2000,
+            "description": "a red bike of yahama",
+            "initial_price": 60000,
+            "__v": 0
+        }
+    ]
+}

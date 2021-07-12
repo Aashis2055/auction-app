@@ -12,6 +12,7 @@ import ErrorPage from './pages/ErrorPage';
 import {isLogedIn} from './helper/localstorage';
 import Users from './pages/Users';
 import Test from './pages/test';
+import './css/style.css';
 
 // components
 import NavBar from './components/NavBar';

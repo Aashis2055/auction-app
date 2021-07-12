@@ -1,35 +1,17 @@
-body, html{
-    height: 100%;
-    overflow: hidden;
-}
-
-*{
-    box-sizing: border-box;
-}
-
+@import url(./style.css);
 .form-container{
    background-color: black;
    position: relative;
-   
-}
-.form-image{
-    max-width: 50%;
-    width: 50%;
-    height: 100%;
-    position: absolute;
-    border-radius: 50% solid;
-    left:0;
-}
-.form-image img{
-    width: 50%;
+   height: 100%;
+    overflow: hidden;
 }
 .form {
-    position: absolute;
-    right: 0;
-    margin: 20px;
-    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    max-width: 50%;
     padding: 16px;
-    background-color: white;
+    background-color: var(--secoundary-color);
 }
 input{
     width: 100%;

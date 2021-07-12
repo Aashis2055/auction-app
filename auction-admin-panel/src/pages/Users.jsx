@@ -11,7 +11,7 @@ export default class Users extends Component {
     render() {
         const {users} = this.state;
         return (
-            <div>
+            <div >
                 {
                     users.map((user, index)=> <UserCard key={index} user={user} index={index} />)
                 }

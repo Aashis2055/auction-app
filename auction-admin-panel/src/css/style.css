@@ -1,0 +1,24 @@
+:root{
+    /* // TODO change color */
+   --primary-color: red;
+   --primary-light: rgb(219, 123, 123);
+   --primary-dark: rgb(136, 7, 7);
+   --secoundary-color: green;
+   --secoundary-dark: darkgreen;
+   --secoundary-light: lightgreen;
+   --text-color: #000;
+}
+*{
+    box-sizing: border-box;
+}
+.btnFloating{
+    border-radius: 50%;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border-style: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+}

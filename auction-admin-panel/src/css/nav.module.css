@@ -1,7 +1,7 @@
+@import url(./style.css);
 .topnav {
-    position: absolute;
-    
-    background-color: thistle;
+    overflow: hidden;
+    background-color: var(--primary-color);
 }
 .topnav a{
     float: left;

@@ -1,19 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import css from '../css/dashboard.module.css';
 const URL = 'http://localhost:5000/vehicle-images';
 export default function Card(props) {
     let {_id, type, year, img} = props.post;
-    const myStyle = {
-        height: "200px",
-        width: "200px"
-    }
     return (
-        <div>
+        <div className={css.card}>
             <Link  to={`vehicle/${_id}`}>
-            <img style={myStyle} src={`${URL}/${img}`} alt=""/>
+            <img  src={`${URL}/${img}`} alt=""/>
             <div>{`Type: ${type}, Year:${year}`}</div>
             </Link>
-            <div onClick={deletePost}>Delete</div>
+            <div className={css.cardFooter}>
+                <button className={ css.btndelete} onClick={deletePost}>Delete</button>
+                <button className={css.btn} ><Link href={"/user/"+_id}>User</Link></button>
+            </div>
         </div>
     )
     function deletePost(){

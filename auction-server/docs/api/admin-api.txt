@@ -1,0 +1,43 @@
+/* post super login */
+// body
+{
+    "email": "super@email.com",
+    "password": "super password"
+}
+// sucess
+{
+    "message": "login sucessful",
+    "token": "brearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjAsImVtYWlsIjoic3VwZXJAZW1haWwuY29tIiwicm9sZSI6InN1cGVyIiwiaWF0IjoxNjI1ODk1NDg2LCJleHAiOjE2MzE5NDM0ODZ9.FwI1liX6oY4yR-WtU095aM5venjjibv9_FT1TGjfBtE"
+}
+
+/* post regsiter */
+// body 
+{
+    "email": "admin2@email.com",
+    "password": "admin password",
+    "role": "Admin"
+}
+// sucess
+{
+    "message": "admin created",
+    "result": {
+        "_id": "60e9350a577a4a50ce624805",
+        "email": "admin2@email.com",
+        "password": "$2b$10$VWdgYI6xZfvfta/djBGR5OUrmzkBe7y.u8YWU8BNPg.Cs25ZKtbLi",
+        "role": "Admin",
+        "dateCreated": "2021-07-10T05:50:02.374Z",
+        "__v": 0
+    }
+}
+
+/* post admin login */
+// body
+{
+    "email": "admin@email.com",
+    "password": "admin password"
+}
+// sucess
+{
+    "message": "login sucessful",
+    "token": "brearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5MzRjMTU3N2E0YTUwY2U2MjQ4MDIiLCJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsInJvbGUiOiJNb2RlcmF0b3IiLCJpYXQiOjE2MjU4OTYzNTMsImV4cCI6MTYzMTk0NDM1M30.GRxpPhnMGyWAIfPMeBXkf3GRdq0kPTDgitNm4keiIFM"
+}

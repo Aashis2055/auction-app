@@ -1,0 +1,18 @@
+
+
+route = /user-api
+/*
+p   -> protected
+f   -> profanity validated
+i   -> params id validation
+*/
+POST    /login      f
+POST    /register  f
+GET     /           p
+
+route = /user-api
+GET     /vehicle?brand&model &km &year &location  p
+GET     /vehicle/:id    p, i
+POST    /vehicle    p,
+GET     
+

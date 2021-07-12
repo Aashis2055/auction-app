@@ -8,7 +8,7 @@ const {
     deleteVehicle,
     deleteComment,
     deleteReply
-} = require('../controllers/vehicle-controller');
+} = require('../controllers/admin-controller/admin-vehicle');
 const {
     getUser,
     getUsers,

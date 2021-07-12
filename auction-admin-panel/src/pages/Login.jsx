@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {setToken, getToken} from '../helper/localstorage';
+import css from '../css/login.module.css';
+import image from '../images/cars1.jpg';
 
 export default class Login extends Component {
     
@@ -15,17 +17,14 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div className="form-container">
-                <div className="form-image">
-                    {/* <img src={logo} alt=""/> */}
-                </div>
-                <form className="form">
+            <div className={css.fromcontainer}>
+                <form className={css.form}>
                     <h1>Login</h1>
                     <label htmlFor="email"><b>Email</b></label>
                     <input type="email" placeholder="Enter Email" name="email" required onChange={this.onChangeHandler} value={this.state.email}/>
                     <label htmlFor="password"><b>Password</b></label>
                     <input type="password" name="password" placeholder="Enter Password" onChange={this.onChangeHandler} value={this.state.password} required/>
-                    <button type="submit" className="btn" onClick={this.onSubmit}>Login</button>
+                    <button type="submit" className={css.btn} onClick={this.onSubmit}>Login</button>
                 </form>
                 <ToastContainer />
             </div>

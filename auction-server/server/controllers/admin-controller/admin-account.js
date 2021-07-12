@@ -113,10 +113,8 @@ const getUser = async (req, res)=>{
         let user = await userModel.findOne({_id:id});
         if(user){
             let posts = await vehicleModel.find({u_id: id});
-            return res.status(200).json({msg: 'Ok', user, posts});
-            
+            return res.status(200).json({msg: 'Ok', user, posts});   
         }
-        
         return res.status(404).json({msg: 'No user'});
     } catch (error) {
         // TODO log error
@@ -125,9 +123,16 @@ const getUser = async (req, res)=>{
     }
 }
 const getUsers = async (req, res)=>{
-    const filter = req.query;
+    console.log(req.query);
+    // let {status = undefined, province=undefined,district=undefined, orderBy} = req.query;
+    // const queryArray = [
+    //     {status},
+    //     {'address.province': province,},
+    //     {'address.district': district}
+    // ];
+    
     try {
-        let users = await userModel.find(filter);
+        let users = await userModel.find({}).sort({created_at: -1});
         if(users.length === 0)
             return res.status(404).json({msg: 'No Users'});
         return res.status(200).json({msg: 'OK', users});
