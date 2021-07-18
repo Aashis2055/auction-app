@@ -6,7 +6,8 @@ const {
     postVehicle,
     postComment,
     postReply,
-    getUpcomingVehicles
+    getUpcomingVehicles,
+    testRoute
 } = require('../controllers/vehicle-controller');
 const  {
     postFile
@@ -38,12 +39,15 @@ const testauth = (req, res, next)=>{
 }
 // TODO remove before production
 router.post('/testpost',testauth, postFile, postVehicle );
+router.get('/testpop/:id', testRoute);
+
 router.get('/upcoming', authUser, getUpcomingVehicles);
 router.post('/vehicle',authUser, postFile,  postVehicle );
 router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);
 router.post('/comment/:id', authUser, authId, postComment)
 router.post('/reply/:id', authUser, authId, postReply);
+
 
 
 module.exports = router;

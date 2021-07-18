@@ -143,8 +143,8 @@ const getUsers = async (req, res)=>{
     }
 }
 const updateUser = async (req, res)=>{
-    // let {firstName, lastName} = req.body;
     const status = req.body.status;
+    console.log(req.body);
     const _id = req.params.id;
     try {
         let result = await userModel.findOneAndUpdate({_id}, {status});

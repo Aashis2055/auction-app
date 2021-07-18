@@ -53,19 +53,6 @@ const getVehicles = async (req, res)=>{
 const getVehicle = async (req, res)=>{
     let {id} = req.params;
     try {
-        // let data = await commentModel.find({})
-        //     .populate(vehicleModel.)
-        // return res.json({data});
-        // let post = await commentModel.find();
-        // return res.json({post});
-        // let post = await vehicleModel.collection.aggregate([
-        //     {$lookup: {from: 'Comment'}, localField: "_id",  foreignField:  "v_id", as: "comments"}
-        // ]);
-        // return res.json({post});
-        // let post = await vehicleModel.findOne({_id: id}).populate('v_id').exec((err, item)=>{
-        //     if(err) return res.status(500).json({err});
-        //     return res.json({item});
-        // });
         const post = await vehicleModel.findOne({_id:id});
         const comments = await commentModel.find({v_id:id});
         console.log(post);

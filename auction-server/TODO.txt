@@ -3,27 +3,44 @@
 3. payment system
 4. find vehicle info api
 5. predction alogorithim
-6. chat system
+6. chat system ?
 7. notifiction 
 8. kyc
+9. Refresh Token ?
+- meeting date ?
+Prediction on Auction ?
 
 1. problem: notify if token is expire
 2. problem: ban user
 3. reply can only be posted by post owner
 4. problem delivery location
 5. problem: initial pricing of product
+- Problem: handlebars inline script
 admin :
-1. user data CURD
-2. delete post, comment, reply
-3. ban user 
-
+- remove post and bids of user after ban
+- filter upcoming, current and done
 user :
 1. advance filter posts based on location, date 
 2. keep me notify system(push notification)
 3. improve get vehicle with commment and reply (using a single query)
 4. share post ( handlebars)
+5. show posts of same location?
+- get posts of users who are active ie not ban
+- 
 
 
+July 17:
+- populate query 
+
+query to pupulate
+- get comments with post
+- get posts with porfile(admin and user api)
+- get posts of users with status false
+
+/*
+schedule event 
+- notify after post expiration
+*/
 // before deployment 
 1. remove test folder
 2. remove morgan

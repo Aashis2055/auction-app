@@ -11,7 +11,7 @@ const USER_KEY = process.env.USER_KEY;
 //
 const errorMsg = { message: 'Server Error'};
 const postLogin = async (req, res)=>{
-    let {email, password} = req.body;
+    let {email,password} = req.body;
     try{
         const loginValidationError = await userLogin.validate(req.body, {abortEarly: false});
         if(loginValidationError && loginValidationError.error){
@@ -32,9 +32,9 @@ const postLogin = async (req, res)=>{
             return res.status(401).json({ message: 'Invalid password'});
         }// eof pasword check
         // generate web token
-        let {_id, firstName} = currentUser;
+        let {_id, firstName,  lastName, address} = currentUser;
         let token = jwt.sign({
-            _id, email, firstName
+            _id, email, firstName, lastName, address
         }, USER_KEY, {expiresIn: '8w'});
         return res.status(200).json({ msg: 'Login Sucess', token});
     }catch(error){

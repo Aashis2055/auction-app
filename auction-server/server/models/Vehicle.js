@@ -19,7 +19,7 @@ const vehicleSchema = new Schema({
     auction_date: {type: Date, required: true, default: Date.now()},
     end_date: {type: Date, required: true, default: date.setDate(date.getDate() + 7)},
     delivery_type: {type: String, required: true, default: deliveryType[0], enum: deliveryType },
-    u_id: {type: id, required:true},
+    u_id: {type: id, required:true, ref: 'User'},
     bid: {type:bidSchema, default: null}
 });
 

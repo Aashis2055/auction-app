@@ -1,0 +1,34 @@
+There are four entities in the Vehicle Auction app
+1. The Buyer 
+2. The Seller
+3. The Moderators
+4. Admin
+
+The Buyers 
+The Buyers use the app to buy/ bid on vehicles
+The Buyers must be first register which can be done through the mobile app and then must login in the app. 
+In the app the buyer can browse through the products and filter through them with type, year, milage, price etc.
+The user can view the details of a product such as km driven bought year and make comment on them.
+The ueer will then bid on these product.
+And after the poroduct reaches it's end date the highest bider will get a notification telling them that they have bought the vehicle.
+Weather the vehicle will be delivered or the buyer himself have to go get the vehicle will be deetermined by the seller while posting the product details.
+In case of Will deliver the buyer must share her/his location to the seller.
+Then on metting the seller the buyer will make the payment and recive the vehicle.
+
+The seller
+The Seller like the buyer must be register and loged in to use the app and it's features.
+The seller will post the details of the vehicle in the app with related information such as the type, model, auction end date, deliver type etc.
+The seller can make reply to comments on the post that he/she added.
+After the product has been sold to the highest bidder the seller will get notification like the buyer informing them.
+If the delivery type has be set to will deliver the seller will get the shared location from the buyer and in case of self get the seller will have to share location so that the buyer can get the vehicle.
+The seller will recive the payment on meet.
+
+The Moderator
+The role of the moderator will be to moderate the system.
+A ac of moderator must be registered by the admin.
+The moderator will review the products and remove if necessary.
+The moderator can delete the comments and reply.
+The moderator can ban a user and its post.
+
+The Admin 
+The role of admin will be register moderators.

@@ -6,7 +6,6 @@ const commentModel = require('../models/Comment');
 const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
-const deleteFile = require('../helper/file');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     try{
@@ -51,6 +50,7 @@ const getUpcomingVehicles = async(req, res)=>{
 const getVehicles = async (req, res)=>{
     // TODO get filter parameters
     console.log(req.query);
+    const {address} = req.userData;
     const filter = req.query;
     const filt = {
         minPrice: 0,
@@ -70,15 +70,21 @@ const getVehicles = async (req, res)=>{
             {auction_date: {"$lte": date.toISOString()}},
             {end_date: {"$gte": date.toISOString()}},
             filter
-        ]}).then((vehicles)=>{
-            if(vehicles.length === 0){
+        ]}).populate({
+            path: 'u_id',
+            match: {status: false}
+        }).then((vehicles)=>{
+            /**
+             * @description filter the post whose users are active
+             */
+            const data = vehicles.filter(vehicle=>{
+                if(vehicle.initial_price > filt.minPrice && vehicle.initial_price < filt.maxPrice){
+                    return vehicle.u_id != null;
+                }else return false;
+            });
+            if(data.length === 0){
                 return res.status(204).json({ message: 'No content found'});
             }
-            const data = vehicles.map((vehicle)=>{
-                if(vehicle.initial_price > filt.minPrice && vehicle.initial_price < filt.maxPrice){
-                    return vehicle;
-                }
-            });
             return res.status(200).json({
                 message:'ok',
                 posts: data
@@ -112,7 +118,7 @@ const getVehicle = async (req, res)=>{
         //     if(err) return res.status(500).json({err});
         //     return res.json({item});
         // });
-        const post = await vehicleModel.findOne({_id:id});
+        const post = await vehicleModel.findOne({_id:id}).populate('Comment.v_id');
         const comments = await commentModel.find({v_id:id});
         console.log(post);
         if(post){
@@ -194,6 +200,32 @@ const deleteReply = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+const testRoute = async (req, res)=>{
+    let {id} = req.params;
+    try {
+        // const post = await vehicleModel.findOne({_id:id});
+        // const comments = await commentModel.find({v_id:id});
+        vehicleModel.find().populate('u_id').exec(function (err, post){
+            if(err)
+                return res.json(err);
+            return res.json(post);
+        });
+        // console.log(post);
+        // if(post){
+        //     return res.status(200).json({
+        //         post,
+        //         comments
+        //     });
+        // }
+        // else{
+        //     return res.status(404).json({msg: 'Id not found'});
+        // }
+    } catch (error) {
+        // TODO log error
+        console.log(error);
+        return res.status(500).json({ msg: 'Server Error'});
+    }
+}
 module.exports = {
     postVehicle,
     getVehicle,
@@ -202,7 +234,8 @@ module.exports = {
     postReply,
     deleteComment,
     deleteReply,
-    getUpcomingVehicles
+    getUpcomingVehicles,
+    testRoute
 }
 
 // select * from Vehicle join Comment on vehicle_id = Comment.v_id where vehicle._id = id;
