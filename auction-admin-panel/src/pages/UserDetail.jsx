@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router';
+import { toast, ToastContainer } from 'react-toastify';
 import NetworkHelper from '../services/networkhelper';
 const URL = "http://localhost:5000/profile-image/"
 const inLinecss = {
@@ -24,7 +25,7 @@ const inLinecss = {
             <div>Loading ...</div> :
             <div>
                 <div className="info">
-                    <img src={`${URL+user.img}`} alt="" srcset="" />
+                    <img src={`${URL+user.img}`} alt="" srcSet="" />
                     <div>Name: {user.first_name + user.last_name}</div>
                     <div>Created At: {user.created_at}</div>
                     <div>Email: {user.email}</div>
@@ -38,8 +39,11 @@ const inLinecss = {
                     
                 </div> 
                 <div className="control">
-
+                    {
+                        user.status? <button onClick={this.updateUser}>Remove Ban</button> : <button onClick={this.updateUser}>Ban User</button>
+                    }
                 </div>
+                <ToastContainer />
             </div>
         )
     }
@@ -49,6 +53,20 @@ const inLinecss = {
         console.log(user);
         this.setState({
             user:user
+        })
+    }
+    updateUser = ()=>{
+        const user = this.state.user;
+        const {status, _id} = user;
+        this.networkHelper.updateUser(!status, _id).then(()=>{
+            this.setState({
+                user:{
+                    ...user,
+                    status: !status
+                }
+            })
+        }).catch(error=>{
+            
         })
     }
 }

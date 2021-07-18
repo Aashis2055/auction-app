@@ -52,7 +52,17 @@ class NetworkHelper{
         try {
             console.log(this.header);
             const response = await axios.delete(`${this.URL}/vehicle/${id}`, this.header);
+            return response;
         } catch (error) {
+            this.showError(error);
+            throw error;
+        }
+    }
+    updateUser = async(status, id)=>{
+        try{
+            const response = await axios.put(`${this.URL}/user/${id}`,{status}, this.header);
+            return response;
+        }catch(error){
             this.showError(error);
             throw error;
         }

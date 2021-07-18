@@ -1,5 +1,5 @@
 @import url(./style.css);
-.body-container{
+.bodyContainer{
     position: relative;
 }
 .row{
@@ -21,7 +21,7 @@
     width: 100%;
     height: 200px;
 }
-.home-container{
+.homeContainer{
     position: absolute;
     width: 50%;
     height: 300px;
@@ -37,6 +37,6 @@
     border: solid #ff3344 2px;
     text-align: center;
 }
-.home-container h1{
+.homeContainer h1{
     text-align: center;
 }

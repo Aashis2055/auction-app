@@ -11,7 +11,7 @@ import  css from '../css/home.module.css';
 export default class Home extends Component {
     render() {
         return (
-            <div className={css.body_container}>
+            <div className={css.bodyContainer}>
                 <div className={css.row}>
                     <div className={css.column}>
                         <img src={img1} alt="bike with red"/>
@@ -29,7 +29,7 @@ export default class Home extends Component {
                         <img src={img1} alt=""/>
                     </div>
                 </div>
-                <div className={css.home_container}>
+                <div className={css.homeContainer}>
                     <h1>Vehicle Auction App</h1>
                     <p>A place where you can auction and bid on different cars and bikes</p>
                 </div>

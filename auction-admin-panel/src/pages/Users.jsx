@@ -10,11 +10,13 @@ export default class Users extends Component {
         this.state = {users: []}}
     render() {
         const {users} = this.state;
+        console.log(users);
         return (
             <div >
                 {
                     users.map((user, index)=> <UserCard key={index} user={user} index={index} />)
                 }
+                <button className="btnFloating">F</button>
                 <ToastContainer />
             </div>
         )
