@@ -20,11 +20,7 @@ const getVehicles = async (req, res)=>{
             })
         };
         let date = new Date();
-        vehicleModel.find({$and: [
-            {auction_date: {"$lte": date.toISOString()}},
-            {end_date: {"$gte": date.toISOString()}},
-            filter
-        ]}).then((vehicles)=>{
+        vehicleModel.find().then((vehicles)=>{
             if(vehicles.length === 0){
                 return res.status(204).json({ message: 'No content found'});
             }

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import CommentTile from '../components/CommentTile';
 import NetworkHelper from '../services/networkhelper';
+import {formatDate} from '../helper/dateFormater';
 
 export default function Vehicle(props) {
     // const [post, setPost] = useState({
@@ -24,14 +25,30 @@ export default function Vehicle(props) {
     const [post, setPost] = useState(null, []);
     const [comments, setComments] = useState([]);
     const {id} = useParams();
+    let networkhelper = new NetworkHelper();
+
+    const deleteComment = async (index)=>{
+        const status = await networkhelper.deleteComment(comments[index]._id);
+        if(status){
+            comments.splice(index, 1);
+            setComments(comments);
+        } 
+    }
+    const deleteReply = async (index)=>{
+        const status = await networkhelper.deleteReply(comments[index]._id);
+        if(status){
+            comments[index].reply = undefined;
+            setComments(comments);
+        }
+    }
     useEffect(()=>{
-        let networkhelper = new NetworkHelper();
         networkhelper.getVehicle(id).then(({post, comments})=>{
             setPost(post);
             if(comments !== null || comments.lenght !== 0){
                 setComments(comments);
             }
-            console.log(comments);
+            console.log(comments !== null);
+            console.log(comments.lenght !== 0)
         })
     },[]);
     return (
@@ -80,15 +97,15 @@ export default function Vehicle(props) {
                     </tr>
                     <tr>
                         <td>Posted Date:</td>
-                        <td>{post.added_date}</td>
+                        <td>{formatDate( post.added_date)}</td>
                     </tr>
                     <tr>
                         <td>Auction Date:</td>
-                        <td>{post.auction_date}</td>
+                        <td>{formatDate(post.auction_date) }</td>
                     </tr>
                     <tr>
                         <td>End Date:</td>
-                        <td>{post.end_date}</td>
+                        <td>{formatDate(post.end_date) }</td>
                     </tr>
                     <tr>
                         <td>Bid</td>
@@ -102,7 +119,9 @@ export default function Vehicle(props) {
             </div>
             <div className="comment-container">
                 {
-                    comments === null ? <span>No comments to show</span> : comments.map((comment, index)=> <CommentTile key={index} comment={comment}  />)
+                    comments === null ? 
+                    <span>No comments to show</span> : 
+                    comments.map((comment, index)=> <CommentTile delete={{deleteComment, deleteReply}} key={index} comment={comment} index={index}  />)
                 }
             </div>
         </div>

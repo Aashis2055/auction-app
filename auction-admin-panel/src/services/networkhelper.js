@@ -58,6 +58,28 @@ class NetworkHelper{
             throw error;
         }
     }
+    deleteComment = async(id)=>{
+        try{
+            const response = await axios.delete(`${this.URL}/comment/${id}`, this.header);
+            console.log(response);
+            if(response.status == 200) return true;
+            else return false;
+        }catch(error){
+            this.showError(error);
+            return false;
+        }
+    }
+    deleteReply = async(id)=>{
+        try{
+            const response = await axios.delete(`${this.URL}/reply/${id}`, this.header);
+            
+            if(response.status == 200) return true;
+            else return false;
+        }catch(error){
+            this.showError(error);
+            return false;
+        }
+    }
     updateUser = async(status, id)=>{
         try{
             const response = await axios.put(`${this.URL}/user/${id}`,{status}, this.header);
