@@ -8,8 +8,10 @@ import 'package:auction_app/widgets/alert_dialog.dart';
 // models
 import 'package:auction_app/models/user.dart';
 import 'package:auction_app/models/vehicle_model.dart';
-import 'package:auction_app/constants.dart';
+import 'package:auction_app/models/notification.dart';
+//
 import 'package:auction_app/services/storage.dart';
+import 'package:auction_app/constants.dart';
 
 class NetworkHelper {
   StorageHelper storage;
@@ -35,28 +37,9 @@ class NetworkHelper {
       var responseData = jsonDecode(response.body);
       print(responseData);
       User user = User.fromJson(responseData['user']);
-      List<Vehicle> posts = [
-        Vehicle(
-          type: 'Scooter',
-          initial_Price: 50000,
-          color: 'Red',
-        ),
-        Vehicle(
-          type: 'Scooter',
-          initial_Price: 50000,
-          color: 'Red',
-        ),
-        Vehicle(
-          type: 'Scooter',
-          initial_Price: 50000,
-          color: 'Red',
-        ),
-        Vehicle(
-          type: 'Scooter',
-          initial_Price: 50000,
-          color: 'Red',
-        ),
-      ];
+      List<Vehicle> posts = List<Vehicle>.from(
+          responseData['posts'].map((x) => Vehicle.fromJson(x)));
+
       return {'user': user, 'posts': posts};
     } else {
       print('error');
@@ -81,6 +64,16 @@ class NetworkHelper {
     List<Vehicle> posts = List<Vehicle>.from(
         responseData['posts'].map((x) => Vehicle.fromJson(x)));
     return posts;
+  }
+
+  Future<List<NotificationModel>> getNotifications() async {
+    Uri uri = kURI.replace(path: '/user-api/notifications');
+    http.Response response = await http.get(uri, headers: header);
+    var responseData = jsonDecode(response.body);
+    print(responseData);
+    List<NotificationModel> notifications = List<NotificationModel>.from(
+        responseData['notifications']
+            .map((x) => NotificationModel.fromJson(x)));
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {

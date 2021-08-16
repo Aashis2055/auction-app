@@ -20,21 +20,6 @@ class _VehiclesFragState extends State<VehiclesFrag> {
       initial_Price: 50000,
       color: 'Red',
     ),
-    Vehicle(
-      type: 'Scooter',
-      initial_Price: 50000,
-      color: 'Red',
-    ),
-    Vehicle(
-      type: 'Scooter',
-      initial_Price: 50000,
-      color: 'Red',
-    ),
-    Vehicle(
-      type: 'Scooter',
-      initial_Price: 50000,
-      color: 'Red',
-    ),
   ];
   @override
   void initState() {
@@ -48,18 +33,21 @@ class _VehiclesFragState extends State<VehiclesFrag> {
     List<Vehicle> myPosts = await networkHelper.getPosts();
     if (myPosts == null) {
       return;
+    } else {
+      setState(() {
+        posts = myPosts;
+      });
     }
-    // setState(() {
-    //   posts = myPosts;
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // child: ListView.builder(
-      //     itemCount: posts.length,
-      //     itemBuilder: (context, index) => MyCard(posts[index])),
+      child: ListView.builder(
+          itemCount: posts.length,
+          itemBuilder: (context, index) => MyCard(
+                posts[index],
+              )),
     );
   }
 }

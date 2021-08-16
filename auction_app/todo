@@ -1,38 +1,31 @@
-- splash screen
 - pick and upload image
 - chat ui
 - filter posts
 - socket integration 
 - check token
-- refresh token
+- refresh token?
 - refresh page
 - check internet status with alert
 
 problem:
-- error label of TextEdit
-- fix dorop down menu
 - common text edit for forms
 - image picker
 - qr scanner
 
 widgets:
-- spinner with status
 - bottom sheet model
 - step form 
-- range slider
 - table
 - listview
 - alert dialog
 
-dart:
-- date formatting
 
-july 1:
 - show post 
 - show profile
-- upload post
 - show single post
 - bid on post
+- upload post
+
 
 ?
 -refresh token

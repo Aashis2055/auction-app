@@ -25,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = "user2@email.com";
   String password = "the password";
 
-
   @override
   void initState() {
     super.initState();
@@ -43,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
       child: Column(
         children: [
+          Text("Login", style: TextStyle(color: Colors.black, fontSize: 30.0),),
           TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           TextField(
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
-                icon: Icon(Icons.email),
+                icon: Icon(Icons.password),
                 labelText: "Enter Password"
             ),
             onChanged: (value){password = value;},
@@ -65,20 +65,25 @@ class _LoginScreenState extends State<LoginScreen> {
               RowButton(
                   label: 'Login',
                   callback: () async {
+                    print('button pressed');
                     Uri uri = Uri(
-                        host: '192.168.10.69',
+                        host: kIP,
                         port: 5000,
                         scheme: 'http',
                         path: '/user-api/login');
+                    print(uri.toString());
+                    http.post(uri).then((value) => print(value)).catchError((error)=> print(error));
+                    return;
                     http.Response response = await http.post(uri,
                         body: {'email': email, 'password': password});
+                    print(response);
                     if (response.statusCode == 200) {
                       StorageHelper storageHelper = StorageHelper();
                       Map data = jsonDecode(response.body);
                       await storageHelper.setToken(data['token']);
                       Navigator.pushNamed(context, DashBoard.id);
                     } else {
-                      // TODO show login error
+
                       Fluttertoast.showToast(msg: 'Error on login');
                     }
                   })

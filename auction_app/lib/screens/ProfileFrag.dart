@@ -14,7 +14,7 @@ class ProfileFrag extends StatefulWidget {
 }
 
 class _ProfileFragState extends State<ProfileFrag> {
-  User user =null;
+  User user = null;
   List<Vehicle> posts;
   NetworkHelper networkHelper;
   @override
@@ -54,31 +54,36 @@ class _ProfileFragState extends State<ProfileFrag> {
                 Text('Last Name: ${user.lastName}'),
                 Text('Email: ${user.email}'),
                 Text('Phone No: ${user.phoneNo}'),
-                !user.status ? Text('Status: Active', style: TextStyle(backgroundColor: Colors.green),) : Text('Status: Inactive', style: TextStyle(backgroundColor: Colors.red),),
-                // ListView.builder(
-                //   itemCount: posts.length,
-                //   itemBuilder: (context, index){
-                //     return MyCard(posts[index]);
-                //   },
-                // )
+                !user.status
+                    ? Text(
+                        'Status: Active',
+                        style: TextStyle(backgroundColor: Colors.green),
+                      )
+                    : Text(
+                        'Status: Inactive',
+                        style: TextStyle(backgroundColor: Colors.red),
+                      ),
+                ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    return MyCard(posts[index]);
+                  },
+                )
               ],
             ),
     );
   }
 }
+
 class ProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
         child: Column(
-          children: [
-            CircularProgressIndicator(),
-            Text('Loading ...')
-          ],
+          children: [CircularProgressIndicator(), Text('Loading ...')],
         ),
       ),
     );
   }
 }
-

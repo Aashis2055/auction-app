@@ -7,7 +7,7 @@ import 'package:auction_app/screens/ProfileFrag.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:auction_app/screens/VehicleFrag.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'ChatFrag.dart';
+import 'NotificationFrag.dart';
 
 // widgets
 class DashBoard extends StatefulWidget {
@@ -24,7 +24,7 @@ class _DashBoardState extends State<DashBoard>
   // static const _kTabPages = <Widget>[
   //   ProfileFrag(),
   // ]
-  final _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), ChatFrag()];
+  final _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), NotificationFrag()];
   static const _kTabIcons = <Tab>[
     Tab(
       icon: Icon(Icons.account_circle_outlined),
@@ -37,8 +37,8 @@ class _DashBoardState extends State<DashBoard>
       text: 'Home',
     ),
     Tab(
-      icon: Icon(Icons.chat),
-      text: 'Chat',
+      icon: Icon(Icons.notifications),
+      text: 'Notification',
     )
   ];
 
