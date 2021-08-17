@@ -1,0 +1,5 @@
+// socket emmits on following cases
+when userr bids on the product
+
+// notification are generated on following cases
+when the user bids on the product

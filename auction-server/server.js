@@ -18,7 +18,6 @@ const vehicleRoutes = require('./server/routes/vehicle-routes');
 const adminVehicleRoutes = require('./server/routes/admin-vehicle');
 // controlls
 const {getPost, getPosts} = require('./server/controllers/user-account');
-const {bidPrice} = require('./server/controllers/bid-controller');
 const setupDB = require('./config/database');
 // variables setup
 const app = express();
@@ -73,26 +72,31 @@ global.logger = winston.createLogger({
     ]
 });
 
-
-
+// socket utils
+const {userJoin, getUserBySocketId} = require('./server/events/socket-utils/socket-users');
+const {changePrice} = require('./server/events/bid-events');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 io.on('connection', (socket)=>{
     console.log('A user connected');
-    socket.on('bidPrice', ({token,price, v_id})=>{
-        try {
-            const USER_KEY = process.env.USER_KEY;
-            let decode = jwt.verify(token, USER_KEY);
-            const status = bidPrice(decode, price, v_id);
-            if(status){
-                socket.emit('changePrice', {price, id:5});
-            }
-            
-        } catch (error) {
-            console.log(error);
-            res.status(401).json({
-                msg: 'Unauthorized'
-            })
+    // when user goes to the detail screen
+    socket.on('joinRoom', ({token, v_id})=>{
+        console.log('user joined room');
+        const user = userJoin(token, v_id, socket.id);
+        socket.join(user.v_id);
+        const u_id = user.decode._id;
+        socket.emit('getId', ({u_id}));
+    });
+    socket.on('bidPrice', ({newP:price})=>{
+        console.log(price);
+        if(price === null || price === undefined) return;
+        const user = getUserBySocketId(socket.id);
+        console.log('back at you', user);
+        if(user){
+            changePrice({user, price});
+            const newu_id = user.decode._id;
+            io.to(user.v_id).emit('priceChange', {price,newu_id })
+
         }
     });
     socket.on('disconnect', ()=>{
