@@ -87,15 +87,19 @@ io.on('connection', (socket)=>{
         const u_id = user.decode._id;
         socket.emit('getId', ({u_id}));
     });
-    socket.on('bidPrice', ({newP:price})=>{
-        console.log(price);
+    socket.on('bidPrice', async ({newP:price})=> {
         if(price === null || price === undefined) return;
         const user = getUserBySocketId(socket.id);
-        console.log('back at you', user);
         if(user){
-            changePrice({user, price});
-            const newu_id = user.decode._id;
-            io.to(user.v_id).emit('priceChange', {price,newu_id })
+            const changeStatus = await changePrice({user, price});
+            if(changeStatus === 'changed'){
+                const newu_id = user.decode._id;
+                console.log('we are here');
+                io.to(user.v_id).emit('priceChange', {price,newu_id })
+            }else{
+                socket.emit('error', ({msg: changeStatus}));
+            }
+           
 
         }
     });

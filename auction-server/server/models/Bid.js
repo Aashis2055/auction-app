@@ -13,5 +13,5 @@ const id = Schema.Types.ObjectId;
 module.exports = {
     price: {type: Number, required: true, default: 0},
     u_id: {type: id, required: true},
-    date: {type: Date, required: Date.now}
+    date: {type: Date, required: true, default: Date.now()}
 }
