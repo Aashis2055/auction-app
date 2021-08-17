@@ -16,8 +16,8 @@
         const button = document.getElementById('btn');
         const textField = document.getElementById('new-price');
         const socket = io();
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDk5MTg2OTRlNTcyMGM5YWQ3MjkiLCJlbWFpbCI6InVzZXI0QGVtYWlsLmNvbSIsImFkZHJlc3MiOnsicHJvdmluY2UiOiJCYWdtYWl0IFByb3ZpbmNlIiwiZGlzdHJpY3QiOiJMYWxpdHB1ciJ9LCJpYXQiOjE2MjkxNzc0MDQsImV4cCI6MTYzNDAxNTgwNH0.EKG6nxHao5bdympF2xeXseKlOgdvkvNdBlJgCvMvBYs";
-        const v_id = "60e95209affa017a5a4adb89";
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDkwYTg2OTRlNTcyMGM5YWQ3MjAiLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiYWRkcmVzcyI6eyJwcm92aW5jZSI6IkJhZ21haXQgUHJvdmluY2UiLCJkaXN0cmljdCI6IkthdGhtYW5kdSJ9LCJpYXQiOjE2MjkxOTUxNjMsImV4cCI6MTYzNDAzMzU2M30.21JAwXtobxM7ujbU5a0S7Lt2oPmuPeR97Vi-TTuytaQ";
+        const v_id = "60e94d2f66347673443b7acf";
         let user_id;
         socket.emit('joinRoom', {token, v_id});
         socket.on('getId', ({u_id})=>{

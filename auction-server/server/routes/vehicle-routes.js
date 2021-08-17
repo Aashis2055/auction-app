@@ -45,7 +45,7 @@ router.get('/upcoming', authUser, getUpcomingVehicles);
 router.post('/vehicle',authUser, postFile,  postVehicle );
 router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);
-router.post('/comment/:id', authUser, authId, postComment)
+router.post('/comment/:id', authUser, authId, postComment);
 router.post('/reply/:id', authUser, authId, postReply);
 
 

@@ -1,9 +1,10 @@
-// 
+// npm modules 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//
+// models
 const userModel = require('../models/Users');
 const vehicleModel = require('../models/Vehicle');
+const notificationModel = require('../models/Notification');
 const {userLogin, userRegister} = require('../validator/user');
 const SALT_ROUND = 10;
 const USER_KEY = process.env.USER_KEY;
@@ -141,11 +142,26 @@ const getPost = async (req, res)=>{
         return res.status(500).json({ msg: 'Server Error'});
     }
 }
+const getNotifications = async (req, res)=>{
+    const {_id} = req.userData;
+    try{
+        const result = await notificationModel.find({u_id:_id});
+        if(result.length === 0){
+            return res.status(204).json({msg: 'No Notification'});
+        }
+        return res.status(200).json({notifications: result});
+    }catch(error){
+        console.log(error);
+        res.status(500).json({msg: 'Server Error'});
+
+    }
+}
 module.exports = {
     postLogin,
     postRegister,
     getProfile,
     // handlebars
     getPosts,
-    getPost
+    getPost,
+    getNotifications
 }
