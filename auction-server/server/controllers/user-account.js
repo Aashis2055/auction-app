@@ -144,8 +144,11 @@ const getPost = async (req, res)=>{
 }
 const getNotifications = async (req, res)=>{
     const {_id} = req.userData;
+    console.log(_id);
     try{
-        const result = await notificationModel.find({u_id:_id});
+        // const result = await notificationModel.find({u_id:_id});
+        const result = await notificationModel.find();
+        return res.json({result});
         if(result.length === 0){
             return res.status(204).json({msg: 'No Notification'});
         }

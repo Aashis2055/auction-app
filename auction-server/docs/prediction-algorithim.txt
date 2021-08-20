@@ -1,0 +1,11 @@
+Dependent Variable
+. Price of vehicle
+
+Independent Variable
+. km_driven
+. year
+. type
+. model
+. milage
+. fuletype
+. enginetype

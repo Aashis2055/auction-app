@@ -12,7 +12,8 @@ const {
 const {
     getUser,
     getUsers,
-    updateUser
+    updateUser,
+    generateNotifications
 } = require('../controllers/admin-controller/admin-account');
 const authId = require('../middleware/authId');
 router.get('/vehicle', authAdmin, getVehicles);
@@ -24,5 +25,5 @@ router.put('/user/:id', authAdmin, authId, updateUser);
 router.get('/user/:id', authAdmin, authId,getUser);
 router.delete('/comment/:id', authAdmin, authId, deleteComment);
 router.delete('/reply/:id', authAdmin,authId, deleteReply);
-
+router.get('/generate', authAdmin, generateNotifications);
 module.exports = router;

@@ -16,6 +16,7 @@ const adminRoutes = require('./server/routes/admin-routes');
 const userRoutes = require('./server/routes/user-routes');
 const vehicleRoutes = require('./server/routes/vehicle-routes');
 const adminVehicleRoutes = require('./server/routes/admin-vehicle');
+const publicRoutes = require('./server/routes/public-routes');
 // controlls
 const {getPost, getPosts} = require('./server/controllers/user-account');
 const setupDB = require('./config/database');
@@ -49,6 +50,7 @@ app.use(bodyParser.json());
 app.use(rateLimiter);
 app.use(helmet());
 
+app.use('/public', publicRoutes);
 app.use('/admin-api',adminRoutes);
 app.use('/admin-api', adminVehicleRoutes);
 app.use('/user-api', userRoutes);
@@ -57,6 +59,7 @@ app.use('/user-api', vehicleRoutes);
 let hbs = exphbs.create({});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+// public routes for handlebars or SEO
 app.get('/vehicle/:id', getPost);
 app.get('/vehicles', getPosts);
 // logger setup

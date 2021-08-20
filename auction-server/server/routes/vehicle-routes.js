@@ -24,9 +24,7 @@ const testauth = (req, res, next)=>{
             req.body.auction_date = Date.now()
             console.log(req.body.auction_date);
         }
-        // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDkwYTg2OTRlNTcyMGM5YWQ3MjAiLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNjI1OTAxODY3LCJleHAiOjE2MzA3NDAyNjd9.Qq8vY1vlu2Qoc_G0dG-X-eBKrAajag3k6J-WQtYMU80"
-        // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDk2Yjg2OTRlNTcyMGM5YWQ3MjMiLCJlbWFpbCI6InVzZXIyQGVtYWlsLmNvbSIsImlhdCI6MTYyNTkwMjY0MCwiZXhwIjoxNjMwNzQxMDQwfQ.RxF3YMrwFFJTsrz-rYVUF04dNMIAX4YmwKFVBrnVvls";
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDk5MTg2OTRlNTcyMGM5YWQ3MjkiLCJlbWFpbCI6InVzZXI0QGVtYWlsLmNvbSIsImlhdCI6MTYyNTkwMzEyNywiZXhwIjoxNjMwNzQxNTI3fQ.5pgcIiS32HkqpRsYO-l19j96_RSBL3_QjmXV8eVSNWg";
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTFlMmZhYjI1Njg3ZTM3ZDUzYzA5ODQiLCJlbWFpbCI6InVzZXIxQGVtYWlsLmNvbSIsImFkZHJlc3MiOnsicHJvdmluY2UiOiJCYWdtYXRpIFByb3ZpbmNlIiwiZGlzdHJpY3QiOiJMYWxpdHB1ciJ9LCJpYXQiOjE2MjkzNjgyNTYsImV4cCI6MTYzNDIwNjY1Nn0.pMOR-WuZUOnYhR1mbfBt64_ZHNHJKQGffrCZziYDIM4";
         let decode = jwt.verify(token, USER_KEY);
         req.userData = decode;
         next();

@@ -1,11 +1,11 @@
 //
-//
 const vehicleModel = require('../models/Vehicle');
 const commentModel = require('../models/Comment');
 // validation models
 const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
+const {scheduleEnd} = require('../events/schedule-jobs');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     try{
@@ -20,6 +20,7 @@ const postVehicle = async (req, res)=>{
         let newVehicle = new vehicleModel({u_id,img:filePath,...req.body });
         let result = await newVehicle.save().then(()=>{
             // TODO generate notification
+            scheduleEnd(req.body.end_date);
             return res.status(200).json({
                 message: 'posted'
             })

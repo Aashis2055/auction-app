@@ -2,10 +2,11 @@
 const {validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// 
+// models
 const adminModel = require('../../models/Admins');
 const userModel = require('../../models/Users');
 const vehicleModel = require('../../models/Vehicle');
+const notificationModel = require('../../models/Notification');
 const SALT_ROUND = 10;
 const ADMIN_KEY = process.env.ADMIN_KEY;
 const postRegister = async (req, res, next)=>{
@@ -155,11 +156,44 @@ const updateUser = async (req, res)=>{
         return res.status(500).json({msg: 'Server error'});
     }
 }
+const generateNotifications = async(req, res)=>{
+    try{
+        const date = new Date();
+        const vehicles = await vehicleModel.find({end_date: {"$lt": date.toISOString()}}).lean();
+        console.log(vehicles);
+        vehicles.forEach(vehicle => {
+            const {_id:v_id} = vehicle;
+            console.log(v_id);
+            if(vehicle == null){
+                console.log(' no post');
+            }else if(vehicle.bid == null){
+                const {u_id} = vehicle;
+                console.log(u_id);
+                let newNotification = new notificationModel({type: 'Fail', message:'Sorry no one bidded on your vehicle', u_id, v_id});
+                console.log(newNotification);
+                newNotification.save();
+            }else{
+                const {u_id:seller_id} = vehicle;
+                const{u_id:buyer_id} = vehicle.bid;
+                let buyerNotification = new notificationModel({type: 'Bought', message: `You have bought ${vehicle.type} for ${vehicle.bid.price}`, u_id: buyer_id, v_id });
+                buyerNotification.save();
+                let sellerNotification = new notificationModel({type: 'Sold', message: `You have sold ${vehicle.type} fro ${vehicle.bid.price}`, u_id: seller_id, v_id});
+                sellerNotification.save();
+            }
+            return res.status(200).json({msg: 'Generated'});
+        }); 
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+
+}
 module.exports = {
     postRegister,
     postLogin,
     updateUser,
     getUser,
     getUsers,
-    postSuperLogin
+    postSuperLogin,
+    generateNotifications,
 }

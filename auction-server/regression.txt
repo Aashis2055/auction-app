@@ -1,0 +1,7 @@
+1. Generte a list of potential variables: independents and dependent
+2. Collect data on the variables
+3. check the relationships between each independent variables an dependent variable using scatterplots and correlations
+4. check the relationships among the independent variables using scatterplots and correlations
+5. (optional) conduct simple linear regression for each independent variables and dependent variable pair
+6. use the non-redundant independent variables in the analysis to find the best fitting model
+7. use the best fitting model to make predictions about the dependent variable
