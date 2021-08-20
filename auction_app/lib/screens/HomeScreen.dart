@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
   static String id = 'home_screen';
   @override
   Widget build(BuildContext context) {
+    // TODO load image properly and early
     return Scaffold(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,

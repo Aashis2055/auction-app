@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 //widgets
 import 'package:auction_app/models/user.dart';
 import 'package:auction_app/services/network.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileFrag extends StatefulWidget {
   @override
@@ -29,7 +28,6 @@ class _ProfileFragState extends State<ProfileFrag> {
     await networkHelper.initState();
     Map data = await networkHelper.getProfile();
     if (data['user'] == null) {
-      Fluttertoast.showToast(msg: 'something went wrong on profile');
       return;
     } else {
       setState(() {

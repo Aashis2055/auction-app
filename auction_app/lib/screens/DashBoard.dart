@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:auction_app/screens/ProfileFrag.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:auction_app/screens/VehicleFrag.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'NotificationFrag.dart';
 
 // widgets
@@ -21,9 +20,6 @@ class _DashBoardState extends State<DashBoard>
   TabController _tabController;
   int _currentIndex = 1;
 
-  // static const _kTabPages = <Widget>[
-  //   ProfileFrag(),
-  // ]
   final _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), NotificationFrag()];
   static const _kTabIcons = <Tab>[
     Tab(
@@ -58,7 +54,17 @@ class _DashBoardState extends State<DashBoard>
     _tabController.dispose();
     super.dispose();
   }
-
+  void filterContent(RangeValues rangeValues){
+    
+  }
+  // function to show the filter dialog
+  // Future<void> _displayTextInputDialog( context)async{
+  //   return showDialog(
+  //     context: context, 
+  //     builder: (context){
+  //       return FilterBox(filterContent);
+  //     });
+  // }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,12 +80,13 @@ class _DashBoardState extends State<DashBoard>
                 icon: Icon(Icons.power_settings_new_outlined),
                 onPressed: () {
                   showModalBottomSheet(
-                      context: context, builder: (context) => FilterBox());
+                      context: context, builder: (context) => FilterBox(filterContent));
                 }),
-            IconButton(icon: Icon(Icons.apps_sharp), onPressed: () {}),
+            IconButton(icon: Icon(Icons.apps_sharp), onPressed: () {
+
+            }),
             PopupMenuButton(
               onSelected: (choice) {
-                Fluttertoast.showToast(msg: 'pop up');
               },
               itemBuilder: (BuildContext context) {
                 return <Choice>[
@@ -87,27 +94,25 @@ class _DashBoardState extends State<DashBoard>
                       title: 'Logout',
                       icon: Icons.logout,
                       callback: () async {
-                        // Fluttertoast.showToast(msg: 'TODO Logout');
                         StorageHelper storageHelper = StorageHelper();
                         bool isLoggedout = await storageHelper.removeToken();
                         if (isLoggedout) {
                           Navigator.pushNamed(context, LoginScreen.id);
                         } else {
-                          Fluttertoast.showToast(msg: 'Logout Error');
+                          print('logout error');
                         }
                       }),
-                  Choice(
-                      title: 'Settings',
-                      icon: Icons.settings,
-                      callback: () {
-                        Fluttertoast.showToast(msg: 'TODO Settings');
-                      }),
-                  Choice(
-                      title: 'About Us',
-                      icon: Icons.info,
-                      callback: () {
-                        Fluttertoast.showToast(msg: 'TODO about us');
-                      })
+                  // Choice(
+                  //     title: 'Settings',
+                  //     icon: Icons.settings,
+                  //     callback: () {
+                  //       print('TODO settings');
+                  //     }),
+                  // Choice(
+                  //     title: 'About Us',
+                  //     icon: Icons.info,
+                  //     callback: () {
+                  //     })
                 ].map((choice) {
                   return PopupMenuItem(
                     value: choice,

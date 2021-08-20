@@ -1,7 +1,6 @@
 import 'package:auction_app/views/view1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 // screens
 import 'package:auction_app/screens/LoginScreen.dart';
@@ -147,23 +146,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (response.statusCode == 200) {
                 Navigator.pushNamed(context, LoginScreen.id);
               } else if (response.statusCode == 500) {
-                Fluttertoast.showToast(
-                    msg: "Server Error",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                print(response.body);
               } else {
-                Fluttertoast.showToast(
-                    msg: "Non Server Error",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                print('non server error');
               }
             }),
         RowButton(

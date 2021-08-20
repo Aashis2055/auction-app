@@ -1,4 +1,3 @@
-import 'package:auction_app/screens/DetailScreen.dart';
 import 'package:flutter/material.dart';
 // screens
 // widgets

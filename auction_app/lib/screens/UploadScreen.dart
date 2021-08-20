@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:auction_app/utils/dropdown.dart';
 
 class UploadScreen extends StatefulWidget {
@@ -129,8 +128,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   print(file.name);
                   print(file.path);
                 } else {
-                  Fluttertoast.showToast(
-                      msg: 'something went wrong on imag pick');
+                  print('error on image pick');
                 }
               },
             ),
@@ -161,7 +159,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 if (response.statusCode == 200) {
                   Navigator.pop(context);
                 } else {
-                  Fluttertoast.showToast(msg: "Error on upload");
+                  print('error in image upload');
                 }
               },
             )

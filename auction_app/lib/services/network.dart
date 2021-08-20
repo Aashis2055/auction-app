@@ -1,3 +1,4 @@
+import 'package:auction_app/models/comment.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -47,13 +48,16 @@ class NetworkHelper {
     }
   }
 
-  Future<Vehicle> getPost(String id) async {
+  Future<Map<String, dynamic>> getPost(String id) async {
     Uri uri = kURI.replace(path: '/user-api/vehicle/$id');
     http.Response response = await http.get(uri, headers: header);
     Map<String, dynamic> resposeData = jsonDecode(response.body);
     print(resposeData);
     Vehicle post = Vehicle.fromJson(resposeData['post']);
-    return post;
+    List<Comment> comment = List<Comment>.from(
+      resposeData['comments'].map((x)=> Comment.fromJson(x))
+    );
+    return {'post': post};
   }
 
   Future<List<Vehicle>> getPosts() async {
