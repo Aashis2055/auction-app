@@ -161,7 +161,7 @@ const generateNotifications = async(req, res)=>{
         const date = new Date();
         const vehicles = await vehicleModel.find({end_date: {"$lt": date.toISOString()}}).lean();
         console.log(vehicles);
-        vehicles.forEach(vehicle => {
+        vehicles.forEach(async(vehicle) => {
             const {_id:v_id} = vehicle;
             console.log(v_id);
             if(vehicle == null){
@@ -169,15 +169,20 @@ const generateNotifications = async(req, res)=>{
             }else if(vehicle.bid == null){
                 const {u_id} = vehicle;
                 console.log(u_id);
+                
                 let newNotification = new notificationModel({type: 'Fail', message:'Sorry no one bidded on your vehicle', u_id, v_id});
                 console.log(newNotification);
                 newNotification.save();
             }else{
                 const {u_id:seller_id} = vehicle;
                 const{u_id:buyer_id} = vehicle.bid;
-                let buyerNotification = new notificationModel({type: 'Bought', message: `You have bought ${vehicle.type} for ${vehicle.bid.price}`, u_id: buyer_id, v_id });
+                const buyer = await userModel.findOne({_id: buyer_id}).lean();
+                const buyerPhone = buyer.phone_no;
+                const seller = await userModel.findOne({_id: seller_id}).lean();
+                const sellerPhone = seller.phone_no;
+                let buyerNotification = new notificationModel({type: 'Bought', message: `You have bought ${vehicle.type} for ${vehicle.bid.price}. You can contact the seller at ${sellerPhone}`, u_id: buyer_id, v_id });
                 buyerNotification.save();
-                let sellerNotification = new notificationModel({type: 'Sold', message: `You have sold ${vehicle.type} fro ${vehicle.bid.price}`, u_id: seller_id, v_id});
+                let sellerNotification = new notificationModel({type: 'Sold', message: `You have sold ${vehicle.type} for ${vehicle.bid.price}. You can contact the buyer at ${buyerPhone}`, u_id: seller_id, v_id});
                 sellerNotification.save();
             }
             return res.status(200).json({msg: 'Generated'});

@@ -1,0 +1,60 @@
+{
+    "KTM":[
+        {
+            "name": " KTM DUKE 200",
+            "price": "500000",
+            "mileage": "30-35 kmpl",
+            "engine_displacement": "199.5cc"
+        },
+        {
+            "name": " KTM DUKE 250",
+            "price": "590000",
+            "mileage": "30-35 kmpl",
+            "engine_displacement": "248.8cc"
+        },
+        {
+            "name": " KTM DUKE 200 390-2017",
+            "price": "730000",
+            "mileage": "30-35 kmpl",
+            "engine_displacement": "373cc"
+        },
+        {
+            "name": " KTM RC 200",
+            "price": "585000",
+            "mileage": "30-35 kmpl",
+            "engine_displacement": "199.5cc"
+        },
+        {
+            "name": " KTM DUKE 390-2016",
+            "price": "607000",
+            "mileage": "30-35 kmpl",
+            "engine_displacement": "373.2cc"
+        }
+    ],
+    "yamaha":[
+        {
+            "name": " Yamaha YZF R3",
+            "price": "925000",
+            "mileage": "15-25 kmpl",
+            "engine_displacement": "321cc"
+        },
+        {
+            "name": " Yamaha R15",
+            "price": "480000",
+            "mileage": "35-45 kmpl",
+            "engine_displacement": "155.1cc"
+        },
+        {
+            "name": " Yamaha FAZER 25",
+            "price": "415000",
+            "mileage": "40 kmpl",
+            "engine_displacement": "249cc"
+        },
+        {
+            "name": " Yamaha Saluto",
+            "price": "195000",
+            "mileage": "55-65 kmpl",
+            "engine_displacement": "125cc"
+        }
+    ]
+}

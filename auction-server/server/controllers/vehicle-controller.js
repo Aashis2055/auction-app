@@ -201,6 +201,16 @@ const deleteReply = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+const getPredication = async (req, res)=>{
+    const {year, model, make} = req.query;
+    // TODO predict 
+    const availableModel = ["TVS", "Yamaha", "Hero", "KTM"];
+    if(availableModel.includes(model)){
+        return res.status(200).json({msg: 'Working on it'});
+    }else{
+        res.status(404).json({msg: 'Not supported for the model'});
+    }
+}
 const testRoute = async (req, res)=>{
     let {id} = req.params;
     try {
@@ -236,6 +246,7 @@ module.exports = {
     deleteComment,
     deleteReply,
     getUpcomingVehicles,
+    getPredication,
     testRoute
 }
 

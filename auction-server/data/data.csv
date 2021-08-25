@@ -1,0 +1,10 @@
+Type, Make, Model, year, trim, km_driven, min_Price, max_price, engine_displacement, mielage, current_price
+Bike, Yamaha, Gladiator, 2011, 125cc, 1000, 20000, 22000, 123.7cc, 50KMPL, 
+Bike, KTM, Duke, 2020, 125cc, 500, 180000, 190000
+Bike, KTM, Duke, 2018, 125cc, 500, 150000, 160000
+Bike, TVS, Apache Rr, 2019, 310 Slipper Clutch, 1500, 200000, 210000
+Bike, TVS, Apache Rr, 2019, 310 Sliper Clutch, 200, 250000, 260000
+Bike, Aprilia, Mana 850 ABS, 2016, 893cc, 200, 940000, 1000000
+Bike, Royal Enfield, Classic Chrome, 2020, 500cc, 10, 300000, 330000
+Bike, Yamaha, FZS-FI v 3.0, 2021, 150cc ABS BS6, 10, 150000, 160000, 149cc, 53KMPL, 309900
+

@@ -13,12 +13,14 @@ const USER_KEY = process.env.USER_KEY;
 const errorMsg = { message: 'Server Error'};
 const postLogin = async (req, res)=>{
     let {email,password} = req.body;
+    console.log(email,password);
     try{
         const loginValidationError = await userLogin.validate(req.body, {abortEarly: false});
         if(loginValidationError && loginValidationError.error){
             let loginerrormsg = loginValidationError.error.details.map(data=>{
                 return data.message;
-            })
+            });
+            console.log(loginerrormsg);
             return res.status(400).json({error: loginerrormsg})
         }// eof validation
         email = email.toLowerCase();
@@ -51,6 +53,7 @@ const postRegister = async (req, res)=>{
         const registerValidationError = await userRegister.validate(req.body, {abortEarly: false});
         if(registerValidationError && registerValidationError.error){
             let registererror = registerValidationError.error.details.map(data => data.message);
+            console.log(registererror);
             return res.status(400).json({
                 message: 'validation error',
                 error: registererror
