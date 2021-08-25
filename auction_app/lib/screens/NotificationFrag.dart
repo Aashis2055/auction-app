@@ -1,9 +1,11 @@
+import 'package:auction_app/screens/ProfileFrag.dart';
 import 'package:auction_app/services/network.dart';
 import 'package:flutter/material.dart';
 // models
 import 'package:auction_app/models/notification.dart';
 // widget
 import 'package:auction_app/widgets/NotificationTile.dart';
+import 'package:auction_app/utils/notification-text.dart';
 
 class NotificationFrag extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class NotificationFrag extends StatefulWidget {
 
 class _NotificationFragState extends State<NotificationFrag> {
   NetworkHelper networkHelper;
-  List<NotificationModel> notification;
+  List<NotificationModel> notification = <NotificationModel>[];
   @override
   void initState() {
     super.initState();
@@ -35,10 +37,16 @@ class _NotificationFragState extends State<NotificationFrag> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: ListView.builder(
-      itemBuilder: (builder, index) {
-        return NotificationTile(notification[index]);
-      },
-    ));
+    print(notification);
+    return Container(
+        child: notification == null? ProgressScreen() :Column(
+          children: notification.map((e) => NotificationTile(e, getNotificationText(e))).toList(),
+        )
+    //     ListView.builder(
+    //   itemBuilder: (builder, index) {
+    //     return NotificationTile(notification[index], getNotificationText(notification[index]));
+    //   },
+    // )
+    );
   }
 }

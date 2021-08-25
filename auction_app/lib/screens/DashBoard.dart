@@ -1,12 +1,17 @@
-import 'package:auction_app/screens/LoginScreen.dart';
-import 'package:auction_app/services/storage.dart';
-import 'package:auction_app/widgets/FilterBox.dart';
 import 'package:flutter/material.dart';
 // screens
+import 'package:auction_app/screens/LoginScreen.dart';
 import 'package:auction_app/screens/ProfileFrag.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:auction_app/screens/VehicleFrag.dart';
+//models
+import 'package:auction_app/models/vehicle_model.dart';
+// widgets
 import 'NotificationFrag.dart';
+import 'package:auction_app/widgets/FilterBox.dart';
+//
+import 'package:auction_app/services/storage.dart';
+import 'package:auction_app/services/network.dart';
 
 // widgets
 class DashBoard extends StatefulWidget {
@@ -17,10 +22,12 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard>
     with SingleTickerProviderStateMixin {
+      NetworkHelper networkHelper;
+  List<Vehicle> posts = [];
   TabController _tabController;
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 
-  final _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), NotificationFrag()];
+  List<Widget> _kTabPages;
   static const _kTabIcons = <Tab>[
     Tab(
       icon: Icon(Icons.account_circle_outlined),
@@ -41,14 +48,29 @@ class _DashBoardState extends State<DashBoard>
   @override
   void initState() {
     super.initState();
+    _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(posts), NotificationFrag()];
     _tabController = TabController(length: _kTabPages.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
         _currentIndex = _tabController.index;
       });
     });
-  }
+    networkHelper = NetworkHelper(context);
+    setUp();
 
+  }
+  setUp() async {
+    await networkHelper.initState();
+    // List<Vehicle> myPosts = await networkHelper.getPosts();
+    // print(myPosts);
+    // if (myPosts == null) {
+    //   return;
+    // } else {
+    //   setState(() {
+    //     posts = myPosts;
+    //   });
+    // }
+  }
   @override
   void dispose() {
     _tabController.dispose();
@@ -87,6 +109,7 @@ class _DashBoardState extends State<DashBoard>
             }),
             PopupMenuButton(
               onSelected: (choice) {
+
               },
               itemBuilder: (BuildContext context) {
                 return <Choice>[
@@ -96,8 +119,12 @@ class _DashBoardState extends State<DashBoard>
                       callback: () async {
                         StorageHelper storageHelper = StorageHelper();
                         bool isLoggedout = await storageHelper.removeToken();
+                        print("loging out");
+                        print(await storageHelper.getToken());
+                        print(isLoggedout);
                         if (isLoggedout) {
                           Navigator.pushNamed(context, LoginScreen.id);
+                          // Navigator.pop(context);
                         } else {
                           print('logout error');
                         }
@@ -108,15 +135,14 @@ class _DashBoardState extends State<DashBoard>
                   //     callback: () {
                   //       print('TODO settings');
                   //     }),
-                  // Choice(
-                  //     title: 'About Us',
-                  //     icon: Icons.info,
-                  //     callback: () {
-                  //     })
                 ].map((choice) {
                   return PopupMenuItem(
                     value: choice,
-                    child: Text(choice.title),
+                    child: TextButton(onPressed: (){
+                      choice.callback();
+                    }, child: Text(choice.title),),
+                    // child: Text(choice.title),
+
                   );
                 }).toList();
               },
@@ -156,7 +182,8 @@ class ChoiceCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(0.0),
       child: Center(
-        child: Column(
+        child: GestureDetector(
+        child:Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
@@ -169,6 +196,10 @@ class ChoiceCard extends StatelessWidget {
             )
           ],
         ),
+          onTap: (){
+            choice.callback;
+          },
+        )
       ),
     );
   }

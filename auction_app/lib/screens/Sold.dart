@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:auction_app/models/notification.dart';
 class SoldScreen extends StatelessWidget {
-  final String type;
-  SoldScreen(this.type);
+  final NotificationModel notification;
+  SoldScreen(this.notification);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: this.type == "Sold"?Text('Vahicle Sold') : Text('Vehicle Bought')),
+      appBar: AppBar(title: notification.type == "Sold"?Text('Vehicle Sold') : Text('Vehicle Bought')),
       body: Container(
-        child: this.type == 'Sold'?
-        Text('congratulation you have sold your Vehicle'):
-        Text('congratulation you have bought a Vehicle')
+        child: Text(notification.message)
       ),
     );
   }

@@ -14,7 +14,7 @@ class ProfileFrag extends StatefulWidget {
 
 class _ProfileFragState extends State<ProfileFrag> {
   User user = null;
-  List<Vehicle> posts;
+  List<Vehicle> posts = [];
   NetworkHelper networkHelper;
   @override
   void initState() {
@@ -61,12 +61,16 @@ class _ProfileFragState extends State<ProfileFrag> {
                         'Status: Inactive',
                         style: TextStyle(backgroundColor: Colors.red),
                       ),
-                ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    return MyCard(posts[index]);
-                  },
+                Column(
+                  children: posts.map((e) => MyCard(e)).toList(),
                 )
+
+                // ListView.builder(
+                //   itemCount: posts.length,
+                //   itemBuilder: (context, index) {
+                //     return MyCard(posts[index]);
+                //   },
+                // )
               ],
             ),
     );

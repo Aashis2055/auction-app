@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auction_app/views/view1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String province = kProvince[0];
   String district = kDistrict[0][0];
   String lastname = "";
-  int phoneNo = 0;
+  int phoneNo = 9800000002;
   int index = 0;
   Map<String, String> errors = {
     'email': '',
@@ -108,7 +110,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               icon: Icon(Icons.phone),
               labelText: 'Phone No',
               hintText: 'Enter Phone No',
-              errorText: errors['phone_no']),
+              errorText: errors['phone_no'],
+          ),
+          onChanged: (value){
+            // String phoneString = value;
+            // phoneNo = int.parse(phoneString);
+          },
         ),
         RowButton(
             label: 'Register',
@@ -135,20 +142,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (!isValid) return;
               print('validation sucess');
               Uri uri = kURI.replace(path: '/user-api/register');
-              http.Response response = await http.post(uri, body: {
+              String encodedAddress = jsonEncode({'province': province, 'district': district});
+              var postBody = {
                 'email': email,
                 'first_name': firstname,
                 'last_name': lastname,
                 'password': password,
-                // 'address': {'province': province, 'district': district},
-                'phone_no': phoneNo.toString()
-              });
+                'address': encodedAddress,
+                'phone_no': phoneNo
+              };
+              http.Response response = await http.post(uri, body: postBody);
               if (response.statusCode == 200) {
                 Navigator.pushNamed(context, LoginScreen.id);
               } else if (response.statusCode == 500) {
                 print(response.body);
               } else {
-                print('non server error');
+                print("error while post in"+response.body.toString());
               }
             }),
         RowButton(

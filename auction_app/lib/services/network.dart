@@ -36,11 +36,9 @@ class NetworkHelper {
     http.Response response = await http.get(uri, headers: header);
     if (response.statusCode == 200) {
       var responseData = jsonDecode(response.body);
-      print(responseData);
       User user = User.fromJson(responseData['user']);
       List<Vehicle> posts = List<Vehicle>.from(
           responseData['posts'].map((x) => Vehicle.fromJson(x)));
-
       return {'user': user, 'posts': posts};
     } else {
       print('error');
@@ -75,9 +73,13 @@ class NetworkHelper {
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
     print(responseData);
+    if(responseData['result'] == null){
+      return <NotificationModel>[];
+    }
     List<NotificationModel> notifications = List<NotificationModel>.from(
         responseData['notifications']
             .map((x) => NotificationModel.fromJson(x)));
+    return notifications;
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {

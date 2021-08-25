@@ -71,8 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         scheme: 'http',
                         path: '/user-api/login');
                     print(uri.toString());
-                    http.post(uri).then((value) => print(value)).catchError((error)=> print(error));
-                    return;
+                    // http.post(uri, body: {'email': email, 'password': password}).then((value) => print(value)).catchError((error)=> print(error));
                     http.Response response = await http.post(uri,
                         body: {'email': email, 'password': password});
                     print(response);
@@ -82,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       await storageHelper.setToken(data['token']);
                       Navigator.pushNamed(context, DashBoard.id);
                     } else {
-
+                      // TODO show alert dialog on login fail
                     }
                   })
             ],

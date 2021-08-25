@@ -3,13 +3,17 @@ class AlertTextField extends StatelessWidget {
   final String title;
   final Function cahangeEvent;
   final Function callback;
-  AlertTextField(this.title, this.callback, this.cahangeEvent);
+  final int suggestBid;
+  AlertTextField(this.title, this.callback, this.cahangeEvent, this.suggestBid);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title),
       content: TextField(
-        onChanged: cahangeEvent,
+        
+        onChanged: (value){
+          
+        },
       ),
       actions: [
         TextButton(onPressed: callback, child: Text('OK')),

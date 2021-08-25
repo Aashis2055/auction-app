@@ -5,15 +5,32 @@ class Vehicle{
   String color = "";
   int initial_Price = 0;
   Bid bid;
-  String img = "images/avatar-ninja.png";
+  String img;
+  int year;
+  String kmDriven;
+  String brand;
+  String endDate;
+  String auctionDate;
+  String addedDate;
   Vehicle({
     this.type,
     this.initial_Price,
     this.color,
     this.model,
-    this.bid
+    this.bid,
+    this.img,
+    this.year,
+    this.kmDriven,
+    this.addedDate,
+    this.auctionDate,
+    this.brand,
+    this.endDate,
+    this.id
   });
-  Vehicle.fromJson(Map<String, dynamic> json): id = json['_id'], model = json['model'], type = json['type'], color = json['type'], initial_Price = json['initial_price'], bid = Bid.fromJson(json['bid']);
+  Vehicle.fromJson(Map<String, dynamic> json): id = json['_id'], model = json['model'], type = json['type'], color = json['type'], initial_Price = json['initial_price'],
+        img = json['img'], year = json['year'] , kmDriven = json['km_driven'].toString(), addedDate = json['added_date'],
+        auctionDate = json['auction_date'], brand = json['brand'], endDate = json['end_date'],
+        bid = json['bid'] == null ? null :Bid.fromJson(json['bid']);
 }
 class Bid{
   int price;

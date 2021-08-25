@@ -1,3 +1,4 @@
+import 'package:auction_app/constants.dart';
 import 'package:auction_app/models/vehicle_model.dart';
 import 'package:auction_app/screens/DetailScreen.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,16 @@ class MyCard extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           child: Column(
             children: [
-              Image.asset(vehicle.img),
+              Image.network(kURI.toString()+"/vehicle-images/"+vehicle.img),
               Text(vehicle.initial_Price.toString()),
               Text(vehicle.model),
-              Text(vehicle.color)
+              Text(vehicle.brand),
             ],
           ),
           onTap: () {
