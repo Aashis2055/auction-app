@@ -7,6 +7,7 @@ const {
     postComment,
     postReply,
     getUpcomingVehicles,
+    getPredication,
     testRoute
 } = require('../controllers/vehicle-controller');
 const  {
@@ -45,7 +46,6 @@ router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);
 router.post('/comment/:id', authUser, authId, postComment);
 router.post('/reply/:id', authUser, authId, postReply);
-
-
+router.get('/prediction', authUser, getPredication);
 
 module.exports = router;

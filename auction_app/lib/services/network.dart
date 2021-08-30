@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:auction_app/models/comment.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -37,6 +40,9 @@ class NetworkHelper {
     if (response.statusCode == 200) {
       var responseData = jsonDecode(response.body);
       User user = User.fromJson(responseData['user']);
+      responseData['posts'].map((element){
+        print(element['bid'].toString());
+      });
       List<Vehicle> posts = List<Vehicle>.from(
           responseData['posts'].map((x) => Vehicle.fromJson(x)));
       return {'user': user, 'posts': posts};
@@ -50,19 +56,25 @@ class NetworkHelper {
     Uri uri = kURI.replace(path: '/user-api/vehicle/$id');
     http.Response response = await http.get(uri, headers: header);
     Map<String, dynamic> resposeData = jsonDecode(response.body);
-    print(resposeData);
     Vehicle post = Vehicle.fromJson(resposeData['post']);
     List<Comment> comment = List<Comment>.from(
       resposeData['comments'].map((x)=> Comment.fromJson(x))
     );
-    return {'post': post};
+    return {'post': post, 'comment': comment};
   }
 
   Future<List<Vehicle>> getPosts() async {
     Uri uri = kURI.replace(path: '/user-api/vehicle');
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
+    print('here');
     print(responseData);
+    // List<Vehicle> posts = <Vehicle>[];
+    // for(int i=0; i< responseData['posts'].length; i++){
+    //   print(responseData['posts'][i]['u_id']);
+    //   print(responseData['posts'][i]['bid']);
+    //   // posts.add(Vehicle.fromJson(responseData))
+    // }
     List<Vehicle> posts = List<Vehicle>.from(
         responseData['posts'].map((x) => Vehicle.fromJson(x)));
     return posts;
@@ -72,27 +84,50 @@ class NetworkHelper {
     Uri uri = kURI.replace(path: '/user-api/notifications');
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
-    print(responseData);
     if(responseData['result'] == null){
       return <NotificationModel>[];
     }
     List<NotificationModel> notifications = List<NotificationModel>.from(
-        responseData['notifications']
+        responseData['result']
             .map((x) => NotificationModel.fromJson(x)));
     return notifications;
   }
+  Future<String> getPrediction(model, year, brand, kmDriven) async{
+    Uri uri = kURI.replace(path: '/user-api/prediction', queryParameters: {
+      'model': model,
+      'year': year,
+      'brand': brand,
+      'km_driven': kmDriven
+    });
+    http.Response response = await http.get(uri, headers: header );
+    return response.body;
 
+  }
+  Future<bool> postProduct(FormData formData) async {
+    var dio = Dio();
+      // dio.options.headers['content-Type'] =
+      dio.options.headers['authorization'] = "token";
+      var response =
+          await dio.post("http://$kIP:5000/user-api/vehicle", data: formData);
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        return true;
+      } else {
+        print('error in image upload');
+        return false;
+      }
+  }
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     if (result == ConnectivityResult.none) {
       showMyAlertDialog();
     }
   }
-
+  
   void showMyAlertDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return MyAlertDialog();
+          return MyAlertDialog("Check Internet Connection");
         });
   }
 

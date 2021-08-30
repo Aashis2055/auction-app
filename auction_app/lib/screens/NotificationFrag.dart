@@ -40,7 +40,9 @@ class _NotificationFragState extends State<NotificationFrag> {
     print(notification);
     return Container(
         child: notification == null? ProgressScreen() :Column(
-          children: notification.map((e) => NotificationTile(e, getNotificationText(e))).toList(),
+          children: notification.length == 0? [
+            Text('No Notification to Show')
+          ]:notification.map((e) => NotificationTile(e, getNotificationText(e))).toList(),
         )
     //     ListView.builder(
     //   itemBuilder: (builder, index) {

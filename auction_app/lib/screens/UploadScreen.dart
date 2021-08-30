@@ -1,6 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:auction_app/screens/UploadScreen2.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:auction_app/utils/dropdown.dart';
 
 class UploadScreen extends StatefulWidget {
@@ -17,24 +16,7 @@ class _UploadScreenState extends State<UploadScreen> {
   String brand;
   String year;
   String kmDriven;
-  String description;
-  int initialPrice;
-  DateTime auctionDate;
-  DateTime endDate;
-  String fileName = "Not Selected";
-  String filePath;
-  Future<DateTime> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2021),
-        lastDate: DateTime(2030));
-    if (picked != null) {
-      return picked;
-    } else {
-      return null;
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -90,82 +72,14 @@ class _UploadScreenState extends State<UploadScreen> {
                 kmDriven = value;
               },
             ),
-            TextField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  labelText: 'Enter Description', errorText: 'Invalid'),
-              onChanged: (value) {
-                description = value;
-              },
-            ),
-            TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  labelText: 'Initial Price', errorText: 'Invalid'),
-              onChanged: (value) {
-                initialPrice = 0;
-              },
-            ),
-            TextButton(
-                onPressed: () async {
-                  auctionDate = await _selectDate(context);
-                },
-                child: Text('Select Auction Date')),
-            TextButton(
-                onPressed: () async {
-                  endDate = await _selectDate(context);
-                },
-                child: Text('Select Auction Date')),
-            TextButton(
-              child: Text('Choose Image'),
-              onPressed: () async {
-                // TODO pick file
-                FilePickerResult result = await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ['jpg', 'png', 'jpeg']);
-                if (result != null) {
-                  PlatformFile file = result.files.first;
-                  print(file.name);
-                  print(file.path);
-                } else {
-                  print('error on image pick');
-                }
-              },
-            ),
-            Text(fileName),
-            TextButton(
-              child: Text('Upload'),
-              onPressed: () async {
-                // TODO upload post
-                FormData formData = FormData.fromMap({
-                  'type': type,
-                  'color': color,
-                  'model': model,
-                  'brand': brand,
-                  'year': year,
-                  'km_driven': kmDriven,
-                  'description': description,
-                  'initial_price': initialPrice,
-                  'auction_date': auctionDate.toString(),
-                  'end_date': endDate.toString(),
-                  "file":
-                      await MultipartFile.fromFile(filePath, filename: fileName)
-                });
-                var dio = Dio();
-                // dio.options.headers['content-Type'] =
-                dio.options.headers['authorization'] = "token";
-                var response =
-                    await dio.post("http://localhost:5000/user-api/vehicle");
-                if (response.statusCode == 200) {
-                  Navigator.pop(context);
-                } else {
-                  print('error in image upload');
-                }
-              },
-            )
+            TextButton(onPressed: (){
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context)=>UploadScreen2(brand: brand, type: type, color: color, model: model, year: year,)));
+            }, child: Text("Continue"))
           ],
         ),
-      )),
+      )
+      ),
     );
   }
 }

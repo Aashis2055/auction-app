@@ -1,7 +1,5 @@
-import 'package:auction_app/screens/DetailScreen.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/animation.dart';
 // screens
 import './screens/HomeScreen.dart';
 import 'package:auction_app/screens/DashBoard.dart';

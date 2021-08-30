@@ -1,7 +1,6 @@
-import 'dart:async';
 import 'dart:convert';
-import 'package:auction_app/services/network.dart';
 import 'package:auction_app/services/storage.dart';
+import 'package:auction_app/widgets/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // screens
@@ -10,7 +9,6 @@ import '../constants.dart';
 import 'DashBoard.dart';
 import 'package:auction_app/views/view1.dart';
 // widgets
-import 'package:auction_app/widgets/TextFields.dart';
 import 'package:auction_app/widgets/RowButton.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,13 +19,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = "user2@email.com";
+  String email = "user@email.com";
   String password = "the password";
 
   @override
   void initState() {
     super.initState();
-    NetworkHelper networkHelper = NetworkHelper(context);
   }
 
   @override
@@ -64,24 +61,20 @@ class _LoginScreenState extends State<LoginScreen> {
               RowButton(
                   label: 'Login',
                   callback: () async {
-                    print('button pressed');
                     Uri uri = Uri(
                         host: kIP,
                         port: 5000,
                         scheme: 'http',
                         path: '/user-api/login');
-                    print(uri.toString());
-                    // http.post(uri, body: {'email': email, 'password': password}).then((value) => print(value)).catchError((error)=> print(error));
                     http.Response response = await http.post(uri,
                         body: {'email': email, 'password': password});
-                    print(response);
                     if (response.statusCode == 200) {
                       StorageHelper storageHelper = StorageHelper();
                       Map data = jsonDecode(response.body);
                       await storageHelper.setToken(data['token']);
                       Navigator.pushNamed(context, DashBoard.id);
                     } else {
-                      // TODO show alert dialog on login fail
+                      showDialog(context: context, builder: (BuildContext context)=> MyAlertDialog(response.body.toString()));
                     }
                   })
             ],

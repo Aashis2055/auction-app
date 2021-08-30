@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PasswordTextField extends StatefulWidget {
-  Function callback;
+  final Function callback;
   PasswordTextField(this.callback);
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();

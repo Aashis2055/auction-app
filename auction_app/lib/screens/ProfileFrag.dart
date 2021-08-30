@@ -13,7 +13,7 @@ class ProfileFrag extends StatefulWidget {
 }
 
 class _ProfileFragState extends State<ProfileFrag> {
-  User user = null;
+  User user;
   List<Vehicle> posts = [];
   NetworkHelper networkHelper;
   @override

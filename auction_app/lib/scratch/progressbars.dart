@@ -30,21 +30,21 @@ class _PorgressBar1State extends State<PorgressBar1> {
   }
 }
 
-void _updateProgress() {
-  double progressValue = 0.0;
-  bool loading = true;
-  const fiveSec = const Duration(seconds: 5);
-  Timer.periodic(fiveSec, (Timer t) {
-    // set state
-    progressValue += 0.2;
-    if (progressValue.toStringAsFixed(1) == '1.0') {
-      loading = false;
-      t.cancel();
-      return;
-    }
-  });
-  // check if 100%
-}
+// void _updateProgress() {
+//   double progressValue = 0.0;
+//   bool loading = true;
+//   const fiveSec = const Duration(seconds: 5);
+//   Timer.periodic(fiveSec, (Timer t) {
+//     // set state
+//     progressValue += 0.2;
+//     if (progressValue.toStringAsFixed(1) == '1.0') {
+//       loading = false;
+//       t.cancel();
+//       return;
+//     }
+//   });
+//   // check if 100%
+// }
 
 int value = 6;
 var mySlider = Slider(

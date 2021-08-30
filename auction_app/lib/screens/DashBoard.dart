@@ -22,8 +22,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard>
     with SingleTickerProviderStateMixin {
-      NetworkHelper networkHelper;
-  List<Vehicle> posts = [];
+ 
   TabController _tabController;
   int _currentIndex = 2;
 
@@ -48,38 +47,29 @@ class _DashBoardState extends State<DashBoard>
   @override
   void initState() {
     super.initState();
-    _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(posts), NotificationFrag()];
+    _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), NotificationFrag()];
     _tabController = TabController(length: _kTabPages.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
         _currentIndex = _tabController.index;
       });
     });
-    networkHelper = NetworkHelper(context);
-    setUp();
+    
 
   }
-  setUp() async {
-    await networkHelper.initState();
-    // List<Vehicle> myPosts = await networkHelper.getPosts();
-    // print(myPosts);
-    // if (myPosts == null) {
-    //   return;
-    // } else {
-    //   setState(() {
-    //     posts = myPosts;
-    //   });
-    // }
-  }
+  
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+  // function to get rangevales from filterbax
   void filterContent(RangeValues rangeValues){
-    
+    print('range value');
+    print(rangeValues.end);
+    print(rangeValues.start);
   }
-  // function to show the filter dialog
+  // // function to show the filter dialog
   // Future<void> _displayTextInputDialog( context)async{
   //   return showDialog(
   //     context: context, 
@@ -99,18 +89,13 @@ class _DashBoardState extends State<DashBoard>
           title: Text('Vehicle Auction'),
           actions: [
             IconButton(
-                icon: Icon(Icons.power_settings_new_outlined),
+                icon: Icon(Icons.apps_sharp ),
                 onPressed: () {
                   showModalBottomSheet(
                       context: context, builder: (context) => FilterBox(filterContent));
                 }),
-            IconButton(icon: Icon(Icons.apps_sharp), onPressed: () {
-
-            }),
             PopupMenuButton(
-              onSelected: (choice) {
-
-              },
+              onSelected: (choice) {},
               itemBuilder: (BuildContext context) {
                 return <Choice>[
                   Choice(
@@ -119,22 +104,13 @@ class _DashBoardState extends State<DashBoard>
                       callback: () async {
                         StorageHelper storageHelper = StorageHelper();
                         bool isLoggedout = await storageHelper.removeToken();
-                        print("loging out");
-                        print(await storageHelper.getToken());
-                        print(isLoggedout);
                         if (isLoggedout) {
                           Navigator.pushNamed(context, LoginScreen.id);
                           // Navigator.pop(context);
                         } else {
-                          print('logout error');
+                          
                         }
                       }),
-                  // Choice(
-                  //     title: 'Settings',
-                  //     icon: Icons.settings,
-                  //     callback: () {
-                  //       print('TODO settings');
-                  //     }),
                 ].map((choice) {
                   return PopupMenuItem(
                     value: choice,
@@ -197,7 +173,7 @@ class ChoiceCard extends StatelessWidget {
           ],
         ),
           onTap: (){
-            choice.callback;
+            // choice.callback;
           },
         )
       ),

@@ -9,22 +9,19 @@
 <body>
    <form >
        <input type="number" name="new-price" id="new-price">
+       <input type="text" name="token" id="token" placeholder="token">
+       <input type="text" name="vehicle_id" id="vehicle_id" placeholder="vehicle id">
        <button id="btn">Bid</button>
    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const button = document.getElementById('btn');
         const textField = document.getElementById('new-price');
-        const socket = io();
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDkwYTg2OTRlNTcyMGM5YWQ3MjAiLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiYWRkcmVzcyI6eyJwcm92aW5jZSI6IkJhZ21haXQgUHJvdmluY2UiLCJkaXN0cmljdCI6IkthdGhtYW5kdSJ9LCJpYXQiOjE2MjkxOTUxNjMsImV4cCI6MTYzNDAzMzU2M30.21JAwXtobxM7ujbU5a0S7Lt2oPmuPeR97Vi-TTuytaQ";
-        const v_id = "60e94d2f66347673443b7acf";
+        const tokenField = document.getElementById('token');
+        const idField = document.getElementById('vehicle_id');
+        const socket = io();        
         let user_id;
-        socket.emit('joinRoom', {token, v_id});
-        socket.on('getId', ({u_id})=>{
-            user_id = u_id;
-            console.log(user_id);
-            
-        })
+        
         socket.on('priceChange', ({price:newPrice, newu_id})=>{
             if(newu_id === user_id){
                 
@@ -34,6 +31,14 @@
             console.log(msg);
         })
         button.onclick = (event)=>{
+            const token = tokenField.value;
+            const v_id = idField.value;
+            socket.emit('joinRoom', {token, v_id});
+            socket.on('getId', ({u_id})=>{
+                user_id = u_id;
+                console.log(user_id);
+                
+            })
             event.preventDefault();
             const newP = textField.value;
             socket.emit('bidPrice', {newP});

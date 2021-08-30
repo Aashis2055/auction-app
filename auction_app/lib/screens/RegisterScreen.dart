@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auction_app/views/view1.dart';
+import 'package:auction_app/widgets/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String province = kProvince[0];
   String district = kDistrict[0][0];
   String lastname = "";
-  int phoneNo = 9800000002;
+  String phoneNo = "";
   int index = 0;
   Map<String, String> errors = {
     'email': '',
@@ -113,15 +114,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               errorText: errors['phone_no'],
           ),
           onChanged: (value){
-            // String phoneString = value;
-            // phoneNo = int.parse(phoneString);
+            phoneNo = value;
           },
         ),
         RowButton(
             label: 'Register',
             callback: () async {
               // TODO validate data
-              print('validating');
               bool isValid = true;
               // email validation
               if (email == '') {
@@ -140,24 +139,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // check if the values are valid
               // if not valid end
               if (!isValid) return;
-              print('validation sucess');
               Uri uri = kURI.replace(path: '/user-api/register');
-              String encodedAddress = jsonEncode({'province': province, 'district': district});
+              Map<String, String> headers = {
+                "Content-Type": "application/json"
+              };
               var postBody = {
                 'email': email,
                 'first_name': firstname,
                 'last_name': lastname,
                 'password': password,
-                'address': encodedAddress,
+                'address': {
+                  'district': district,
+                  'province': province
+                },
                 'phone_no': phoneNo
               };
-              http.Response response = await http.post(uri, body: postBody);
+              http.Response response = await http.post(uri, body: postBody, headers: headers);
               if (response.statusCode == 200) {
                 Navigator.pushNamed(context, LoginScreen.id);
               } else if (response.statusCode == 500) {
-                print(response.body);
+                showDialog(context: context, builder: (BuildContext context)=> MyAlertDialog("Server Error Please Try Again"));
               } else {
-                print("error while post in"+response.body.toString());
+                showDialog(context: context, builder: (BuildContext context)=> MyAlertDialog(response.body.toString()));
               }
             }),
         RowButton(

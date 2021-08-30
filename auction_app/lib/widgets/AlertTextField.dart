@@ -10,13 +10,14 @@ class AlertTextField extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       content: TextField(
-        
         onChanged: (value){
           
         },
       ),
       actions: [
-        TextButton(onPressed: callback, child: Text('OK')),
+        TextButton(onPressed: (){
+
+        }, child: Text('OK')),
         TextButton(onPressed: (){
           Navigator.pop(context);
         }, child: Text('Cancel'))

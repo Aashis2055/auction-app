@@ -10,7 +10,7 @@ class Comment {
         vId = json['v_id'],
         comment = json['comment'],
         addedDate = json['added_date'],
-        reply = Reply.fromJson(json['reply']);
+        reply = json['reply']==null? null :Reply.fromJson(json['reply']);
 }
 
 class Reply {
