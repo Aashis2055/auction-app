@@ -6,6 +6,7 @@ const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
 const {scheduleEnd} = require('../events/schedule-jobs');
+const VehicleSpecs = require('../models/VehicleSpecs');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     try{
@@ -237,6 +238,7 @@ const testRoute = async (req, res)=>{
         return res.status(500).json({ msg: 'Server Error'});
     }
 }
+
 module.exports = {
     postVehicle,
     getVehicle,

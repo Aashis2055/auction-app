@@ -1,5 +1,7 @@
 const vehicleModel = require('../../models/Vehicle');
 const commentModel = require('../../models/Comment');
+const vehicleSpecsModel = require('../../models/VehicleSpecs');
+
 // validation models
 const schemaFilter = require('../../validator/filter-query');
 const deleteFile = require('../../helper/file');
@@ -102,10 +104,39 @@ const deleteReply = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+const getVehicleSpecs = async (req, res)=>{
+    try {
+        const vehicleSpecs = await vehicleSpecsModel.find(req.query);
+        if(vehicleSpecs.length == 0){
+            return res.status(204).json({
+                msg: 'No Content Found'
+            });
+        }
+        res.status(200).json({
+            'specs': vehicleSpecs
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const postVehicleSpecs = async (req, res)=>{
+    const {brand, model, price, mielage, engine_displacement} =req.body;
+    try{
+        const newSpecs = new vehicleSpecsModel({brand, model, price,mielage, engine_displacement});
+        const result = await newSpecs.save();
+        return res.status(200).json({msg: result});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 module.exports = {
     getVehicle,
     getVehicles,
     deleteVehicle,
     deleteComment,
-    deleteReply
+    deleteReply,
+    getVehicleSpecs,
+    postVehicleSpecs
 }

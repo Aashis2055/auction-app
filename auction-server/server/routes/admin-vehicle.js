@@ -7,7 +7,9 @@ const {
     getVehicles,
     deleteVehicle,
     deleteComment,
-    deleteReply
+    deleteReply,
+    postVehicleSpecs,
+    getVehicleSpecs
 } = require('../controllers/admin-controller/admin-vehicle');
 const {
     getUser,
@@ -19,6 +21,9 @@ const authId = require('../middleware/authId');
 router.get('/vehicle', authAdmin, getVehicles);
 router.get('/vehicle/:id', authAdmin,authId, getVehicle);
 router.delete('/vehicle/:id', authAdmin, authId, deleteVehicle );
+
+router.post('/vehiclespecs', authAdmin, postVehicleSpecs);
+router.get('/vehiclespecs', authAdmin, getVehicleSpecs);
 
 router.get('/users', authAdmin, getUsers);
 router.put('/user/:id', authAdmin, authId, updateUser);
