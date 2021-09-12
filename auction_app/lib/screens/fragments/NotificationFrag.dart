@@ -1,4 +1,4 @@
-import 'package:auction_app/screens/ProfileFrag.dart';
+import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/services/network.dart';
 import 'package:flutter/material.dart';
 // models
@@ -38,17 +38,14 @@ class _NotificationFragState extends State<NotificationFrag> {
   @override
   Widget build(BuildContext context) {
     print(notification);
-    return Container(
+    return SingleChildScrollView(
+      child: Container(
         child: notification == null? ProgressScreen() :Column(
           children: notification.length == 0? [
             Text('No Notification to Show')
           ]:notification.map((e) => NotificationTile(e, getNotificationText(e))).toList(),
         )
-    //     ListView.builder(
-    //   itemBuilder: (builder, index) {
-    //     return NotificationTile(notification[index], getNotificationText(notification[index]));
-    //   },
-    // )
+    )
     );
   }
 }

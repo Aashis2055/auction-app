@@ -14,7 +14,7 @@ class NotificationTile extends StatelessWidget {
       title: Text(getNotificationText(notification)),
       trailing: notification.type == "Sold" || notification.type == "Bought" ? TextButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> SoldScreen(notification)));
-      }, 
+      },
       child: Text('Details')): null,
     );
   }

@@ -1,3 +1,4 @@
+import 'package:auction_app/screens/EstimateScreen.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
 import 'package:flutter/material.dart';
 // screens
@@ -5,7 +6,8 @@ import './screens/HomeScreen.dart';
 import 'package:auction_app/screens/DashBoard.dart';
 import 'package:auction_app/screens/LoginScreen.dart';
 import 'package:auction_app/screens/RegisterScreen.dart';
-
+import 'package:auction_app/screens/ProfileScreen.dart';
+import 'package:auction_app/screens/MyPostScreen.dart';
 void main() {
   runApp(MyApp());
 }
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
         RegisterScreen.id: (context) => RegisterScreen(),
         DashBoard.id: (context) => DashBoard(),
         UploadScreen.id: (context) => UploadScreen(),
+        ProfileFrag.id: (context)=> ProfileFrag(),
+        MyPosts.id: (context)=> MyPosts(),
+        EstimateScreen.id: (context)=> EstimateScreen(),
       },
     );
   }

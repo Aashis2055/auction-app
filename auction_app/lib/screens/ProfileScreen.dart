@@ -8,6 +8,7 @@ import 'package:auction_app/models/user.dart';
 import 'package:auction_app/services/network.dart';
 
 class ProfileFrag extends StatefulWidget {
+  static final  String id= "profile_screen";
   @override
   _ProfileFragState createState() => _ProfileFragState();
 }
@@ -24,7 +25,6 @@ class _ProfileFragState extends State<ProfileFrag> {
   }
 
   setUp() async {
-    print('the profile');
     await networkHelper.initState();
     Map data = await networkHelper.getProfile();
     if (data['user'] == null) {

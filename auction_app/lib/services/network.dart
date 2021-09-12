@@ -60,21 +60,17 @@ class NetworkHelper {
     List<Comment> comment = List<Comment>.from(
       resposeData['comments'].map((x)=> Comment.fromJson(x))
     );
+    print(comment);
     return {'post': post, 'comment': comment};
   }
 
   Future<List<Vehicle>> getPosts() async {
+    print('inside the posts method');
     Uri uri = kURI.replace(path: '/user-api/vehicle');
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
     print('here');
     print(responseData);
-    // List<Vehicle> posts = <Vehicle>[];
-    // for(int i=0; i< responseData['posts'].length; i++){
-    //   print(responseData['posts'][i]['u_id']);
-    //   print(responseData['posts'][i]['bid']);
-    //   // posts.add(Vehicle.fromJson(responseData))
-    // }
     List<Vehicle> posts = List<Vehicle>.from(
         responseData['posts'].map((x) => Vehicle.fromJson(x)));
     return posts;
@@ -84,11 +80,12 @@ class NetworkHelper {
     Uri uri = kURI.replace(path: '/user-api/notifications');
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
-    if(responseData['result'] == null){
+    print(responseData);
+    if(responseData['notifications'] == null){
       return <NotificationModel>[];
     }
     List<NotificationModel> notifications = List<NotificationModel>.from(
-        responseData['result']
+        responseData['notifications']
             .map((x) => NotificationModel.fromJson(x)));
     return notifications;
   }

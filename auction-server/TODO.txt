@@ -11,7 +11,7 @@
 Prediction on Auction ?
 
 1. problem: notify if token is expire
-2. problem: ban user
+2. problem: ban user (users should not be able to login, post or make bid)
 3. reply can only be posted by post owner
 4. problem delivery location
 5. problem: initial pricing of product
@@ -29,7 +29,7 @@ user :
 - 
 
 
-July 17:
+
 - populate query 
 
 query to pupulate

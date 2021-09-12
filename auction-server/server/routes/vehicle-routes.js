@@ -25,7 +25,7 @@ const testauth = (req, res, next)=>{
             req.body.auction_date = Date.now()
             console.log(req.body.auction_date);
         }
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTFlMmZhYjI1Njg3ZTM3ZDUzYzA5ODQiLCJlbWFpbCI6InVzZXIxQGVtYWlsLmNvbSIsImFkZHJlc3MiOnsicHJvdmluY2UiOiJCYWdtYXRpIFByb3ZpbmNlIiwiZGlzdHJpY3QiOiJMYWxpdHB1ciJ9LCJpYXQiOjE2MjkzNjgyNTYsImV4cCI6MTYzNDIwNjY1Nn0.pMOR-WuZUOnYhR1mbfBt64_ZHNHJKQGffrCZziYDIM4";
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI4NzgxNmNiODM0MDFlZWJjZGU5Y2YiLCJlbWFpbCI6InVzZXIyQGVtYWlsLmNvbSIsImFkZHJlc3MiOnsicHJvdmluY2UiOiJCYWdtYXRpIFByb3ZpbmNlIiwiZGlzdHJpY3QiOiJLYXRobWFuZHUifSwiaWF0IjoxNjMwODEyMjg4LCJleHAiOjE2MzU2NTA2ODh9.fwwtTOH8i7oqHq9DpWMkV1HNAqBo3rqyVOWnZOixB5w";
         let decode = jwt.verify(token, USER_KEY);
         req.userData = decode;
         next();

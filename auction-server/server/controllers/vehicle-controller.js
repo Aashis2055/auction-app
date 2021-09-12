@@ -203,10 +203,11 @@ const deleteReply = async (req, res)=>{
     }
 }
 const getPredication = async (req, res)=>{
+    console.log('here');
     const {year, model, brand, km_Driven} = req.query;
     // TODO predict 
     const availableBrand = ["TVS", "Yamaha", "KTM"];
-    if(availableModel.includes(model)){
+    if(availableBrand.includes(model)){
         return res.status(200).json({msg: 'Working on it'});
     }else{
         res.status(404).json({msg: 'Not supported for the model'});

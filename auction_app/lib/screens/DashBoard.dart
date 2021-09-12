@@ -1,17 +1,18 @@
+import 'package:auction_app/screens/EstimateScreen.dart';
+import 'package:auction_app/screens/MyPostScreen.dart';
+import 'package:auction_app/screens/fragments/UpcomingScreen.dart';
 import 'package:flutter/material.dart';
 // screens
 import 'package:auction_app/screens/LoginScreen.dart';
-import 'package:auction_app/screens/ProfileFrag.dart';
+import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/screens/UploadScreen.dart';
-import 'package:auction_app/screens/VehicleFrag.dart';
+import 'package:auction_app/screens/fragments/VehicleFrag.dart';
 //models
-import 'package:auction_app/models/vehicle_model.dart';
 // widgets
-import 'NotificationFrag.dart';
+import 'fragments/NotificationFrag.dart';
 import 'package:auction_app/widgets/FilterBox.dart';
 //
 import 'package:auction_app/services/storage.dart';
-import 'package:auction_app/services/network.dart';
 
 // widgets
 class DashBoard extends StatefulWidget {
@@ -24,19 +25,19 @@ class _DashBoardState extends State<DashBoard>
     with SingleTickerProviderStateMixin {
  
   TabController _tabController;
-  int _currentIndex = 2;
+  int _currentIndex = 1;
 
   List<Widget> _kTabPages;
   static const _kTabIcons = <Tab>[
     Tab(
-      icon: Icon(Icons.account_circle_outlined),
-      text: 'Profile',
+      icon: Icon(Icons.home_outlined),
+      text: 'Home',
     ),
     Tab(
       icon: Icon(
-        Icons.home_outlined,
+        Icons.explore,
       ),
-      text: 'Home',
+      text: 'Explore',
     ),
     Tab(
       icon: Icon(Icons.notifications),
@@ -47,7 +48,7 @@ class _DashBoardState extends State<DashBoard>
   @override
   void initState() {
     super.initState();
-    _kTabPages = <Widget>[ProfileFrag(), VehiclesFrag(), NotificationFrag()];
+    _kTabPages = <Widget>[VehiclesFrag(), UpcomingScreen(), NotificationFrag()];
     _tabController = TabController(length: _kTabPages.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
@@ -63,7 +64,7 @@ class _DashBoardState extends State<DashBoard>
     _tabController.dispose();
     super.dispose();
   }
-  // function to get rangevales from filterbax
+  // function to get range values from filterbox
   void filterContent(RangeValues rangeValues){
     print('range value');
     print(rangeValues.end);
@@ -82,18 +83,9 @@ class _DashBoardState extends State<DashBoard>
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: CircleAvatar(
-            radius: 20,
-            child: Image.asset('images/avatar-ninja.png'),
-          ),
+          
           title: Text('Vehicle Auction'),
           actions: [
-            IconButton(
-                icon: Icon(Icons.apps_sharp ),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context, builder: (context) => FilterBox(filterContent));
-                }),
             PopupMenuButton(
               onSelected: (choice) {},
               itemBuilder: (BuildContext context) {
@@ -106,9 +98,8 @@ class _DashBoardState extends State<DashBoard>
                         bool isLoggedout = await storageHelper.removeToken();
                         if (isLoggedout) {
                           Navigator.pushNamed(context, LoginScreen.id);
-                          // Navigator.pop(context);
                         } else {
-                          
+                          // TODO something here
                         }
                       }),
                 ].map((choice) {
@@ -125,15 +116,69 @@ class _DashBoardState extends State<DashBoard>
             )
           ],
         ),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: CircleAvatar(
+                radius: 20,
+                child: Image.asset('images/avatar-ninja.png'),
+              ),
+              ),
+              ListTile(leading: Icon(Icons.account_circle),
+                title: Text("Profile"),
+                onTap: (){
+                  Navigator.pushNamed(context, ProfileFrag.id);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.car_rental),
+                title: Text("My Posts"),
+                onTap: (){
+                  Navigator.pushNamed(context, MyPosts.id);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.upload),
+                title: Text("Upload "),
+                onTap: (){
+                  Navigator.pushNamed(context, UploadScreen.id);
+                }
+              ),
+              ListTile(
+                leading: Icon(Icons.monetization_on),
+                title: Text("Estimate"),
+                onTap: (){
+                  Navigator.pushNamed(context, EstimateScreen.id);
+                },
+              ),
+              const Divider(height: 20, thickness: 3,),
+              ListTile(
+                leading: Icon(Icons.info),
+                title: Text("About US"),
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                onTap: (){
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+        ),
         body: TabBarView(
           controller: _tabController,
           children: _kTabPages,
         ),
         floatingActionButton: _currentIndex == 1
             ? FloatingActionButton(
-                child: Icon(Icons.add),
+                child: Icon(Icons.grid_on_rounded),
                 onPressed: () {
-                  Navigator.pushNamed(context, UploadScreen.id);
+                    showModalBottomSheet(
+                      context: context, builder: (context) => FilterBox(filterContent));
                 },
               )
             : Container(),

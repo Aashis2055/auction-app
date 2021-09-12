@@ -158,6 +158,7 @@ const updateUser = async (req, res)=>{
 }
 const generateNotifications = async(req, res)=>{
     try{
+        notificationModel.deleteMany();
         const date = new Date();
         const vehicles = await vehicleModel.find({end_date: {"$lt": date.toISOString()}}).lean();
         console.log(vehicles);

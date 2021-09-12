@@ -47,7 +47,8 @@ const postLogin = async (req, res)=>{
     }
 }
 const postRegister = async (req, res)=>{
-    let {email, password, first_name, last_name, address, phone_no} = req.body;
+    let {email, password, first_name, last_name, province, district, phone_no} = req.body;
+    let address = {province, district};
     try {
         // validation
         const registerValidationError = await userRegister.validate(req.body, {abortEarly: false});
@@ -149,9 +150,7 @@ const getNotifications = async (req, res)=>{
     const {_id} = req.userData;
     console.log(_id);
     try{
-        // const result = await notificationModel.find({u_id:_id});
-        const result = await notificationModel.find();
-        return res.json({result});
+        const result = await notificationModel.find({u_id:_id}).sort({date: -1});
         if(result.length === 0){
             return res.status(204).json({msg: 'No Notification'});
         }

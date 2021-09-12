@@ -1,19 +1,20 @@
 import 'package:auction_app/models/comment.dart';
 import 'package:auction_app/models/vehicle_model.dart';
-import 'package:auction_app/screens/ProfileFrag.dart';
+import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/services/network.dart';
 import 'package:auction_app/services/storage.dart';
 import 'package:auction_app/widgets/AlertTextField.dart';
 import 'package:auction_app/widgets/CommentCard.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+
 //
 import '../constants.dart';
 
 class DetailScreen extends StatefulWidget {
   static final String id = "detail_screen";
   final String v_id;
-
   DetailScreen(this.v_id);
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -25,7 +26,7 @@ class _DetailScreenState extends State<DetailScreen> {
   List<Comment> comments;
   NetworkHelper networkHelper;
   StorageHelper storageHelper;
-  int currentBid;
+  int currentBid =0;
   int newBid;
   String u_id;
   String vId;
@@ -41,35 +42,27 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void setUp() async {
-    print('enter setup');
     try {
-      // socket = io('http://$kIP:5000', <String, dynamic>{
-      //   'transport': ['websocket'],
-      //   'autoConnect': false
-      // });
-      socket = IO.io('http://$kIP:5000');
-      print(socket.connected);
-      socket.onconnect();
-      socket.onConnect((data) {
-        print('on connect called');
-        print(data);
-      });
-      socket.on('error', (data){
-        print(data['msg']);
-      });
-      socket.onDisconnect((_) => print('disconnect'));
+      // api
     networkHelper = new NetworkHelper(context);
     await networkHelper.initState();
-    
     Map<String, dynamic> responseData = await networkHelper.getPost(this.widget.v_id);
-    print(responseData);
     setState(() {
       vehicle = responseData['post'];
       comments = responseData['comments'];
+      currentBid = vehicle.bid == null? vehicle.initial_Price : int.parse(vehicle.bid.price);
     });
-    currentBid = vehicle.bid == null? vehicle.initial_Price : vehicle.bid.price;
+    socket = IO.io('http://192.168.100.80:5000', <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.connect();
+    socket.on('error', (data){
+      print(data['msg']);
+    });
+    socket.onDisconnect((_) => print('disconnect'));
 
-      // emit that a user has joined and get id
+    // emit that a user has joined and get id
       socket.emit('joinRoom', {'token': storageHelper.getToken(), 'v_id':this.widget.v_id});
       // get id after the user joins
       socket.on('getId', (data){
@@ -84,6 +77,7 @@ class _DetailScreenState extends State<DetailScreen> {
       });
       // change price when some one bids
       socket.on('priceChange', (json){
+        print('price changed');
         print(json);
         vehicle.initial_Price = json['price'];
         // if(json['newu_id'] == u_id){
@@ -103,7 +97,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(vehicle);
+    print(currentBid);
     return Scaffold(
       appBar: AppBar(
         title: Text('details'),
@@ -123,13 +117,14 @@ class _DetailScreenState extends State<DetailScreen> {
                   onPressed: isDisabled?null:(){
                     showDialog(context: context, builder: (BuildContext context)=>AlertTextField("Bid Your Price", (){
                     // callback function when user presses ok
+                      print('emmited');
                     socket.emit('bidPrice', {'newP': 100000});
                   }, (value){
                     // call back function to handle change
                     newBid = value;
                   }, currentBid+5000));
                 },
-                child: Text('Bid '+(currentBid+5000).toString()),
+                child: Text('Bid ', style: TextStyle(backgroundColor: Colors.blue, color: Colors.amberAccent),),
                 ),
               ],
             ),

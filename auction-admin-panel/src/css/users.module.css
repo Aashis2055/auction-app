@@ -1,0 +1,11 @@
+.cardGrid{
+    display: grid;
+    grid-template-columns: 25% 25%;
+}
+
+.listGrid{
+    
+}
+.listItem{
+
+}

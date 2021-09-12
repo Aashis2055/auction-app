@@ -1,3 +1,4 @@
+// for collecting data
 https://orangebookvalue.com/result
 https://www.ktm2day.com/2013/03/10/bikes-in-nepal/
 https://reviews.com.np/product/yamaha-yzf-r3
@@ -5,3 +6,6 @@ https://api.carsxe.com/docs#vehicle-market-value
 http://www.dealgara.com/yamaha-gladiator-iid-11047#:~:text=Yamaha%20gladiator%20%5BPrice%20Rs.,Kathmandu%2C%20Nepal%20%2D%20DealGara.com
 
 https://www.zigwheels.com/newbikes/best-mileage-bikes
+
+// cars data
+http://www.ktmcarsales.com/ 8

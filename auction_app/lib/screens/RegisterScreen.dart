@@ -140,21 +140,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // if not valid end
               if (!isValid) return;
               Uri uri = kURI.replace(path: '/user-api/register');
-              Map<String, String> headers = {
-                "Content-Type": "application/json"
-              };
               var postBody = {
                 'email': email,
                 'first_name': firstname,
                 'last_name': lastname,
                 'password': password,
-                'address': {
                   'district': district,
-                  'province': province
-                },
+                  'province': province,
                 'phone_no': phoneNo
               };
-              http.Response response = await http.post(uri, body: postBody, headers: headers);
+              http.Response response = await http.post(uri, body: postBody,);
               if (response.statusCode == 200) {
                 Navigator.pushNamed(context, LoginScreen.id);
               } else if (response.statusCode == 500) {

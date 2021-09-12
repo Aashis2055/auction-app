@@ -1,30 +1,28 @@
-import 'package:auction_app/screens/ProfileFrag.dart';
+import 'package:auction_app/models/vehicle_model.dart';
+import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/services/network.dart';
 import 'package:flutter/material.dart';
-// widgets
+// widget
 import 'package:auction_app/widgets/MyCard.dart';
-// models
-import 'package:auction_app/models/vehicle_model.dart';
-
-class VehiclesFrag extends StatefulWidget {
-  
-
+class MyPosts extends StatefulWidget {
+  static final String id = "my_post_screen";
   @override
-  _VehiclesFragState createState() => _VehiclesFragState();
+  _MyPostsState createState() => _MyPostsState();
 }
 
-class _VehiclesFragState extends State<VehiclesFrag> {
+class _MyPostsState extends State<MyPosts> {
   NetworkHelper networkHelper;
-   List<Vehicle> posts = [];
+  List<Vehicle> posts;
   @override
   void initState() {
     networkHelper = NetworkHelper(context);
-    networkHelper.initState();
     super.initState();
+    setUp();
   }
   setUp() async {
     await networkHelper.initState();
     List<Vehicle> myPosts = await networkHelper.getPosts();
+    print(myPosts);
     if (myPosts == null) {
       return;
     } else {
@@ -36,16 +34,13 @@ class _VehiclesFragState extends State<VehiclesFrag> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: posts == null? ProgressScreen() : Column(
+      child: posts == null? ProgressScreen(): 
+      Column(
         children: posts.length == 0?[
-          Text('No post to show')
-        ] : posts.map((post)=> MyCard(post)).toList(),
-      )
+          Text("You Haven't posted any thing yet"),
+        ]: posts.map((post)=> MyCard(post)).toList(),
+      ),
+      
     );
   }
 }
-// ListView.builder(
-// itemCount: posts.length,
-// itemBuilder: (context, index) => MyCard(
-// posts[index],
-// )),
