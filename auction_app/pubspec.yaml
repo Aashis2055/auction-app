@@ -14,13 +14,14 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   http: ^0.13.1
-  file_picker: ^3.0.1
+  file_picker: ^4.0.3
   shared_preferences: ^2.0.5
 #  fluttertoast: ^8.0.6
   connectivity: ^3.0.3
-  socket_io_client: ^1.0.1
+#  socket_io: ^1.0.1
   dio: ^4.0.0
   qr_flutter: ^4.0.0
+  socket_io_client: ^1.0.1
 #  flutter_socket_io: ^0.6.0
 #  path: ^1.8.0
 #  barcode_scan: ^3.0.1

@@ -21,7 +21,7 @@ class _MyPostsState extends State<MyPosts> {
   }
   setUp() async {
     await networkHelper.initState();
-    List<Vehicle> myPosts = await networkHelper.getPosts();
+    List<Vehicle> myPosts = await networkHelper.getUserPosts();
     print(myPosts);
     if (myPosts == null) {
       return;
@@ -33,14 +33,19 @@ class _MyPostsState extends State<MyPosts> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: posts == null? ProgressScreen(): 
-      Column(
-        children: posts.length == 0?[
-          Text("You Haven't posted any thing yet"),
-        ]: posts.map((post)=> MyCard(post)).toList(),
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+        child:Container(
+          child: posts == null? ProgressScreen():
+          Column(
+            children: posts.length == 0?[
+              Text("You Haven't posted any thing yet"),
+            ]: posts.map((post)=> MyCard(post)).toList(),
+          ),
+
+        ),)
       ),
-      
     );
   }
 }

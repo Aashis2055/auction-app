@@ -1,7 +1,5 @@
-// import logo from './logo.svg';
-// import './App.css';
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route, Redirect, withRouter} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core';
 import Dashboard from './pages/Dashboard';

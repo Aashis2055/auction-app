@@ -117,7 +117,7 @@ class _DashBoardState extends State<DashBoard>
           ],
         ),
         drawer: Drawer(
-          child: Column(
+          child: SingleChildScrollView( child:Column(
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(
@@ -162,13 +162,14 @@ class _DashBoardState extends State<DashBoard>
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
+                title: Text("Exit App"),
                 onTap: (){
                   Navigator.pop(context);
                 },
               )
             ],
           ),
-        ),
+        )),
         body: TabBarView(
           controller: _tabController,
           children: _kTabPages,

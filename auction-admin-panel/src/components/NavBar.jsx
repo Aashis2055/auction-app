@@ -4,7 +4,6 @@ import navcss from '../css/nav.module.css';
 
 export default class NavBar extends Component {
     render() {
-        console.log(navcss.topnav);
         let {loginStatus, logoutAdmin} = this.props;
         return (
             <nav className={navcss.topnav} >
@@ -19,8 +18,8 @@ export default class NavBar extends Component {
                         <div className={navcss.dropdownContent}>
                             <Link href="/dashboard?select=all" to="/dashboard?select=all">All</Link>
                             <Link href="/dashboard?select=active" to="/dashboard?select=active">Active</Link>
-                            <Link href="/dashboard?upcoming" to="/dashboard?upcoming">Upcoming</Link>
-                            <Link href="/dashboard?end" to="/dashboard?end">End</Link>
+                            <Link href="/dashboard?select=upcoming" to="/dashboard?select=upcoming">Upcoming</Link>
+                            <Link href="/dashboard?select=end" to="/dashboard?select=end">End</Link>
                         </div>
                     </div>
                 ) : null}

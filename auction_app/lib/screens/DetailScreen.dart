@@ -8,7 +8,6 @@ import 'package:auction_app/widgets/CommentCard.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-
 //
 import '../constants.dart';
 
@@ -42,8 +41,50 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void setUp() async {
+    socket = IO.io('http://192.168.100.80:5000', <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.connect();
+    socket.onConnect((data){
+      print('finally connected');
+    });
+    socket.emit('getId', "hi");
+    print(socket.connected);
     try {
-      // api
+
+      socket.on('error', (data){
+        print(data['msg']);
+      });
+      socket.onDisconnect((_) => print('disconnect'));
+
+      // emit that a user has joined and get id
+        socket.emit('joinRoom', {'token': storageHelper.getToken(), 'v_id':this.widget.v_id});
+        // get id after the user joins
+        socket.on('getId', (data){
+          print('inside get id');
+          u_id = data['u_id'];
+          // TODO check if the vehicle belong to the auctioner or has the bid price
+          if(vehicle.bid.u_id == u_id || vehicle.uId == u_id){
+            isDisabled = true;
+          }else{
+            isDisabled = false;
+          }
+        });
+        // change price when some one bids
+        socket.on('priceChange', (json){
+          print('price changed');
+          print(json);
+          vehicle.initial_Price = json['price'];
+          // if(json['newu_id'] == u_id){
+          //   setState(() {
+          //     isDisabled = true;
+          //   });
+          // }else{
+          //   isDisabled = false;
+          // }
+        });
+      // API
     networkHelper = new NetworkHelper(context);
     await networkHelper.initState();
     Map<String, dynamic> responseData = await networkHelper.getPost(this.widget.v_id);
@@ -52,42 +93,6 @@ class _DetailScreenState extends State<DetailScreen> {
       comments = responseData['comments'];
       currentBid = vehicle.bid == null? vehicle.initial_Price : int.parse(vehicle.bid.price);
     });
-    socket = IO.io('http://192.168.100.80:5000', <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket.connect();
-    socket.on('error', (data){
-      print(data['msg']);
-    });
-    socket.onDisconnect((_) => print('disconnect'));
-
-    // emit that a user has joined and get id
-      socket.emit('joinRoom', {'token': storageHelper.getToken(), 'v_id':this.widget.v_id});
-      // get id after the user joins
-      socket.on('getId', (data){
-        print('inside get id');
-        u_id = data['u_id'];
-        // TODO check if the vehicle belong to the auctioner or has the bid price
-        // if(vehicle.bid.u_id == u_id || vehicle.uId == u_id){
-        //   isDisabled = true;
-        // }else{
-        //   isDisabled = false;
-        // }
-      });
-      // change price when some one bids
-      socket.on('priceChange', (json){
-        print('price changed');
-        print(json);
-        vehicle.initial_Price = json['price'];
-        // if(json['newu_id'] == u_id){
-        //   setState(() {
-        //     isDisabled = true;
-        //   });
-        // }else{
-        //   isDisabled = false;
-        // }
-      });
     } catch (e) {
       print(e);
     }
@@ -118,7 +123,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     showDialog(context: context, builder: (BuildContext context)=>AlertTextField("Bid Your Price", (){
                     // callback function when user presses ok
                       print('emmited');
-                    socket.emit('bidPrice', {'newP': 100000});
+                    // socket.emit('bidPrice', {'newP': 100000});
                   }, (value){
                     // call back function to handle change
                     newBid = value;
@@ -144,7 +149,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   void dispose() {
-    socket.disconnect();
+    // socket.disconnect();
     super.dispose();
   }
 }

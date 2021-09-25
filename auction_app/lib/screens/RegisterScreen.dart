@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:auction_app/views/view1.dart';
 import 'package:auction_app/widgets/alert_dialog.dart';

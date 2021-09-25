@@ -21,7 +21,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
   }
   setUp() async {
     await networkHelper.initState();
-    List<Vehicle> myPosts = await networkHelper.getPosts();
+    List<Vehicle> myPosts = await networkHelper.getUpcomingPosts();
     print(myPosts);
     if (myPosts == null) {
       return;
@@ -38,11 +38,9 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
       Column(
         children: posts.length == 0?[
           Text('No Upcoming on the posts yet')
-        ]:ListView.builder(
-          itemCount: posts.length,
-          itemBuilder: (context, index)=> MyCard(posts[index])
-        ),
+        ]: posts.map((e) => MyCard(e)).toList()
       )
     );
   }
 }
+//RenderBox was not laid out: RenderFlex#89876 relayoutBoundary=up1 NEEDS-PAINT

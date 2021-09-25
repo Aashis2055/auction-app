@@ -1,2 +1,16 @@
-price,brand," model",make_year," kilometer"," engine"," fuel"
-3400
+price,brand," model",make_year," kilometer"," engine"," fuel", current_price
+845000,Maruti suzuki,"cargo",2018,"300000","800","petrol", 1000000
+2115000,Hyundai,"Grand",2013,"33000","1200","petrol", 3000000
+4525000,Hyundai,"Creta",2016,"40000","1500","petrol", 6600000
+2250000,Hyundai,"Magna",2016,"33000","1200","petrol", 3056000
+1100000,Maruti Suzuki,"Alto",2011,"42000","800","petrol", 1950000
+1250000,Maruti Suzuki,"cargo",2019,"1200","1200","petrol", 1000000
+4300000,Hyundai,"Creta",2017,"31000","1600","petrol", 6600000
+2775000,Ford,"ecosport",2015,"49000","1500","petrol", 3700000
+420000,Mahindra,"Scorpio",2018,"55000","2200","diesel", 5000000
+6096000,Hundai,"Creta",2015,"49000","1582","diesel", 6600000
+1840000,Volkswagen,"Touareg",2015,"33000","2967","diesel", 16400000
+3095000,Maruti Suzuki,"cargo",2007,"55000","1200","petrol", 1000000
+2350000,Toyota,"Hiace",2008,"200000","2900","petrol", 7000000
+700000,Nissan,"Saloon",2002,"95000","1600","petrol", 2188000
+4200000,Mahindra,"Scorpio",2018,"55000","2200","diesel", 5000000

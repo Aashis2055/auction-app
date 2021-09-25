@@ -1,0 +1,40 @@
+{
+    "Toyota": [
+        {
+            "name": "Etios Liva VX",
+            "fuel": "Petrol",
+            "Price": 3670000
+        },
+        {
+            "name": "Fortuner",
+            "fuel": "Petrol",
+            "engine": 2755,
+            "Price": 0
+        },
+        {
+            "name": "Inova Crysta GX",
+            "fuel": "Disel",
+            "engine": 2393,
+            "Price": 8950000
+        },
+        {
+            "name": "Rush",
+            "fuel": "Petrol",
+            "engine": 1496,
+            "Price": 8000000
+        },
+        {
+            "name": "RAV4",
+            "fuel": "Petrol",
+            "engine": 2494,
+            "Price": 14900000
+        },
+        {
+            "name": "Land Crusier Prado",
+            "fuel": "Disel",
+            "engine": 2982,
+            "Price": 25000000
+        }
+
+    ]
+}

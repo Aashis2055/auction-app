@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import Card from '../components/Card';
 import {withRouter} from 'react-router-dom';
@@ -9,6 +8,8 @@ class Dashboard extends Component {
     constructor(){
         super();
         this.networkHelper = new NetworkHelper();
+        this.allPosts = [];
+        this.currentDate = new Date();
         this.state = {
             posts:[]
         }
@@ -28,20 +29,50 @@ class Dashboard extends Component {
         )
     }
     componentDidMount = async ()=>{
-       const posts = await this.networkHelper.getVehicles();
-       this.setState({
-           posts
-       })
-       const search = this.props.location.search;
-       console.log(search);
-       const select = new URLSearchParams(search).get("select");
-       console.log(select);
-    //    if(select === null || select == 'All'){
-
-    //    }
-       if(select=== 'Active'){
-           
-       }
+        this.allPosts = await this.networkHelper.getVehicles();
+        // change the auction date and end date to date obj
+        this.allPosts.forEach(function(element, index, elements){
+            elements[index].auction_date = new Date(element.auction_date);
+            elements[index].end_date = new Date(element.end_date);
+        });
+        let newId = this.props.location.search;
+        console.log(newId);
+        this.filterData(newId);
+    }
+    componentDidUpdate = async(prevProps)=>{
+        let oldId = prevProps.location.search;
+        let newId = this.props.location.search;
+        if(oldId !== newId){
+            this.filterData(newId);
+        }
+    }
+    filterData=(search)=>{
+        const select = new URLSearchParams(search).get("select");
+        console.log(select);
+        let posts = [];
+        if(select === 'active'){
+            console.log('show active');
+            posts = this.allPosts.filter((element)=>{
+                if(element.auction_date < this.currentDate && this.currentDate < element.end_date ){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        }else if(select === 'upcoming'){
+            console.log('upcoming');
+            posts = this.allPosts.filter((element)=> this.currentDate < element.auction_date);
+        }else if(select === 'end'){
+            posts = this.allPosts.filter((element)=> this.currentDate > element.end_date);
+        }
+        else{
+            posts = this.allPosts;
+        }
+        this.setState({
+            posts
+        });
+        
+        
     }
     removePost = (index)=>{
         const {posts} = this.state;

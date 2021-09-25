@@ -1,0 +1,41 @@
+.user-page{
+    position: relative;
+}
+.user-list-container{
+    width: 50%;
+    float: left;
+}
+.user-card{
+    width: 100%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    padding: 16px;
+    height: 100px;
+    column-count: 3;
+}
+.user-card img{
+    border: 2px solid #bbb;
+    height: 100%;
+}
+.user-card .user-card-info{
+}
+.user-card-action{
+}
+/* 
+left side of the user page
+ */
+.user-detail-container{
+    width: 50%;
+    float: left;
+    top: 0;
+    background-color: aquamarine;
+    border: 2px solid coral;
+    text-align: center;
+    height: 100%;
+    padding: 20px;
+}
+.user-detail-container img{
+    width: 150px;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}

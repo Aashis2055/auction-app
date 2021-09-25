@@ -38,5 +38,5 @@ class Vehicle{
 class Bid{
   String price;
   String u_id;
-  Bid.fromJson(Map<String, dynamic> json): price = json['price'], u_id = json['u_id'];
+  Bid.fromJson(Map<String, dynamic> json): price = json['price'].toString(), u_id = json['u_id'];
 }

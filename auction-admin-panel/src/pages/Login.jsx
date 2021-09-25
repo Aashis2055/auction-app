@@ -2,9 +2,8 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {setToken, getToken} from '../helper/localstorage';
+import {setToken} from '../helper/localstorage';
 import css from '../css/login.module.css';
-import image from '../images/cars1.jpg';
 
 export default class Login extends Component {
     

@@ -1,5 +1,13 @@
+/* sites used for data collection */
 https://hamrobazaar.com/c48-automobiles-cars
+https://www.ktmcarsales.com/buy-cars-kathmandu-nepal/page/8/
+http://www.dealgara.com/2nd-hand-bike-sell-iid-10131
+/* sites for vehicle specs and price*/
+https://merogaadi.com/
+https://nepaldrives.com/
+https://autolife.com.np/
+https://gadgetsgaadi.com/skoda-car-price-in-nepal-2021/
+// for two wheelers
 https://ramrogaadi.com/
 https://www.sastobikes.com/
 https://www.sastoramro.com/subcat-Vehicles-Bikes-and-Scooter/3.html
-http://www.dealgara.com/2nd-hand-bike-sell-iid-10131

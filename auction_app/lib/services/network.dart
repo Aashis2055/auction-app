@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:auction_app/models/comment.dart';
 import 'package:dio/dio.dart';
@@ -40,12 +39,7 @@ class NetworkHelper {
     if (response.statusCode == 200) {
       var responseData = jsonDecode(response.body);
       User user = User.fromJson(responseData['user']);
-      responseData['posts'].map((element){
-        print(element['bid'].toString());
-      });
-      List<Vehicle> posts = List<Vehicle>.from(
-          responseData['posts'].map((x) => Vehicle.fromJson(x)));
-      return {'user': user, 'posts': posts};
+      return {'user': user,};
     } else {
       print('error');
       return null;
@@ -69,13 +63,35 @@ class NetworkHelper {
     Uri uri = kURI.replace(path: '/user-api/vehicle');
     http.Response response = await http.get(uri, headers: header);
     var responseData = jsonDecode(response.body);
-    print('here');
+    List<Vehicle> posts = List<Vehicle>.from(
+        responseData['posts'].map((x) => Vehicle.fromJson(x)));
+    return posts;
+  }
+  Future<List<Vehicle>> getUpcomingPosts() async {
+    Uri uri = kURI.replace(path: '/user-api/upcoming');
+    http.Response response = await http.get(uri, headers: header);
+
+    if(response.statusCode == 200){
+      var responseData = jsonDecode(response.body);
+      print(responseData);
+      List<Vehicle> posts = List<Vehicle>.from(
+          responseData['posts'].map((x) => Vehicle.fromJson(x)));
+      return posts;
+    }else{
+      return <Vehicle>[];
+    }
+
+  }
+
+  Future<List<Vehicle>> getUserPosts() async {
+    Uri uri = kURI.replace(path: '/user-api/myPosts');
+    http.Response response = await http.get(uri, headers: header);
+    var responseData = jsonDecode(response.body);
     print(responseData);
     List<Vehicle> posts = List<Vehicle>.from(
         responseData['posts'].map((x) => Vehicle.fromJson(x)));
     return posts;
   }
-
   Future<List<NotificationModel>> getNotifications() async {
     Uri uri = kURI.replace(path: '/user-api/notifications');
     http.Response response = await http.get(uri, headers: header);
@@ -113,6 +129,58 @@ class NetworkHelper {
         print('error in image upload');
         return false;
       }
+  }
+  Future<bool> postComment(String comment, String id)async{
+    Uri uri = kURI.replace(path: '/user-api/comment/$id',);
+    http.Response response = await http.post(uri, headers: header, body: {
+      'comment': comment
+    });
+    if(response.statusCode == 500){
+      return false;
+    }else{
+      return true;
+    }
+  }
+  Future<bool> postReply(String reply, String id)async{
+    Uri uri = kURI.replace(path: '/user-api/reply/$id',);
+    http.Response response = await http.post(uri, headers: header, body: {
+      'reply': reply
+    });
+    if(response.statusCode == 500){
+      return false;
+    }else{
+      return true;
+    }
+  }
+  Future<List<Vehicle>> getWatchList()async{
+    Uri uri = kURI.replace(path: '/user-api/watch');
+    http.Response response = await http.get(uri, headers: header);
+    if(response.statusCode == 200){
+      var responseData = jsonDecode(response.body);
+      List<Vehicle> posts = List<Vehicle>.from(
+        responseData['posts'].map((x) => Vehicle.fromJson(x)));
+      return posts;
+    }else{
+      return <Vehicle>[];
+    }
+  }
+  Future<bool> addWatchList(String id) async{
+    Uri uri = kURI.replace(path: '/user-api/watch/$id');
+    http.Response response = await http.post(uri);
+    if(response.statusCode == 201){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  Future<bool> deleteWatchList(String id) async{
+    Uri uri = kURI.replace(path: '/user-api/watch/$id');
+    http.Response response = await http.delete(uri);
+    if(response.statusCode == 201){
+      return true;
+    }else{
+      return false;
+    }
   }
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     if (result == ConnectivityResult.none) {
