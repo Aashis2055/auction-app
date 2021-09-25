@@ -18,7 +18,8 @@ const userSchema = new Schema({
     address: {type: address},
     created_at: {type: Date, default: Date.now()},
     img: {type: String, default: 'default-profile.png'},
-    phone_no: {type: Number}
+    phone_no: {type: Number},
+    watch_list: [String]
 })
 
 module.exports = mongoose.model('User', userSchema);

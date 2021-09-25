@@ -1,2 +1,13 @@
-/vehicle/:id 
-/vehicles
+/public
+
+GET /list-all
+response: [String,]
+
+GET /list-cars
+response: [String,]
+
+GET /list-bikes
+response: [String,]
+
+GET /list-scooters
+response: [String,]

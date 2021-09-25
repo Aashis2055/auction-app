@@ -1,78 +1,40 @@
-/* api of user */
-
 /user-api
 
+POST /login 
+body: {emial, password}
+response: {msg, token}
 
-/register
-// body
-{
-    "email": "user@email.com",
-    "password": "the password",
-    "first_name": "user",
-    "last_name": "first",
-    "address": {
-        "province":"Bagmait Province",
-        "district":"Kathmandu"
-    },
-    "phone_no": "9800000001"
-}
-// sucess (201)
-{
-    "message": "Registered"
-}
+POST /register
+body: {email, password, first_name, last_name, province, district, phone_no}
+response: {message} 
 
-//login
-// body
-{
-    "email": "user@email.com",
-    "password": "the password"
-}
-//sucess
-{
-    "msg": "Login Sucess",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5NDkwYTg2OTRlNTcyMGM5YWQ3MjAiLCJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNjI1OTAxODY3LCJleHAiOjE2MzA3NDAyNjd9.Qq8vY1vlu2Qoc_G0dG-X-eBKrAajag3k6J-WQtYMU80"
-}
+GET /
+header: {authorization}
+response: {msg, user:{status, create_at, img, _id, first_name, last_name, email, password, address:{province, district} phone_no}}
+
+GET /vehicle
+header: {authorization}
+response: {message, posts:[{type, added_date, auction_date,end_date, delivery_type, bid:{price,u_id}, _id, u_id:{},img, coor, model, brand, year, km_driven, description, initial_price}]}
+
+GET /vehicle/:id
+response: {post:{type, added_date, end_date, delivery_type, bid:{price, u_id}, _id, u_id, img, color, model, brand, year, km_driven, description, initial_price}, comments:[{msg,added_date,_id,v_id, u_id, reply:{reply, added_date}}]}
+
+POST comment/:id
+body:{comment}
+response: {msg, result:{added_date, reply, _id, comment,v_id, u_id}}
+
+POST reply/:id
+body: {reply}
+response: {msg, result:{added_date, reply:{reply, u_id, }, _id, comment, v_id, u_id}}
+
+GET /notifications
+response {notifications:[{added_at, _id, type, message, u_id, v_id}]}
+
+GET /upcoming
+response: {post:{type, added_date, end_date, delivery_type, bid:{price, u_id}, _id, u_id, img, color, model, brand, year, km_driven, description, initial_price}, comments:[{msg,added_date,_id,v_id, u_id, reply:{reply, added_date}}]}
 
 
-//getProfile p
-//sucess 
-{
-    "msg": "Ok",
-    "user": {
-        "status": false,
-        "created_at": "2021-07-10T07:14:06.384Z",
-        "img": "default-profile.png",
-        "_id": "60e9490a8694e5720c9ad720",
-        "first_name": "user",
-        "last_name": "first",
-        "email": "user@email.com",
-        "password": "$2b$10$OGJHhHCU9fFs32AIGh6Fe.x19SpC7YUHn6TAmiqotV2YO8oSnFgYa",
-        "address": {
-            "province": "Bagmait Province",
-            "district": "Kathmandu"
-        },
-        "phone_no": 9800000001,
-        "__v": 0
-    },
-    "posts": [
-        {
-            "type": "Bike",
-            "added_date": "2021-07-10T07:30:47.846Z",
-            "auction_date": "2021-09-01T00:00:00.000Z",
-            "end_date": "2021-09-10T00:00:00.000Z",
-            "delivery_type": "Will Deliver",
-            "bid": null,
-            "_id": "60e94d2f66347673443b7acf",
-            "u_id": "60e9490a8694e5720c9ad720",
-            "img": "1625902383264-yamaha-yzf-r15-.jpg",
-            "color": "red",
-            "model": "yahama",
-            "brand": "yahama xyz",
-            "year": 2019,
-            "km_driven": 2000,
-            "description": "a red bike of yahama",
-            "initial_price": 60000,
-            "__v": 0
-        }
-    ]
-}
+/*
+response for server error
+{msg}
+*/

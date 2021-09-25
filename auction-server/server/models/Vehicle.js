@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const id = Schema.Types.ObjectId;
-const vehicleTypes = ["Bike", "Scooter", "Car"];
+const vehicleTypes = ["Bike", "Scooter", "Car", "Others"];
 const deliveryType = ["Will Deliver", "You come"];
 const bidSchema = require('./Bid');
 let date = new Date();

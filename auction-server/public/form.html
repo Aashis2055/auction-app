@@ -5,16 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Form</title>
+    <style>
+        form{
+            width: 50%;
+            display: block;
+            margin: auto;
+        }
+        form *{
+            margin: 10px;
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <form action="/user-api/testpost" method="post" enctype="multipart/form-data">
-        <input type="text" id="type" name="type" placeholder="Type">
+        <select name="type">
+            <option value="Bike" id="">Bike</option>
+            <option value="Scooter" id="Scooter">Scooter</option>
+            <option value="Car" id="">Cars</option>
+            <option value="Others" id="Others">Others</option>
+        </select>
         <input type="text" name="color" placeholder="Color">
         <input type="text" name="model" placeholder="Model">
         <input type="text" name="brand" placeholder="Brand">
         <input type="datetime" name="year" placeholder="year">
         <input type="number" name="km_driven" placeholder="Km Driven">
         <input type="text" name="description" placeholder="Dexcription">
+        <select name="delivery_type" id="">
+            <option value="Will Deliver">Will Deliver</option>
+            <option value="You come">You come</option>
+        </select>
         <input type="number" name="initial_price" placeholder="Initial price">
         <input type="datetime" name="auction_date" placeholder="Auction Date">
         <input type="datetime" name="end_date" placeholder="End Date">

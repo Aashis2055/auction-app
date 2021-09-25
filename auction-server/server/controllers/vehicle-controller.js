@@ -1,12 +1,14 @@
 //
 const vehicleModel = require('../models/Vehicle');
 const commentModel = require('../models/Comment');
+const notificationModel = require('../models/Notification');
 // validation models
 const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
 const {scheduleEnd} = require('../events/schedule-jobs');
 const VehicleSpecs = require('../models/VehicleSpecs');
+const queue = require('./mygraph.js');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
     try{
@@ -52,13 +54,16 @@ const getUpcomingVehicles = async(req, res)=>{
 const getVehicles = async (req, res)=>{
     // TODO get filter parameters
     console.log(req.query);
-    const {address} = req.userData;
+    const {address:{district}} = req.userData;
     const filter = req.query;
     const filt = {
         minPrice: 0,
         maxPrice: 5000000
     }
     try{
+        console.log(district);
+        const orderList = queue.bfTraversal(district);
+        console.log(orderList);
         let filterError = schemaFilter.validate(filter, {abortEarly: false});
         if(filterError && filterError.error){
             let validationErrorMsg = filterError.error.details.map(data => data.message);
@@ -72,10 +77,13 @@ const getVehicles = async (req, res)=>{
             {auction_date: {"$lte": date.toISOString()}},
             {end_date: {"$gte": date.toISOString()}},
             filter
-        ]}).populate({
-            path: 'u_id',
-            match: {status: false}
-        }).then((vehicles)=>{
+        ]}).lean()
+        .populate('u_id', 'address.district')
+        // .populate({
+        //     path: 'u_id',
+        //     match: {status: false}
+        // },)
+        .then((vehicles)=>{
             /**
              * @description filter the post whose users are active
              */
@@ -83,6 +91,14 @@ const getVehicles = async (req, res)=>{
                 if(vehicle.initial_price > filt.minPrice && vehicle.initial_price < filt.maxPrice){
                     return vehicle.u_id != null;
                 }else return false;
+            });
+            // sort list by district
+            data.sort((a,b)=>{
+                let indexA = orderList.indexOf(a.u_id.address.district);
+                let indexB = orderList.indexOf(b.u_id.address.district);
+                if(indexA > indexB) return 1;
+                else if(indexA < indexB) return -1;
+                else return 0;
             });
             if(data.length === 0){
                 return res.status(204).json({ message: 'No content found'});
@@ -213,6 +229,44 @@ const getPredication = async (req, res)=>{
         res.status(404).json({msg: 'Not supported for the model'});
     }
 }
+const postBid = async (req, res)=>{
+    const {id:v_id} = req.params;
+    const {price} = req.body;
+    try{
+        let vehicle = await vehicleModel.findOne({_id:v_id});
+        console.log(vehicle);
+        // if vehicle exist
+        if(vehicle){
+            // if no previous bid exists
+            let oldPrice = 0;
+            if(vehicle.bid){ oldPrice = vehicle.bid.price}
+            else{ oldPrice = vehicle.initial_price}
+                // check if the new price is greater than the current bid
+                if(price > oldPrice){
+                    vehicle.bid = {
+                        price,
+                        u_id: req.userData._id
+                    }
+                    try{
+                        const newNotification = new notificationModel({message: "Bid on product "+price, u_id: vehicle.u_id, type: 'Bid'});
+                        const result = await vehicle.save();
+                        const resultNotification = newNotification.save();
+                        return res.status(200).json({msg: 'Price Bid'});
+                    }catch(error){
+                        console.log(error);
+                        return res.status(500).json({msg: 'Server Error'});
+                    }
+                }else{
+                    return res.status(422).json({msg: 'Bid Higher'});
+                }        
+        }else{
+            return res.status(422).json({msg: 'Bid Higher'});
+        }
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 const testRoute = async (req, res)=>{
     let {id} = req.params;
     try {
@@ -250,6 +304,7 @@ module.exports = {
     deleteReply,
     getUpcomingVehicles,
     getPredication,
+    postBid,
     testRoute
 }
 

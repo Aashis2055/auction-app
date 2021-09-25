@@ -84,8 +84,7 @@ const getProfile = async (req, res)=>{
     try {
         let user = await userModel.findOne({_id});
         if(user){
-            let posts = await vehicleModel.find({u_id: _id});
-            return res.status(200).json({msg: 'Ok', user, posts});
+            return res.status(200).json({msg: 'Ok', user});
         }
         return res.status(404).json({msg: 'No user'});
     } catch (error) {
@@ -94,27 +93,67 @@ const getProfile = async (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
-// const getPosts = async (req, res)=>{
-//     let {_id} = req.userData;
-//     try {
-//         let result = await vehicleModel.find({u_id: _id});
-//         if(result.length === 0){
-//             return res.status(204).json({msg: 'No content'});
-//         }
-//         return res.status(200).json({
-//             result
-//         })
-//     } catch (error) {
-//         // TODO log error
-//         return res.status(500).json({msg: 'Server Error'});
-//     }
-// }
+const getUserPosts = async (req, res)=>{
+    const {_id} = req.userData;
+    try{
+        let posts = await vehicleModel.find({u_id: _id});
+        if(posts.length !== 0){
+            return res.status(200).json({posts});
+        }
+        else{
+            return res.status(404).json({msg: 'No Posts'});
+        }
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const addWatchList = async(req, res)=>{
+    const {id} = req.params;
+    const{_id} = req.userData;
+    try{
+        // push id to array
+        const result = await userModel.updateOne({_id}, { $push: {"watch_list": id} });
+        return res.status(201).json({result});
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const deleteWatchList = async (req, res)=>{
+    const {id} = req.params;
+    const{_id} = req.userData;
+    try{
+        const result = await userModel.updateOne({_id}, {$pull: {"watch_list": { $in: [id]}}});
+        return res.status(200).json({ msg: 'OK', result});
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+const getWatchList = async (req, res)=>{
+    const {_id} = req.userData;
+    try{
+        const result = await userModel.findOne({_id}).select('watch_list');
+        // TODO check if array is empty
+        if(result.length === 0){
+            return res.status(404).json({msg: 'No Content'});
+        }
+        return res.status(200).json({msg: 'OK', result});
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
 // handlebars
 const getPosts = async (req, res)=>{
     try {
-        let result = await vehicleModel.find().lean();
+        let date = new Date();
+        let result = await vehicleModel.find({$and: [
+            {auction_date: {"$lte": date.toISOString()}},
+            {end_date: {"$gte": date.toISOString()}},
+        ]}).lean();
         if(result.length === 0){
-            // return res.status(204).json({msg: 'No content'});
             return res.render('vehicles', {layout: false, result});
         }
         console.log(result);
@@ -165,6 +204,10 @@ module.exports = {
     postLogin,
     postRegister,
     getProfile,
+    getUserPosts,
+    getWatchList,
+    deleteWatchList,
+    addWatchList,
     // handlebars
     getPosts,
     getPost,

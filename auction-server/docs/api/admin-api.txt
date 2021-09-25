@@ -1,43 +1,42 @@
-/* post super login */
-// body
-{
-    "email": "super@email.com",
-    "password": "super password"
-}
-// sucess
-{
-    "message": "login sucessful",
-    "token": "brearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjAsImVtYWlsIjoic3VwZXJAZW1haWwuY29tIiwicm9sZSI6InN1cGVyIiwiaWF0IjoxNjI1ODk1NDg2LCJleHAiOjE2MzE5NDM0ODZ9.FwI1liX6oY4yR-WtU095aM5venjjibv9_FT1TGjfBtE"
-}
+/admin-api
 
-/* post regsiter */
-// body 
-{
-    "email": "admin2@email.com",
-    "password": "admin password",
-    "role": "Admin"
-}
-// sucess
-{
-    "message": "admin created",
-    "result": {
-        "_id": "60e9350a577a4a50ce624805",
-        "email": "admin2@email.com",
-        "password": "$2b$10$VWdgYI6xZfvfta/djBGR5OUrmzkBe7y.u8YWU8BNPg.Cs25ZKtbLi",
-        "role": "Admin",
-        "dateCreated": "2021-07-10T05:50:02.374Z",
-        "__v": 0
-    }
-}
+GET /vehicle
+response: {message, posts:[{type, added_date, auction_date,end_date, delivery_type, bid:{price,u_id}, _id, u_id:{},img, coor, model, brand, year, km_driven, description, initial_price}]}
 
-/* post admin login */
-// body
-{
-    "email": "admin@email.com",
-    "password": "admin password"
-}
-// sucess
-{
-    "message": "login sucessful",
-    "token": "brearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU5MzRjMTU3N2E0YTUwY2U2MjQ4MDIiLCJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsInJvbGUiOiJNb2RlcmF0b3IiLCJpYXQiOjE2MjU4OTYzNTMsImV4cCI6MTYzMTk0NDM1M30.GRxpPhnMGyWAIfPMeBXkf3GRdq0kPTDgitNm4keiIFM"
-}
+GET /vehicle/:id
+response: {post:{type, added_date, auction_date,end_date, delivery_type, bid:{price,u_id}, _id, u_id:{},img, coor, model, brand, year, km_driven, description, initial_price}}
+
+POST /login
+body: {email, password}
+password: {message, token}
+
+POST /superlogin
+body: {email, password}
+response: {message, token}
+
+POST /register
+body: {email, password, role}
+response: {message, result:{_id, email, password, role, dateCreated}}
+
+GET /users
+response: {msg, users:[{status, created_at, img, _d, first_name, last_name, email, password, address: {province, district}, phone_no }]}
+
+GET /user/:id
+response: {msg, user:{status, created_at, img, _d, first_name, last_name, email, password, address: {province, district}, phone_no }, post:[]}
+
+GET /vehiclespecs
+response: {specs:[{mielage, engine_displacement, _id, model, brand, price}]}
+
+POST /vehiclespecs
+body: {model, brand, price, mileage, engine_displacement}
+
+DELETE /vehicle/:id
+response: {msg}
+
+DELETE /comment/:id
+response: {msg}
+
+DELETE /reply/:id
+response: {msg}
+GET /generate
+response: {msg}

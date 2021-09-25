@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const schemaVehicle = Joi.object({
     type: Joi.string().alphanum().required(),
+    delivery_type: Joi.string(),
     color: Joi.string().alphanum().required(),
     model: Joi.string().required(),
     brand: Joi.string().required(),

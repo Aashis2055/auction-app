@@ -1,5 +1,29 @@
-// socket emmits on following cases
-when userr bids on the product
+/* listing events */
+// socket events
+joinRoom: when a user joins a room
+- emmited by the user
+- requires token and v_id from the user
+- 
+
+getId: sends id of the user
+- emmited by thesystem when a user joins room
+- returns u_id 
+
+bidPrice: event fired when a user bids on vehicle
+- emmited by user when user bids
+- requires new price/bid price
+
+priceChange: fired when the bid of the user is sucess
+- emmited by the system to all users of the room
+- sends new price and id of the bidder
+
+error: fired when the bid is unsucessful
+- emmited by the user to the bidder
+- when the bid is low
+- returns msg
+
+disconnect: fired when the user disconnects
+
 
 // notification are generated on following cases
 when the user bids on the product

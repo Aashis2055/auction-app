@@ -1,0 +1,50 @@
+
+
+route = /user-api
+/*
+p   -> protected
+f   -> profanity validated
+i   -> params id validation
+*/
+
+route = /public/
+GET     /list-bikes 
+GET     /list-scooters
+GET     /list-cars
+GET     /list-all
+
+
+route = /user-api
+
+POST f   /login      
+POST f  /register  
+GET  p   /         (for user profile)  
+GET p   /myPosts    ( get posts uploaded by the user)
+GET p   /notifications (get user notifications);
+
+
+GET p    /vehicle?brand&model &km &year &location  
+GET p,i    /vehicle/:id    
+POST p   /vehicle    (upload a vehicle for auction)
+GET  p   /upcoming  ( get the upcoming vehicle for auction)
+POST p,i     / comment/:id (post a comment on a vehicle)
+POST p,i    /reply/:id  (post reply to a comment);
+GET p   /prediction     (get estimate price for a vehicle)
+POST p,i  /watch/:id      (add a vehicle to watch list)
+GET p   /watch  (get posts from watch list);
+DELETE p /watch/:id (delete from watch list)
+route = /admin-api/
+
+POST   /login
+POST p    /register (register admin by super admin);
+POST    /superlogin
+
+GET p   /vehicle
+GET p,i  /vehicle/:id
+DELETE p    /vehicle/:id
+GET p,      /users  (list all users )
+PUT p,      /users/:id  (ban or unban users)
+GET p,      /user/:id   (get user detail)
+DELETE p,i   /comment/:id    (delete a comment)
+DELETE p,i  /reply/:id  (delete a reply)
+GET p   /generate   (generate notifications)

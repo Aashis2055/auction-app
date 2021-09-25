@@ -57,6 +57,7 @@ app.use('/user-api', userRoutes);
 app.use('/user-api', vehicleRoutes);
 // handlebars
 let hbs = exphbs.create({});
+
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 // public routes for handlebars or SEO
