@@ -116,3 +116,5 @@ io.on('connection', (socket)=>{
 http.listen(PORT, ()=>{
     console.log("Port started at: "+PORT);
 });
+
+module.exports = http;

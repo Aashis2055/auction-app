@@ -1,3 +1,0 @@
-1. attribute based recommendation 
-2. content based (someting1, something 2)
-3. collabration based  (kmens, sjflsjlfjasdjf)
