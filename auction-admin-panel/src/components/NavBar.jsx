@@ -12,6 +12,7 @@ export default class NavBar extends Component {
                     loginStatus ? (<Link href="#" onClick={logoutAdmin}>Logout</Link>) : <Link href="/login" to="/login">Login</Link>
                 }
                 {loginStatus ? (<Link href="/register" to="/register">Register</Link>) : null}
+                {loginStatus ? (<Link href="/specs" to="/specs">Add Specs</Link>) : null}
                 {loginStatus ? (
                     <div className={navcss.dropDown}>
                         <Link className={navcss.dropBtn} href="/dashboard" to="/dashboard">Vehicles</Link>

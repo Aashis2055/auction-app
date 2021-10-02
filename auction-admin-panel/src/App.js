@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core';
+import {isLogedIn} from './helper/localstorage';
+// screens
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'
 import ErrorPage from './pages/ErrorPage';
-import {isLogedIn} from './helper/localstorage';
 import Users from './pages/Users';
 import Test from './pages/test';
+import Specs from './pages/Specs';
 import './css/style.css';
 
 // components
@@ -55,6 +57,9 @@ export class App extends Component {
         <Route exact  path="/user/:id">
           { loginStatus ? <UserDetail /> : <Redirect to="/login" />}
         </Route>
+        <Route path="/specs">
+          <Specs />
+        </Route>
         <Route path="/test/:theid">
           <Test />
         </Route>
@@ -81,26 +86,3 @@ export class App extends Component {
 
 export default App
 
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router';
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import NetworkHelper from '../services/networkhelper';
 import defaultImage from '../images/profile.jpeg'
 
