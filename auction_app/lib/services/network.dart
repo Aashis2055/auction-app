@@ -1,5 +1,4 @@
-
-import 'package:auction_app/models/comment.dart';
+import 'package:auction_app/models/vehicle_detail_model.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,6 +11,8 @@ import 'package:auction_app/widgets/alert_dialog.dart';
 import 'package:auction_app/models/user.dart';
 import 'package:auction_app/models/vehicle_model.dart';
 import 'package:auction_app/models/notification.dart';
+import 'package:auction_app/models/comment.dart';
+
 //
 import 'package:auction_app/services/storage.dart';
 import 'package:auction_app/constants.dart';
@@ -32,7 +33,6 @@ class NetworkHelper {
     subscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
-
   Future<Map<String, dynamic>> getProfile() async {
     Uri uri = kURI.replace(path: '/user-api/');
     http.Response response = await http.get(uri, headers: header);
@@ -46,34 +46,63 @@ class NetworkHelper {
     }
   }
 
-  Future<Map<String, dynamic>> getPost(String id) async {
+  Future<VDe> getPost(String id) async {
     Uri uri = kURI.replace(path: '/user-api/vehicle/$id');
     http.Response response = await http.get(uri, headers: header);
-    Map<String, dynamic> resposeData = jsonDecode(response.body);
-    Vehicle post = Vehicle.fromJson(resposeData['post']);
-    List<Comment> comment = List<Comment>.from(
-      resposeData['comments'].map((x)=> Comment.fromJson(x))
-    );
-    print(comment);
-    return {'post': post, 'comment': comment};
+    if(response.statusCode == 200){
+      print(response.body);
+      Map<String, dynamic> resposeData = jsonDecode(response.body);
+
+      VehicleDetail post = VehicleDetail.fromJson(resposeData['post']);
+      List<Comment> comment = List<Comment>.from(
+          resposeData['comments'].map((x)=> Comment.fromJson(x))
+      );
+      print(comment);
+      VDe vde = VDe(post: post, comments: comment, yId: resposeData['yId']);
+      return vde;
+    }else{
+      return null;
+    }
+
+  }
+  Future<bool> postBid(String id, int price)async{
+    Uri uri = kURI.replace(path: '/user-api/bid/$id');
+    print(id);
+    print(price);
+    http.Response response = await http.post(uri,body:{
+      "price": price.toString()
+    }, headers: header);
+
+    if(response.statusCode == 200){
+      return true;
+    }else return false;
   }
 
   Future<List<Vehicle>> getPosts() async {
-    print('inside the posts method');
     Uri uri = kURI.replace(path: '/user-api/vehicle');
     http.Response response = await http.get(uri, headers: header);
-    var responseData = jsonDecode(response.body);
-    List<Vehicle> posts = List<Vehicle>.from(
-        responseData['posts'].map((x) => Vehicle.fromJson(x)));
-    return posts;
+    if(response.statusCode == 200){
+      var responseData = jsonDecode(response.body);
+      List<Vehicle> posts = List<Vehicle>.from(
+          responseData['posts'].map((x) => Vehicle.fromJson(x)));
+      return posts;
+    }else{
+      return [];
+    }
+
   }
   Future<List<Vehicle>> getUpcomingPosts() async {
     Uri uri = kURI.replace(path: '/user-api/upcoming');
     http.Response response = await http.get(uri, headers: header);
-
     if(response.statusCode == 200){
+      print(response.body);
       var responseData = jsonDecode(response.body);
-      print(responseData);
+      print(responseData['u_id']);
+      if(responseData['u_id'] == String){
+        print("is string");
+      }else{
+        UserLocation.fromJson(responseData['u_id']);
+      }
       List<Vehicle> posts = List<Vehicle>.from(
           responseData['posts'].map((x) => Vehicle.fromJson(x)));
       return posts;
@@ -86,11 +115,16 @@ class NetworkHelper {
   Future<List<Vehicle>> getUserPosts() async {
     Uri uri = kURI.replace(path: '/user-api/myPosts');
     http.Response response = await http.get(uri, headers: header);
-    var responseData = jsonDecode(response.body);
-    print(responseData);
-    List<Vehicle> posts = List<Vehicle>.from(
-        responseData['posts'].map((x) => Vehicle.fromJson(x)));
-    return posts;
+    if(response.statusCode == 200){
+      var responseData = jsonDecode(response.body);
+      print(responseData);
+      List<Vehicle> posts = List<Vehicle>.from(
+          responseData['posts'].map((x) => Vehicle.fromJson(x)));
+      return posts;
+    }else{
+      return <Vehicle>[];
+    }
+
   }
   Future<List<NotificationModel>> getNotifications() async {
     Uri uri = kURI.replace(path: '/user-api/notifications');
@@ -105,17 +139,42 @@ class NetworkHelper {
             .map((x) => NotificationModel.fromJson(x)));
     return notifications;
   }
-  Future<String> getPrediction(model, year, brand, kmDriven) async{
+  Future<Map<String, dynamic>> getPrediction({String model,int year,String brand,int kmDriven, String type}) async{
     Uri uri = kURI.replace(path: '/user-api/prediction', queryParameters: {
       'model': model,
-      'year': year,
+      'year': year.toString(),
       'brand': brand,
-      'km_driven': kmDriven
+      'km_Driven': kmDriven.toString(),
+      'type': type.toString()
     });
     http.Response response = await http.get(uri, headers: header );
-    return response.body;
-
+    if(response.statusCode == 200){
+      print(response.body);
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      return responseData;
+    }else{
+      return null;
+    }
   }
+  Future<List<String>> getAvailabeBrands(String type)async{
+    Uri uri = kURI.replace(path: '/public/availableBrands/$type');
+    http.Response response = await http.get(uri);
+    if(response.statusCode == 200){
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      List<String> resultList = List<String>.from(responseBody['result'].map((x)=> x.toString()));
+      return resultList;
+    }else return <String>[];
+  }
+  Future<List<String>> getAvailableModels(String brand)async{
+    Uri uri = kURI.replace(path: '/public/availableModels/$brand');
+    http.Response response = await http.get(uri);
+    if(response.statusCode == 200){
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      List<String> resultList = List<String>.from(responseBody['result'].map((x)=> x.toString()));
+      return resultList;
+    }else return <String>[];
+  }
+
   Future<bool> postProduct(FormData formData) async {
     var dio = Dio();
       // dio.options.headers['content-Type'] =
@@ -200,3 +259,4 @@ class NetworkHelper {
     subscription.cancel();
   }
 }
+

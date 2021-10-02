@@ -1,5 +1,5 @@
 import 'package:auction_app/models/comment.dart';
-import 'package:auction_app/models/vehicle_model.dart';
+import 'package:auction_app/models/vehicle_detail_model.dart';
 import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/services/network.dart';
 import 'package:auction_app/services/storage.dart';
@@ -13,21 +13,21 @@ import '../constants.dart';
 
 class DetailScreen extends StatefulWidget {
   static final String id = "detail_screen";
-  final String v_id;
-  DetailScreen(this.v_id);
+  final String vId;
+  DetailScreen(this.vId);
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
   IO.Socket socket;
-  Vehicle vehicle;
+  VehicleDetail vehicle;
   List<Comment> comments;
   NetworkHelper networkHelper;
   StorageHelper storageHelper;
   int currentBid =0;
   int newBid;
-  String u_id;
+  String uId;
   String vId;
   bool isDisabled = false;
   // TextEditingController _controller;
@@ -37,11 +37,10 @@ class _DetailScreenState extends State<DetailScreen> {
     storageHelper = StorageHelper();
     setUp();
     // _controller = new TextEditingController(text: (currentBid+5000).toString());
-    
   }
 
   void setUp() async {
-    socket = IO.io('http://192.168.100.80:5000', <String, dynamic>{
+ /*   socket = IO.io('http://$kIP:5000', <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -51,8 +50,7 @@ class _DetailScreenState extends State<DetailScreen> {
     });
     socket.emit('getId', "hi");
     print(socket.connected);
-    try {
-
+try{
       socket.on('error', (data){
         print(data['msg']);
       });
@@ -65,17 +63,17 @@ class _DetailScreenState extends State<DetailScreen> {
           print('inside get id');
           u_id = data['u_id'];
           // TODO check if the vehicle belong to the auctioner or has the bid price
-          if(vehicle.bid.u_id == u_id || vehicle.uId == u_id){
-            isDisabled = true;
-          }else{
-            isDisabled = false;
-          }
+          // if(vehicle.bid.u_id == u_id || vehicle.uId == u_id){
+          //   isDisabled = true;
+          // }else{
+          //   isDisabled = false;
+          // }
         });
         // change price when some one bids
         socket.on('priceChange', (json){
           print('price changed');
           print(json);
-          vehicle.initial_Price = json['price'];
+          vehicle.initialPrice = json['price'];
           // if(json['newu_id'] == u_id){
           //   setState(() {
           //     isDisabled = true;
@@ -84,22 +82,33 @@ class _DetailScreenState extends State<DetailScreen> {
           //   isDisabled = false;
           // }
         });
+        } catch (e) {
+      print(e);
+    }
+       */
       // API
     networkHelper = new NetworkHelper(context);
     await networkHelper.initState();
-    Map<String, dynamic> responseData = await networkHelper.getPost(this.widget.v_id);
-    setState(() {
-      vehicle = responseData['post'];
-      comments = responseData['comments'];
-      currentBid = vehicle.bid == null? vehicle.initial_Price : int.parse(vehicle.bid.price);
-    });
-    } catch (e) {
-      print(e);
+    VDe responseData = await networkHelper.getPost(this.widget.vId);
+    bool isUser = false;
+    if(responseData.yId == null || responseData.post == null){
+
+    }else if(responseData.post.bid == null){}
+    else if(responseData.post.uId == responseData.yId || responseData.post.bid.uID == responseData.yId){
+      isUser = true;
     }
+    setState(() {
+      vehicle = responseData.post;
+      comments = responseData.comments;
+      currentBid = vehicle.bid == null? vehicle.initialPrice : int.parse(vehicle.bid.price);
+      isDisabled = isUser;
+    });
+    print(responseData.yId);
+    print(comments.toString());
+
   }
 
   void bid(dynamic data) {}
-
   @override
   Widget build(BuildContext context) {
     print(currentBid);
@@ -112,34 +121,48 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             Image.network(kURI.toString()+"/vehicle-images/"+vehicle.img),
             TextButton(onPressed: (){
-              print(socket.connected);
+              // print(socket.connected);
               showDialog(context: context, builder: (BuildContext context)=> AlertVehicleDetails(vehicle));
-            }, child: Text("More Detais",)),
+            }, child: Text("More Details",)),
             Row(
               children: [
                 Text("Current Bid: "+currentBid.toString()),
                 TextButton(
-                  onPressed: isDisabled?null:(){
-                    showDialog(context: context, builder: (BuildContext context)=>AlertTextField("Bid Your Price", (){
+                  onPressed: isDisabled?null:() {
+                    showDialog(context: context, builder: (BuildContext context)=>AlertTextField("Bid Your Price", ()async{
                     // callback function when user presses ok
-                      print('emmited');
-                    // socket.emit('bidPrice', {'newP': 100000});
-                  }, (value){
-                    // call back function to handle change
-                    newBid = value;
-                  }, currentBid+5000));
+                      print(widget.vId);
+                      print(newBid);
+                      bool postResult = await networkHelper.postBid(widget.vId, newBid);
+                      if(postResult){
+                        setState(() {
+                          currentBid = newBid;
+                          isDisabled = true;
+                        });
+                      }else{
+                        print('Post Failed');
+                      }
+                      // if(socket.connected){
+                      //   socket.emit('bidPrice', {'newP': newBid});
+                      //   print('emmited');
+                      // }else{
+                      //
+                      // }
+                  }, (value){newBid = int.parse(value);}, currentBid+5000));
                 },
-                child: Text('Bid ', style: TextStyle(backgroundColor: Colors.blue, color: Colors.amberAccent),),
+                child: Text('Bid ', style: !isDisabled ?TextStyle(backgroundColor: Colors.blue, color: Colors.amberAccent): TextStyle(backgroundColor: Colors.grey),),
                 ),
               ],
             ),
-            TextButton(onPressed: (){
-
-            }, child: Text('Add Comment')),
-            Column(
-              children: comments == null || comments.length == 0?
-              [Text('No Comments for this post')] :
-              comments.map((comment)=>CommentCard(comment))
+            // TextButton(onPressed: (){
+            //
+            // }, child: Text('Add Comment')),
+            SingleChildScrollView(
+              child: Column(
+                children: comments == null || comments.length == 0?
+                [Text('No Comments for this post')] :
+                comments.map((comment)=>CommentCard(comment)).toList()
+              ),
             )
             ],
         ),
@@ -155,7 +178,7 @@ class _DetailScreenState extends State<DetailScreen> {
 }
 
 class AlertVehicleDetails extends StatelessWidget {
-  final Vehicle vehicle;
+  final VehicleDetail vehicle;
   AlertVehicleDetails(this.vehicle);
   @override
   Widget build(BuildContext context) {
@@ -171,7 +194,7 @@ class AlertVehicleDetails extends StatelessWidget {
             Text("Type :"+vehicle.type),
             Text("Year :"+vehicle.year.toString()),
             Text("KM Driven: "+vehicle.kmDriven),
-            Text("Initial Price : "+vehicle.initial_Price.toString()),
+            Text("Initial Price : "+vehicle.initialPrice.toString()),
             Text("Auction End: "+vehicle.endDate)
           ],
         ),

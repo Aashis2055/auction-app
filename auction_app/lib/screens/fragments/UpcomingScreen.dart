@@ -1,7 +1,7 @@
 import 'package:auction_app/models/vehicle_model.dart';
 import 'package:auction_app/screens/ProfileScreen.dart';
 import 'package:auction_app/services/network.dart';
-import 'package:auction_app/widgets/MyCard.dart';
+import 'package:auction_app/widgets/MyCard2.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
       Column(
         children: posts.length == 0?[
           Text('No Upcoming on the posts yet')
-        ]: posts.map((e) => MyCard(e)).toList()
+        ]: posts.map((e) => MyCard2(e)).toList()
       )
     );
   }

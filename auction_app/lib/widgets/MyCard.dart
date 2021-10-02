@@ -148,27 +148,71 @@ class MyCard extends StatelessWidget {
             children: [
               Image.network(kURI.toString()+"/vehicle-images/"+vehicle.img),
         Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            vehicle.color,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.purple,
-                                fontSize: 18),
-                          ),
-                          // Spacer(flex: 1,),
-                          Material(
-                            color: Colors.transparent,
-                            child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                                child: Text(
-                                    vehicle.year.toString()
-                                )
-                            ),
-                          )
-                        ],
-                      )
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Model",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple,
+                  fontSize: 18),
+            ),
+            // Spacer(flex: 1,),
+            Material(
+              color: Colors.transparent,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                  child: Text(
+                      vehicle.model
+                  )
+              ),
+            )
+          ],
+        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Brand",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.purple,
+                        fontSize: 18),
+                  ),
+                  // Spacer(flex: 1,),
+                  Material(
+                    color: Colors.transparent,
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                        child: Text(
+                            vehicle.brand
+                        )
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    vehicle.location.district,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.purple,
+                        fontSize: 18),
+                  ),
+                  // Spacer(flex: 1,),
+                  Material(
+                    color: Colors.transparent,
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                        child: Text(
+                            vehicle.kmDriven.toString()
+                        )
+                    ),
+                  )
+                ],
+              )
             ],
           ),
           onTap: () {

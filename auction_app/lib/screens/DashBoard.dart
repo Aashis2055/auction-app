@@ -156,7 +156,7 @@ class _DashBoardState extends State<DashBoard>
                 },
               ),
               const Divider(height: 20, thickness: 3,),
-              ListTile(
+              /*ListTile(
                 leading: Icon(Icons.info),
                 title: Text("About US"),
               ),
@@ -166,7 +166,7 @@ class _DashBoardState extends State<DashBoard>
                 onTap: (){
                   Navigator.pop(context);
                 },
-              )
+              )*/
             ],
           ),
         )),
@@ -174,7 +174,7 @@ class _DashBoardState extends State<DashBoard>
           controller: _tabController,
           children: _kTabPages,
         ),
-        floatingActionButton: _currentIndex == 1
+        /*floatingActionButton: _currentIndex == 1
             ? FloatingActionButton(
                 child: Icon(Icons.grid_on_rounded),
                 onPressed: () {
@@ -182,7 +182,7 @@ class _DashBoardState extends State<DashBoard>
                       context: context, builder: (context) => FilterBox(filterContent));
                 },
               )
-            : Container(),
+            : Container(),*/
         bottomNavigationBar: Material(
           color: Colors.blueGrey,
           child: TabBar(

@@ -35,10 +35,10 @@ class _UploadScreen2State extends State<UploadScreen2> {
   void setUp()async{
      networkHelper = new NetworkHelper(context);
      await networkHelper.initState();
-     String predictionResult = await networkHelper.getPrediction(this.widget.model, this.widget.year, this.widget.brand, this.widget.kmDriven);
-     setState(() {
-       predictionPrice = predictionResult;
-     });
+     // String predictionResult = await networkHelper.getPrediction(this.widget.model, this.widget.year, this.widget.brand, this.widget.kmDriven);
+     // setState(() {
+     //   predictionPrice = predictionResult;
+     // });
 
   }
   Future<DateTime> _selectDate(BuildContext context) async {

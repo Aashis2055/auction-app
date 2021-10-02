@@ -7,8 +7,10 @@ class SoldScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: notification.type == "Sold"?Text('Vehicle Sold') : Text('Vehicle Bought')),
-      body: Container(
-        child: Text(notification.message)
+      body: Center(
+        child: Container(
+          child: Text(notification.message, style: TextStyle(fontWeight: FontWeight.bold),)
+        ),
       ),
     );
   }

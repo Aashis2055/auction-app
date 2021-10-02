@@ -1,4 +1,6 @@
-const String kIP = "192.168.100.80";
+// const String kIP = "192.168.100.80"; //home
+const String kIP = "192.168.43.230"; // hotspot
+// const String kIP = "192.168.100.99"; //
 Uri kURI = Uri(host: kIP, port: 5000, scheme: 'http');
 const kProvince = <String>[
   "Province No 1",

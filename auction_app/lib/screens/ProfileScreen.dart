@@ -272,7 +272,27 @@ class _ProfileFragState extends State<ProfileFrag> {
                       width: 20,
                     ),
                     Text(
-                      '${user.location.province}, ${user.location.district}',
+                      '${user.location.province}',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Icon(
+                      Icons.home_filled,
+                      color: Colors.purple,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      '${user.location.district}',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     )
                   ],
