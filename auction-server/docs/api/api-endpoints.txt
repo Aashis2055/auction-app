@@ -12,6 +12,8 @@ GET     /list-bikes
 GET     /list-scooters
 GET     /list-cars
 GET     /list-all
+GET     /availableBrands/:type
+GET     /availableModels/:brand
 
 
 route = /user-api
@@ -29,7 +31,7 @@ POST p   /vehicle    (upload a vehicle for auction)
 GET  p   /upcoming  ( get the upcoming vehicle for auction)
 POST p,i     / comment/:id (post a comment on a vehicle)
 POST p,i    /reply/:id  (post reply to a comment);
-GET p   /prediction     (get estimate price for a vehicle)
+GET p   /prediction?year&km_Driven&type&brand&model     (get estimate price for a vehicle)
 POST p,i  /watch/:id      (add a vehicle to watch list)
 GET p   /watch  (get posts from watch list);
 DELETE p /watch/:id (delete from watch list)

@@ -2,12 +2,12 @@
 const vehicleModel = require('../models/Vehicle');
 const commentModel = require('../models/Comment');
 const notificationModel = require('../models/Notification');
+const vehicleSpecs = require('../models/VehicleSpecs');
 // validation models
 const {schemaComment, schemaReply} = require('../validator/comment');
 const schemaVehicle = require('../validator/vehicle');
 const schemaFilter = require('../validator/filter-query');
 const {scheduleEnd} = require('../events/schedule-jobs');
-const VehicleSpecs = require('../models/VehicleSpecs');
 const queue = require('./mygraph.js');
 const postVehicle = async (req, res)=>{
     let {_id:u_id, filePath} = req.userData;
@@ -40,9 +40,10 @@ const getUpcomingVehicles = async(req, res)=>{
     try{
         const date = new Date();
         console.log(date.toISOString());
-        const posts = await vehicleModel.find({auction_date: {"$gte": date.toISOString()}});
+        const posts = await vehicleModel.find({auction_date: {"$gte": date.toISOString()}}).lean()
+        .populate('u_id', 'address.district');
         if(posts.length === 0){
-            return res.status(204).json({ message: 'No content found'});
+            return res.status(404).json({ message: 'No content found'});
         }
         return res.status(200).json({posts})
     }catch(error){
@@ -142,7 +143,8 @@ const getVehicle = async (req, res)=>{
         if(post){
             return res.status(200).json({
                 post,
-                comments
+                comments,
+                yId: req.userData._id
             });
         }
         else{
@@ -219,14 +221,45 @@ const deleteReply = async (req, res)=>{
     }
 }
 const getPredication = async (req, res)=>{
-    console.log('here');
-    const {year, model, brand, km_Driven} = req.query;
-    // TODO predict 
-    const availableBrand = ["TVS", "Yamaha", "KTM"];
-    if(availableBrand.includes(model)){
-        return res.status(200).json({msg: 'Working on it'});
-    }else{
-        res.status(404).json({msg: 'Not supported for the model'});
+    const {year, model, brand, km_Driven, type} = req.query;
+    console.log(req.query);
+    try{
+        const specs = await vehicleSpecs.findOne({brand, type}).lean();
+        if(!specs) return res.status(404).json({msg: 'Not Found'});
+        if(type == "Car"){
+            const inspect = -19.9546;
+            const coffYear = 1.4590 * (parseInt(year)-2000);
+            const coffKm = -0.005562 * (km_Driven/10000);
+            const coffengine = 3.2442 * (parseInt(specs.engine_displacement) /1000)
+            const coffPrice = 0.521 * (specs.price / 100000);
+            let predictPrice = inspect + coffYear + coffKm + coffengine + coffPrice;
+            predictPrice *= 100000;
+            return res.status(200).json({
+                predictPrice,
+                specs
+            });
+        }else if(type == "Bike" || type == "Scooter"){
+            // TODO predict two wheeler
+            console.log(specs);
+            const inspect = -2.8176;
+            const coffYear = 0.150642 * (parseInt(year)-2000);
+            const coffEngine = 0.3833 * (parseInt(specs.engine_displacement)/100);
+            const coffMielage = -0.0026011 * (parseInt(specs.mielage) / 10);
+            console.log(coffMielage);
+            const coffPrice = 052516 * (parseInt(specs.price) / 10000);
+            const coffKmDriven = -0.00083707 * (parseInt(km_Driven) / 10000);
+            console.log(coffPrice);
+            console.log(coffKmDriven);
+            let predictPrice = inspect + coffYear + coffEngine + coffMielage +coffPrice + coffKmDriven;
+            predictPrice = predictPrice * 10000;
+            return res.status(200).json({
+                predictPrice,
+                specs
+            })
+        }else return res.status(404).json({msg: 'No Found'});
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({msg: 'Server Error'});
     }
 }
 const postBid = async (req, res)=>{
@@ -307,5 +340,10 @@ module.exports = {
     postBid,
     testRoute
 }
-
+/*
+db.demo217.aggregate([
+...    { $project: { Name: { $trim: { input: "$FullName" } } } }
+... ])
+jobs command
+*/
 // select * from Vehicle join Comment on vehicle_id = Comment.v_id where vehicle._id = id;

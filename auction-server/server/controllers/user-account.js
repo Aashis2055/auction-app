@@ -96,7 +96,8 @@ const getProfile = async (req, res)=>{
 const getUserPosts = async (req, res)=>{
     const {_id} = req.userData;
     try{
-        let posts = await vehicleModel.find({u_id: _id});
+        let posts = await vehicleModel.find({u_id: _id}).lean()
+        .populate('u_id', 'address.district');
         if(posts.length !== 0){
             return res.status(200).json({posts});
         }

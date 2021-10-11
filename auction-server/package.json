@@ -1,16 +1,17 @@
 {
   "name": "auction-server",
   "version": "1.0.0",
-  "description": "Server side on vehicle auction application",
+  "description": "Web server for vehicle auction app.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "moncho",
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "keywords": [
     "express",
-    "auction",
+    "auction vehicle",
+    "regression price estimate",
     "restapi"
   ],
   "author": "Aashis Majarjan",
@@ -36,8 +37,10 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@aternus/csv-to-xlsx": "^1.0.19",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "csv-parser": "^3.0.0",
     "mochi": "^0.3.0",
     "morgan": "^1.10.0"
   }

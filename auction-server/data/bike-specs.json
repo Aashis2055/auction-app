@@ -1,6 +1,7 @@
 [
         {
             "model": " KTM DUKE 200",
+            "type": "Bike",
             "brand": "KTM",
             "price": 500000,
             "mileage": 35 ,
@@ -8,6 +9,7 @@
         },
         {
             "model": " KTM DUKE 250",
+            "type": "Bike",
             "brand": "KTM",
             "price": 590000,
             "mileage": 35 ,
@@ -16,6 +18,7 @@
         {
             "brand": "KTM",
             "model": " KTM RC 200",
+            "type": "Bike",
             "price": 585000,
             "mileage": 35 ,
             "engine_displacement": 199.5
@@ -23,6 +26,7 @@
         {
             "brand": "KTM",
             "model": "KTM RC 125",
+            "type": "Bike",
             "price": 295000,
             "mileage": 45 ,
             "engine_displacement": 124.7 
@@ -30,6 +34,7 @@
         {
             "brand": "KTM",
             "model": "KTM DUKE 390",
+            "type": "Bike",
             "price": 295000,
             "mileage":3 ,
             "engine_displacement": 373.2 
@@ -37,6 +42,7 @@
         {
             "brand": "KTM",
             "model": " KTM DUKE 200 390-2017",
+            "type": "Bike",
             "price": 730000,
             "mileage": 35 ,
             "engine_displacement": 373
@@ -44,6 +50,7 @@
         {
             "brand": "KTM",
             "model": " KTM DUKE 390-2016",
+            "type": "Bike",
             "price": 607000,
             "mileage": 35 ,
             "engine_displacement": 373.2 
@@ -51,6 +58,7 @@
         {
             "brand": "yamaha",
             "model": " Yamaha YZF R3",
+            "type": "Bike",
             "price": 925000,
             "mileage": 25 ,
             "engine_displacement": 321 
@@ -58,6 +66,7 @@
         {
             "brand": "yamaha",
             "model": "Yamaha FZS-FI V3",
+            "type": "Bike",
             "price": 170000,
             "mileage": 49.31 ,
             "engine_displacement": 149 
@@ -65,6 +74,7 @@
         {
             "brand": "yamaha",
             "model": " Yamaha R15",
+            "type": "Bike",
             "price": 480000,
             "mileage": 45 ,
             "engine_displacement": 155.1
@@ -72,6 +82,7 @@
         {
             "brand": "yamaha",
             "model": " Yamaha FAZER 25",
+            "type": "Bike",
             "price": 415000,
             "mileage": 40 ,
             "engine_displacement": 249
@@ -79,6 +90,7 @@
         {
             "brand": "yamaha",
             "model": " Yamaha Saluto",
+            "type": "Bike",
             "price": 195000,
             "mileage": 65 ,
             "engine_displacement": 125
@@ -86,12 +98,14 @@
         {
             "brand": "yamaha",
             "model":"Yamaha Gladiator",
+            "type": "Bike",
             "price": 78000,
             "mileage": 50 ,
             "engine_displacement": 123.7
         },
         {
             "model": " Classic Chrome",
+            "type": "Bike",
             "brand": "royal enfield",
             "price": 195000,
             "mileage": 65 ,
@@ -99,6 +113,7 @@
         },
         {
             "model": "Apache RR",
+            "type": "Bike",
             "brand": "TVS",
             "price": 400000,
             "mileage": 33.1 ,
@@ -106,6 +121,7 @@
         },
         {
             "model": "Mana",
+            "type": "Bike",
             "brand": "Aprilia",
             "price": 2000000,
             "mileage": 14 ,

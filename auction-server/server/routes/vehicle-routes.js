@@ -54,6 +54,6 @@ router.get('/vehicle', authUser, getVehicles);
 router.get('/vehicle/:id', authUser, authId, getVehicle);
 router.post('/comment/:id', authUser, authId, postComment);
 router.post('/reply/:id', authUser, authId, postReply);
-router.get('/prediction', authUser, getPredication);
-router.post('/bid/:id', authUser, authId, postBid );
+router.get('/prediction',  getPredication);
+router.post('/bid/:id', authUser, authId, postBid ); 
 module.exports = router;

@@ -1,24 +1,3 @@
-SUMMARY OUTPUT								
-								
-Regression Statistics								
-Multiple R	1							
-R Square	1							
-Adjusted R Square	1							
-Standard Error	710129.6823							
-Observations	87							
-								
-ANOVA								
-	df	SS	MS	F	Significance F			
-Regression	4	#NUM!	#NUM!	#NUM!	#NUM!			
-Residual	82	41351301589911	504284165731					
-Total	86	#NUM!						
-								
-	Coefficients	Standard Error	t Stat	P-value	Lower 95%	Upper 95%		
-Intercept	-293808096	40846586.45	-7.192965718	0.0000000002703343652	-375064967	-212551225.1		
-make_year	145906.318	20275.70428	7.196115903	0.0000000002665368481	105571.484	186241.1521		
- kilometer	-0.05562270716	2.304243228	-0.02413925165	0.9808001712	-4.639496438	4.528251023		
- engine	324.4201444	35.66545614	9.096200623	0	253.4701919	395.3700968		
-current_price	0.5215387324	0.03093111161	16.86129936	0	0.4600068992	0.5830705656		
 
 // summary output 2
 

@@ -31,9 +31,19 @@ class Dashboard extends Component {
     componentDidMount = async ()=>{
         this.allPosts = await this.networkHelper.getVehicles();
         // change the auction date and end date to date obj
+        
         this.allPosts.forEach(function(element, index, elements){
-            elements[index].auction_date = new Date(element.auction_date);
-            elements[index].end_date = new Date(element.end_date);
+            if(element == null){
+                console.log('null');
+                console.log(index);
+                elements[index] = elements[0];
+                // elements[index].auction_date = new Date.now();
+                // elements[index].end_date = new Date.now();
+            }else{
+                elements[index].auction_date = new Date(element.end_date);
+                elements[index].end_date = new Date(element.end_date);
+            }
+            
         });
         let newId = this.props.location.search;
         console.log(newId);

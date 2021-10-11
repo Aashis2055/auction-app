@@ -11,3 +11,9 @@ response: [String,]
 
 GET /list-scooters
 response: [String,]
+
+GET /availabeBrands
+response: {msg:String, result:[String,]}
+
+GET /availabeBrands
+response: {msg:String, result:[String,]}

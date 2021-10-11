@@ -1,5 +1,8 @@
 const router = require('express').Router();
-const fs = require('fs');
+const {
+    getAvailabeModels,
+    getAvailableBrand
+} = require('../controllers/public-controller');
 router.get('/list-cars',(req, res)=>{
     const filePath = appRoot+'/server/models/list.json';
     try{
@@ -35,7 +38,10 @@ const getTwoWheelers = (req, res)=>{
         return res.status(500).json({msg: 'Server Error'});
     }
 }
+
 router.get('/list-bikes', getTwoWheelers);
 router.get('/list-scooters', getTwoWheelers);
+router.get('/availableBrands/:type', getAvailableBrand);
+router.get('/availableModels/:brand', getAvailabeModels);
 
 module.exports = router;
